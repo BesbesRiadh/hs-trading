@@ -1,0 +1,4 @@
+hs_trading_front_end:
+    resource: "@hsTradingFrontEndBundle/Resources/config/routing.yml"
+    prefix:   /
+
