@@ -14,8 +14,7 @@ class HomeController extends Controller
      */
     public function indexAction()
     {
-//        $name = TestPeer::retreiveOne();
-//        \hsTrading\FrontEndBundle\Utils\EchTools::pr($name);
-        return $this->render('hsTradingFrontEndBundle:Home:index.html.twig',array ('name' => 'test'));
+        $name = TestPeer::retreiveOne();
+        return $this->render('hsTradingFrontEndBundle:Home:index.html.twig',array ('name' => $name[0]['name']));
     }
 }
