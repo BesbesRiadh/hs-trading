@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="default"
+          namespace="hsTrading\FrontEndBundle\Model"
+          defaultIdMethod="native"
+          tablePrefix="hs_"
+          xsi:noNamespaceSchemaLocation="http://xsd.propelorm.org/1.6/database.xsd">
+    <table name="Test" description="Test">
+        <column name="id" type="BIGINT" required="true" autoIncrement="true" primaryKey="true" />
+        <column name="name" type="varchar" size="300" required="true" />
+        <behavior name="timestampable">
+            <parameter name="create_column" value="created_at" />
+            <parameter name="update_column" value="updated_at" />
+        </behavior>
+        <vendor type="mysql">
+            <parameter name="Engine" value="InnoDB" />
+            <parameter name="Charset" value="utf8" />
+        </vendor>
+    </table>
+</database>

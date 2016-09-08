@@ -1,7 +1,28 @@
 parameters:
     webservice_user_provider.class: hsTrading\FrontEndBundle\Security\WebServiceUserProvider
+    dataService.class: hsTrading\FrontEndBundle\Services\DataService
+    mailService.class: hsTrading\FrontEndBundle\Services\MailService
 
 services:
+    
     webservice_user_provider:
         class: %webservice_user_provider.class%
         arguments: [@service_container]
+        
+    dataService:
+        class: %dataService.class%
+        arguments: [@service_container]
+        
+    mailService:
+        class: %mailService.class%
+        arguments: [@service_container]
+        
+    mail_logger:
+        class: Symfony\Bridge\Monolog\Logger
+        arguments: [mail]
+        calls:
+            - [pushHandler, [@mail_handler]]
+            
+    mail_handler:
+        class: Monolog\Handler\RotatingFileHandler
+        arguments: [%kernel.logs_dir%/%kernel.environment%.mailer.log, 10] 

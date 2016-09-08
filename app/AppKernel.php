@@ -17,6 +17,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new hsTrading\FrontEndBundle\hsTradingFrontEndBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new Propel\PropelBundle\PropelBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
