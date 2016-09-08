@@ -1,6 +1,8 @@
 /web/bundles
 /app/bootstrap*
-/app/cache/*	
+/app/cache/*
+/app/cache/dev/*
+/app/cache/prod/*	
 /app/logs/*
 /vendor/
 /app/config/parameters.yml
