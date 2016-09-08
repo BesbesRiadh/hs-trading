@@ -3,37 +3,38 @@ security:
         Symfony\Component\Security\Core\User\User: plaintext
 
     role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_ADMIN:       ROLE_ADMIN
 
     providers:
-        in_memory:
-            memory:
-                users:
-                    user:  { password: userpass, roles: [ 'ROLE_USER' ] }
-                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+        webservice_user:
+            id: webservice_user_provider
 
     firewalls:
-        dev:
-            pattern:  ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
         login:
-            pattern:  ^/demo/secured/login$
+            pattern:  ^/login$
             security: false
-
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js|favicon.ico|ico)/
+            security: false
         secured_area:
-            pattern:    ^/demo/secured/
-            form_login:
-                check_path: _security_check
-                login_path: _demo_login
+            pattern: ^/
+            anonymous: ~
             logout:
-                path:   _demo_logout
-                target: _demo
-            #anonymous: ~
-            #http_basic:
-            #    realm: "Secured Demo Area"
+                path:   /logout
+                target: /home
+            form_login:
+                login_path: /login
+                check_path:  /login_check
+                username_parameter: login[login]
+                password_parameter: login[password]
+                csrf_parameter: login[_token]
+                csrf_provider: form.csrf_provider
+                provider: webservice_user
+                intention: authentication
+                # On success
+                always_use_default_target_path: true
+                default_target_path: admin_panel
 
     access_control:
-        - { path: ^/demo/secured/hello/admin/, roles: ROLE_ADMIN }
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+         - { path: ^/admin_panel, roles: ROLE_ADMIN }
+         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
