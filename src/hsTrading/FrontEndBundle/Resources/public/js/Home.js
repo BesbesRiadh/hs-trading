@@ -12,12 +12,12 @@ Home.prototype.Scroll = function ()
     });
     $(".link2").click(function (e) {
         $('html,body').animate({
-            scrollTop: $(".div2").offset().top -600},
+            scrollTop: $(".div2").offset().top -100},
                 'slow');
     });
     $(".link3").click(function (e) {
         $('html,body').animate({
-            scrollTop: $(".div3").offset().top -600},
+            scrollTop: $(".div3").offset().top -80},
                 'slow');
     });
 };
