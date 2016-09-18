@@ -1,13 +1,91 @@
 <!DOCTYPE html>
-<html>
+
+<!--[if IE 8]> <html lang="fr" class="ie8"> <![endif]-->
+
+<!--[if IE 9]> <html lang="fr" class="ie9"> <![endif]-->
+
+<!--[if !IE]><!--> <html lang="fr"> <!--<![endif]-->
+
     <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Export Exportation Harzallah Trading Products Produits">
+        <meta name="author" content="BesbesRiadh / Kacem Ramy">
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+        <title>{% block title %}{% block subtitle %}{% endblock %}HS-Trading{% endblock %}</title>
+
+        {% block stylesheets %}
+            <!-- Web Fonts -->
+            <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin'>
+
+            <!-- CSS Global Compulsory -->
+            <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/css/shop.style.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/css/blocks.css') }}">
+
+            <!-- CSS Header and Footer -->
+            <link rel="stylesheet" href="{{ asset('assets/css/headers/header-v5.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/css/footers/footer-v4.css') }}">
+
+            <!-- CSS Implementing Plugins -->
+            <link rel="stylesheet" href="{{ asset('assets/plugins/animate.css') }}">    
+            <link rel="stylesheet" href="{{ asset('assets/plugins/line-icons/line-icons.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/plugins/font-awesome/css/font-awesome.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/plugins/scrollbar/css/jquery.mCustomScrollbar.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/plugins/owl-carousel/owl-carousel/owl.carousel.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/plugins/revolution-slider/rs-plugin/css/settings.css') }}">
+
+            <!-- CSS Customization -->
+            <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+
+        {% endblock %}
+        <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
     </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+
+    <body class="header-fixed demo-lightbox-gallery">
+        <div class="wrapper">
+            <div class="header-v5 header-static">
+                <!--=== Header ===-->
+                {% block header %}
+                    {% include '::navBar.html.twig' %}
+                {% endblock %}
+                <!--=== End Header ===-->
+            </div>
+
+            {% block content %} {% endblock %}
+
+            <!--=== Footer Version 1 ===-->
+            {% include '::footer.html.twig' %}
+            <!--=== End Footer Version 1 ===-->
+
+        </div>
+        {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-migrate.min.js') }}"></script>
+            <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('assets/plugins/back-to-top.js') }}"></script>
+            <script src="{{ asset('assets/plugins/smoothScroll.js') }}"></script>
+            <script src="{{ asset('assets/plugins/jquery.parallax.js') }}"></script>
+            <script src="{{ asset('assets/plugins/owl-carousel/owl-carousel/owl.carousel.js') }}"></script>
+            <script src="{{ asset('assets/plugins/scrollbar/js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+            <script src="{{ asset('assets/plugins/revolution-slider/rs-plugin/js/jquery.themepunch.tools.min.js') }}"></script>
+            <script src="{{ asset('assets/plugins/revolution-slider/rs-plugin/js/jquery.themepunch.revolution.min.js') }}"></script>
+            <script src="{{ asset('assets/js/custom.js') }}"></script>
+            <script src="{{ asset('assets/js/shop.app.js') }}"></script>
+            <script src="{{ asset('assets/js/plugins/owl-carousel.js') }}"></script>
+            <script src="{{ asset('assets/js/plugins/revolution-slider.js') }}"></script>
+            <script>
+                jQuery(document).ready(function () {
+                    App.init();
+                    App.initScrollBar();
+                    App.initParallaxBg();
+                    OwlCarousel.initOwlCarousel();
+                    RevolutionSlider.initRSfullWidth();
+                });
+            </script>
+        {% endblock %}
     </body>
 </html>
+
