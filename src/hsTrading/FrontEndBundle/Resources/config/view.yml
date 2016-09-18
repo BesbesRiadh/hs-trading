@@ -1,0 +1,4 @@
+    messages.contact:
+        confirmation: confirmation
+        close: close
+        contact_confirmation_message: contact_confirmation_message
