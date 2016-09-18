@@ -7,7 +7,7 @@ Home.prototype.Scroll = function ()
     var self = this;
     $(".link1").click(function (e) {
         $('html,body').animate({
-            scrollTop: $(".div1").offset().top -100},
+            scrollTop: $(".div1").offset().top -80},
                 'slow');
     });
     $(".link2").click(function (e) {
@@ -17,7 +17,7 @@ Home.prototype.Scroll = function ()
     });
     $(".link3").click(function (e) {
         $('html,body').animate({
-            scrollTop: $(".div3").offset().top -80},
+            scrollTop: $(".div3").offset().top -100},
                 'slow');
     });
 };
