@@ -4,13 +4,34 @@
           defaultIdMethod="native"
           tablePrefix="hs_"
           xsi:noNamespaceSchemaLocation="http://xsd.propelorm.org/1.6/database.xsd">
-    <table name="Test" description="Test">
+    <table name="user" description="user">
         <column name="id" type="BIGINT" required="true" autoIncrement="true" primaryKey="true" />
-        <column name="name" type="varchar" size="300" required="true" />
-        <behavior name="timestampable">
-            <parameter name="create_column" value="created_at" />
-            <parameter name="update_column" value="updated_at" />
-        </behavior>
+        <column name="firstname" type="varchar" size="100" required="true" />
+        <column name="lastname" type="varchar" size="100" required="true" />
+        <column name="mail" type="varchar" size="220"  required="true" />
+        <column name="password" type="varchar" size="300" required="false" />
+        <column name="active" type="boolean" required="true" defaultValue="false" />
+        <column name="roles" type="array" required="true" />
+        <column name="updated_by" type="Integer" required="false" />  
+        <behavior name="timestampable"/>
+        <unique name="UK_mail">
+            <unique-column name="mail" />
+        </unique>
+        <vendor type="mysql">
+            <parameter name="Engine" value="InnoDB" />
+            <parameter name="Charset" value="utf8" />
+        </vendor>
+    </table>
+    <table name="product" description="Détails des produits">
+        <column name="id" type="BIGINT" required="true" autoIncrement="true" primaryKey="true" />
+        <column name="code" type="varchar" size="256" required="false" />
+        <column name="category" type="varchar" required="false"/>
+        <column name="description" type="LongVarchar" required="false" />
+        <column name="designation" type="varchar" size="500" required="false" />
+        <column name="price" type="varchar" size="500" required="false" />
+        <column name="img" type="LongVarchar" required="false" />
+        <column name="updated_by" type="Integer" required="false" />         
+        <behavior name="timestampable"/>
         <vendor type="mysql">
             <parameter name="Engine" value="InnoDB" />
             <parameter name="Charset" value="utf8" />

@@ -4,3 +4,9 @@ Home:
 Base:
     resource: "@hsTradingFrontEndBundle/Controller/BaseIhmController.php"
     type:     annotation
+Security:
+    resource: "@hsTradingFrontEndBundle/Controller/SecurityController.php"
+    type:     annotation
+Admin:
+    resource: "@hsTradingFrontEndBundle/Controller/AdminController.php"
+    type:     annotation

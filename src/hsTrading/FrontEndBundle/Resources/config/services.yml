@@ -2,6 +2,8 @@ parameters:
     webservice_user_provider.class: hsTrading\FrontEndBundle\Security\WebServiceUserProvider
     dataService.class: hsTrading\FrontEndBundle\Services\DataService
     mailService.class: hsTrading\FrontEndBundle\Services\MailService
+    locale_listener.class: hsTrading\FrontEndBundle\Listener\LocaleListener
+    LogoutListener.class: MY\StaticBundle\Service\LogoutListenerService
 
 services:
     
@@ -26,3 +28,9 @@ services:
     mail_handler:
         class: Monolog\Handler\RotatingFileHandler
         arguments: [%kernel.logs_dir%/%kernel.environment%.mailer.log, 10] 
+    
+    locale_listener:
+        class: %locale_listener.class%
+        arguments: ["%kernel.default_locale%"]
+        tags:
+         - { name: kernel.event_subscriber }

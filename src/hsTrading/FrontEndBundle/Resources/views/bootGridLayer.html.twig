@@ -1,0 +1,16 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+
+    {{parent()}}
+    <link href="{{ asset('bundles/frontend/css/myJtable.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('bootgrid/css/jquery.bootgrid.min.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('bundles/frontend/css/bootgridCustomStyle.css') }}">
+{% endblock %}
+
+
+{% block javascripts %}
+    {{parent()}}
+    <script src="{{ asset('bootgrid/js/jquery.bootgrid.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bootgrid/js/jquery.bootgrid.fa.min.js') }}" type="text/javascript"></script>
+{% endblock %}

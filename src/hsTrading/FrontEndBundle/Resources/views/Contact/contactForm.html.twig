@@ -12,44 +12,100 @@
 {% set formId = form.vars.id~'Form' %}
 {{ form_start(form, {'attr' : {'class': 'sky-form', 'id' : formId} }) }}
 {{ form_errors(form) }}
-<fieldset>
-    <div class="row">
-        <section class="col col-6 {{ form_errors(form.mail)|trim ? 'state-error' : ''}}">
-            <label class="input">
-                <i class="icon-prepend fa fa-envelope"></i>
-                {{ form_row(form.mail) }}
-            </label>
-            {%if form.mail.vars.required %}
-                <div class="note note-success">{{ 'field_required' |trans}}</div>
-            {%endif %}
-        </section>
-        <section class="col col-6 {{ form_errors(form.phone)|trim ? 'state-error' : ''}}">
-            <label class="input">
-                <i class="icon-prepend fa fa-phone"></i>
-                {{ form_row(form.phone) }}
-            </label>
-        </section>
+
+<div class="log-reg-v3 content-md margin-bottom-30">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <form id="sky-form4" class="log-reg-block sky-form">
+                    <h2>Create New Account</h2>
+
+                    <div class="login-input reg-input">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <section>
+                                    <label class="input">
+                                        {{ form_row(form.firstname) }}
+                                    </label>
+                                    <span class="color-red">*</span>
+                                </section>
+                            </div>
+                            <div class="col-sm-6">
+                                <section>
+                                    <label class="input">
+                                        {{ form_row(form.lastname) }}
+                                    </label>
+                                </section>        
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <section>
+                                    <label class="input">
+                                        {{ form_row(form.company) }}
+                                    </label>
+                                    <span class="color-red">*</span>
+                                </section>
+                            </div>
+                            <div class="col-sm-6">
+                                <section>
+                                    <label class="input">
+                                        {{ form_row(form.function) }}
+                                    </label>
+                                </section>        
+                            </div>
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-xs-6">
+                                <label class="select">
+                                    {{ form_row(form.country) }}
+                                </label>
+                            </div>
+                            <div class="col-xs-6">
+                                <section>
+                                    <label class="input">
+                                       {{ form_row(form.phone) }}
+                                    </label>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <section>
+                                    <label class="input">
+                                        <input type="text" name="firstname" placeholder="First name" class="form-control">
+                                    </label>
+                                </section>
+                            </div>
+                            <div class="col-sm-6">
+                                <section>
+                                    <label class="input">
+                                        <input type="text" name="lastname" placeholder="Last name" class="form-control">
+                                    </label>
+                                </section>        
+                            </div>
+                        </div>
+                    </div>
+
+                    <label class="checkbox margin-bottom-10">
+                        <input type="checkbox" name="checkbox"/>
+                        <i></i>
+                        Subscribe to our newsletter to get the latest offers
+                    </label>
+                    <label class="checkbox margin-bottom-20">
+                        <input type="checkbox" name="checkbox"/>
+                        <i></i>
+                        I have read agreed with the <a href="#">terms &amp; conditions</a>
+                    </label>
+                    <button class="btn-u btn-u-sea-shop btn-block margin-bottom-20" type="submit">Create Account</button>
+                </form>
+
+                <div class="margin-bottom-20"></div>
+                <p class="text-center">Already you have an account? <a href="shop-ui-login.html">Sign In</a></p>
+            </div>
+        </div>
     </div>
-    <section>
-        <label class="textarea">
-            {{ form_row(form.message) }}
-            <i class="icon-append fa fa-comment"></i>
-        </label>
-        {%if form.message.vars.required %}
-            <div class="note note-success">{{ 'field_required' |trans}}</div>
-        {%endif %}
-    </section>
-    {% block button_widget %}
-        <button id="send-contact-btn" name="button" class="btn btn-u btn-u-blue rounded
-                col-xs-7 col-xs-offset-2 col-md-2 col-md-offset-5 col-sm-3 col-sm-offset-4 margin-bottom-20" type="submit">
-            {% if success is defined %}
-                <i class="fa fa-{{success == '1' ? 'check text-valid' : 'exclamation  text-error' }}"></i>
-            {% endif %}
-            <span class="spinner"></span>
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        </button>
-    {% endblock button_widget %}
-</fieldset>
+</div>
 
 {{ form_end(form) }}
 {{ form_rest(form) }}

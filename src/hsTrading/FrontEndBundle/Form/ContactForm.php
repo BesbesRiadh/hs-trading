@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Validator\Constraints as Assert;
+use hsTrading\FrontEndBundle\Utils\EchTools;
 
 /**
  * Description of ContactForm
@@ -16,6 +17,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ContactForm extends AbstractType
 {
+    
+    public function __construct($aOptions = array())
+    {
+        $this->countries  = EchTools::getOption($aOptions, 'countries');
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -23,10 +29,10 @@ class ContactForm extends AbstractType
         $builder
                 ->add('mail', 'email', array(
                     'required' => $bRequired,
-                    'label' => 'Mail',
                     'attr' => array(
-                        'placeholder' => 'Adresse mail',
+                        'placeholder' => 'mail',
                         'autocomplete' => 'off',
+                        'class' => 'form-control'
                     ),
                     'constraints' => array(
                         new Assert\NotBlank(),
@@ -41,9 +47,9 @@ class ContactForm extends AbstractType
                     'required' => false,
                     'trim' => true,
                     'max_length' => 8,
-                    'label' => 'Phone',
-                    'attr' => array('placeholder' => 'Numéro de téléphone',
+                    'attr' => array('placeholder' => 'phone',
                         'autocomplete' => 'off',
+                        'class' => 'form-control'
                     ),
                     'constraints' => array(
                         new Assert\Regex(array(
@@ -56,6 +62,77 @@ class ContactForm extends AbstractType
                                 )),
                     )
                 ))
+                ->add('firstname', 'text', array(
+                    'required' => true,
+                    'trim' => true,
+                    'max_length' => 8,
+                    'attr' => array('placeholder' => 'firstname',
+                        'autocomplete' => 'off',
+                        'class' => 'form-control'
+                    ),
+                    'constraints' => array(
+                        new Assert\Regex(array(
+                            'pattern' => "/^[0-9]{8}+$/",
+                            'match' => true,
+                            'message' => "ntpv")),
+                        new Constraints\Length(array(
+                            'min' => 2,
+                            'max' => 8,
+                                )),
+                    )
+                ))
+                ->add('lastname', 'text', array(
+                    'required' => false,
+                    'trim' => true,
+                    'max_length' => 8,
+                    'attr' => array('placeholder' => 'lastname',
+                        'autocomplete' => 'off',
+                        'class' => 'form-control'
+                    ),
+                    'constraints' => array(
+                        new Assert\Regex(array(
+                            'pattern' => "/^[0-9]{8}+$/",
+                            'match' => true,
+                            'message' => "ntpv")),
+                        new Constraints\Length(array(
+                            'min' => 2,
+                            'max' => 8,
+                                )),
+                    )
+                ))
+                ->add('company', 'text', array(
+                    'required' => false,
+                    'trim' => true,
+                    'max_length' => 8,
+                    'attr' => array('placeholder' => 'company',
+                        'autocomplete' => 'off',
+                        'class' => 'form-control'
+                    )
+                ))
+                ->add('function', 'text', array(
+                    'required' => false,
+                    'trim' => true,
+                    'max_length' => 8,
+                    'attr' => array('placeholder' => 'function',
+                        'autocomplete' => 'off',
+                        'class' => 'form-control'
+                    )
+                ))
+                 ->add('country', 'choice', array(
+                    'required' => true,
+                    'trim' => true,
+                    'label' => 'gouvernorat',
+                    'attr' => array('class' => 'form-control', 'placeholder' => 'country'),
+                    'choices' => $this->countries,
+                    'constraints' => array(
+                        new Assert\Regex(array(
+                            'pattern' => "/\d/",
+                            'match' => false,
+                            'message' => "Invalid")),
+                        new Constraints\NotBlank()
+                    )
+                        )
+                )
                 ->add('message', 'textarea', array(
                     'trim' => true,
                     'required' => true,
@@ -63,26 +140,10 @@ class ContactForm extends AbstractType
                     'attr' => array(
                         'autocomplete' => 'off',
                         'placeholder' => 'Message',
-                        'rows' => '4'
+                        'rows' => '4',
+                        'class' => 'form-control'
                     ),
-                ))
-                ->get('message')
-                ->addModelTransformer(new CallbackTransformer(
-                        function ($originalDescription)
-                {
-                    return preg_replace('#<br\s*/?>#i', "\n", $originalDescription);
-                }, function ($submittedDescription)
-                {
-                    // remove most HTML tags (but not br)
-                    $cleaned = strip_tags($submittedDescription, '<br><br/>');
-
-                    // transform any \n to real <br/>
-                    return str_replace("\n", '<br/>', $cleaned);
-                }
-        ));
-        ;
-        $this->setTransformer($builder, 'mail');
-        $this->setTransformer($builder, 'phone');
+                ));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

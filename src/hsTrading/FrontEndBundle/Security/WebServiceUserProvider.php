@@ -9,9 +9,9 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\DependencyInjection\Container;
 use hsTrading\FrontEndBundle\Security\WebServiceUser;
 use hsTrading\FrontEndBundle\Utils\EchTools;
+use \hsTrading\FrontEndBundle\Model\om\BaseUserPeer;
 
-class WebServiceUserProvider implements UserProviderInterface
-{
+class WebServiceUserProvider implements UserProviderInterface {
 
     private $oContainer;
 
@@ -19,68 +19,77 @@ class WebServiceUserProvider implements UserProviderInterface
      *
      * @param \Symfony\Component\DependencyInjection\Container $oContainer
      */
-    public function __construct(Container $oContainer)
-    {
+    public function __construct(Container $oContainer) {
         $this->oContainer = $oContainer;
     }
 
-    private function getUser($psUsername)
-    {
-        $aData = $this->oContainer->get('request')->request->get('login');
-
-        $bRefresh = EchTools::getOption($aData, 'refresh', '0');
-        $sType    = EchTools::getOption($aData, 'type', '1');
-        $sType    = '0' == $sType ? 'b2c' : 'b2b';
-
-        $sWsUrl = $this->oContainer->getParameter('ws_host') . '/' . $this->oContainer->getParameter('login');
+    private function getUser($psUsername) {
 
         $aLoginData = array(
             'login' => $psUsername,
-            'type' => $sType
         );
 
-        if ($bRefresh == '0')
-        {
-            $aLoginData['ip'] = $this->oContainer->get('request')->getClientIp();
+        try {
+            $sLogin = EchTools::getOption($aLoginData, 'login');
+
+            if (!$sLogin) {
+                throw new \Exception('Login obligatoire');
+            }
+
+            $oCriteria = new \Criteria();
+            $oCriteria->setPrimaryTableName('hs_user');
+
+            $oCriteria->add(BaseUserPeer::MAIL, $sLogin);
+            $oCriteria->add(BaseUserPeer::ACTIVE, true);
+
+            $oCriteria->addSelectColumn(BaseUserPeer::MAIL);
+                    $oCriteria->addSelectColumn(BaseUserPeer::PASSWORD);
+                    $oCriteria->addSelectColumn(BaseUserPeer::ROLES);
+                    $oCriteria->addSelectColumn(BaseUserPeer::FIRSTNAME);
+                    $oCriteria->addSelectColumn(BaseUserPeer::LASTNAME);
+
+            $aUserData = BaseUserPeer::doSelectStmt($oCriteria)->fetchAll(\PDO::FETCH_ASSOC);
+           
+            if (count($aUserData)) {
+                $aUserData = array('status' => 'OK', 'data' => $aUserData);
+            }
+            else
+            {
+                $aUserData= array('status' => 'KO');
+            }
+
+            
+        } catch (\Exception $e) {
+            EchTools::pr('exeption');
         }
 
-        $oResponseWs = $this->oContainer->get('restClient')->post($sWsUrl, json_encode($aLoginData), 'application/json');
-
-        return json_decode($oResponseWs->getResponse(), TRUE);
+        return $aUserData;
     }
 
-    public function loadUserByUsername($psUsername)
-    {
+    public function loadUserByUsername($psUsername) {
         $aUserData = $this->getUser($psUsername);
 
-        if (!count($aUserData) || (isset($aUserData['status']) && 'KO' == $aUserData['status']))
-        {
+        if (!count($aUserData) || (isset($aUserData['status']) && 'KO' == $aUserData['status'])) {
             throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $psUsername));
         }
-
         return new WebServiceUser($aUserData['data']);
     }
 
-    public function refreshUser(UserInterface $user)
-    {
-        if (!$user instanceof WebServiceUser)
-        {
+    public function refreshUser(UserInterface $user) {
+        if (!$user instanceof WebServiceUser) {
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', get_class($user)));
         }
 
         $this->oContainer->get('request')->request->set('login', array(
             'login' => $user->getUsername(),
             'password' => $user->getPassword(),
-            'type' => 'b2c' == $user->getType() ? '0' : '1',
-            'refresh' => '1'
         ));
 
         return $this->loadUserByUsername($user->getUsername());
     }
 
-    public function supportsClass($class)
-    {
-        return $class === 'MY\StaticBundle\Security\WebServiceUser';
+    public function supportsClass($class) {
+        return $class === 'hsTrading\FrontEndBundle\Security\WebServiceUser';
     }
 
 }

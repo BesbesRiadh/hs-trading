@@ -11,7 +11,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Export Exportation Harzallah Trading Products Produits">
-        <meta name="author" content="BesbesRiadh / Kacem Ramy">
+        <meta name="author" content="Besbes Riadh / Kacem Ramy">
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
         <title>{% block title %}{% block subtitle %}{% endblock %}HS-Trading{% endblock %}</title>
@@ -24,6 +24,10 @@
             <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}">
             <link rel="stylesheet" href="{{ asset('assets/css/shop.style.css') }}">
             <link rel="stylesheet" href="{{ asset('assets/css/blocks.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/css/brand-buttons-inversed.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/css/brand-buttons.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
 
             <!-- CSS Header and Footer -->
             <link rel="stylesheet" href="{{ asset('assets/css/headers/header-v5.css') }}">
@@ -35,16 +39,18 @@
             <link rel="stylesheet" href="{{ asset('assets/plugins/font-awesome/css/font-awesome.min.css') }}">
             <link rel="stylesheet" href="{{ asset('assets/plugins/scrollbar/css/jquery.mCustomScrollbar.css') }}">
             <link rel="stylesheet" href="{{ asset('assets/plugins/owl-carousel/owl-carousel/owl.carousel.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/plugins/owl-carousel/owl-carousel/owl.theme.css') }}">
             <link rel="stylesheet" href="{{ asset('assets/plugins/revolution-slider/rs-plugin/css/settings.css') }}">
 
             <!-- CSS Customization -->
             <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+            <link href="{{ asset('flag-icon-css/css/flag-icon.min.css') }}" rel="stylesheet">
 
         {% endblock %}
         <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
     </head>
 
-    <body class="header-fixed demo-lightbox-gallery">
+    <body class="header-fixed">
         <div class="wrapper">
             <div class="header-v5 header-static">
                 <!--=== Header ===-->
@@ -76,6 +82,9 @@
             <script src="{{ asset('assets/js/shop.app.js') }}"></script>
             <script src="{{ asset('assets/js/plugins/owl-carousel.js') }}"></script>
             <script src="{{ asset('assets/js/plugins/revolution-slider.js') }}"></script>
+            <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+            <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+            <script src="{{ asset('eModal/eModal.js') }}"></script>
             <script>
                 jQuery(document).ready(function () {
                     App.init();

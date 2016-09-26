@@ -20,9 +20,7 @@
                              data-easing="Back.easeInOut"
                              data-endeasing="Power1.easeIn"                        
                              data-endspeed="300">
-                            The New <br>
-                            <strong>Collection</strong><br>
-                            is here
+                            <strong>{{ 'Agroalimentaire'|trans }}</strong><br>
                         </div>
                     </li>
                     <!-- END SLIDE -->
@@ -30,9 +28,9 @@
                     <!-- SLIDE -->
                     <li class="revolution-mch-1" data-transition="fade" data-slotamount="5" data-masterspeed="1000" data-title="Slide 2">
                         <!-- MAIN IMAGE -->
-                        <img src="{{ asset('assets/img/toma.jpg')}}" alt="darkblurbg"  data-bgfit="cover" data-bgposition="" data-bgrepeat="no-repeat">
+                        <img src="{{ asset('assets/img/oo.jpg')}}" alt="darkblurbg"  data-bgfit="cover" data-bgposition="" data-bgrepeat="no-repeat">
 
-                        <div class="tp-caption revolution-ch3 sft start"
+                        <div class="tp-caption revolution-ch1 sft start"
                              data-x="center"
                              data-hoffset="0"
                              data-y="140"
@@ -41,23 +39,7 @@
                              data-easing="Back.easeInOut"
                              data-endeasing="Power1.easeIn"                        
                              data-endspeed="300">
-                            Latest <strong>Fashion</strong> Trends
-                        </div>
-
-                        <!-- LAYER -->
-                        <div class="tp-caption revolution-ch4 sft"
-                             data-x="center"
-                             data-hoffset="-14"
-                             data-y="210"
-                             data-speed="1400"
-                             data-start="2000"
-                             data-easing="Power4.easeOut"
-                             data-endspeed="300"
-                             data-endeasing="Power1.easeIn"
-                             data-captionhidden="off"
-                             style="z-index: 6">
-                            Cras non dui et quam auctor pretium.<br>
-                            Aenean enim tortr, tempus et iteus m
+                            {{'Produits alimentaires'|trans}} <strong>{{'Bio'|trans}}</strong> 
                         </div>
                     </li>
                     <!-- END SLIDE -->
@@ -65,10 +47,10 @@
                     <!-- SLIDE -->
                     <li class="revolution-mch-1" data-transition="fade" data-slotamount="5" data-masterspeed="1000" data-title="Slide 3">
                         <!-- MAIN IMAGE -->
-                        <img src="{{ asset('assets/img/cous.jpg')}}"  alt="darkblurbg"  data-bgfit="cover" data-bgposition="top left" data-bgrepeat="no-repeat">
+                        <img src="{{ asset('assets/img/pa.jpg')}}"  alt="darkblurbg"  data-bgfit="cover" data-bgposition="top left" data-bgrepeat="no-repeat">
 
-                        <div class="tp-caption revolution-ch3 sft start"
-                             data-x="-140"
+                        <div class="tp-caption revolution-ch1 sft start"
+                             data-x="center"
                              data-hoffset="5"
                              data-y="130"
                              data-speed="1500"
@@ -76,25 +58,47 @@
                              data-easing="Back.easeInOut"
                              data-endeasing="Power1.easeIn"                        
                              data-endspeed="300">
-                            <strong>Luxury</strong> Watches
-                        </div>
-
-                        <!-- LAYER -->
-                        <div class="tp-caption revolution-ch4 sft"
-                             data-x="-100"
-                             data-hoffset="0"
-                             data-y="210"
-                             data-speed="1400"
-                             data-start="2000"
-                             data-easing="Power4.easeOut"
-                             data-endspeed="300"
-                             data-endeasing="Power1.easeIn"
-                             data-captionhidden="off"
-                             style="z-index: 6">
-                            lectus. Cras non dui et quam auctor.<br>
-                            Aenean enim tortor, tempus et im
+                            {{'Produits'|trans}} <strong>{{'Artisanaux'|trans}}</strong>
                         </div>
                     </li>
+                    <!-- END SLIDE -->
+
+                    <!-- SLIDE -->
+                    <li class="revolution-mch-1" data-transition="fade" data-slotamount="5" data-masterspeed="1000" data-title="Slide 3">
+                        <!-- MAIN IMAGE -->
+                        <img src="{{ asset('assets/img/ph.jpg')}}"  alt="darkblurbg"  data-bgfit="cover" data-bgposition="top left" data-bgrepeat="no-repeat">
+
+                        <div class="tp-caption revolution-ch1 sft start"
+                             data-x="center"
+                             data-hoffset="5"
+                             data-y="100"
+                             data-speed="1500"
+                             data-start="500"
+                             data-easing="Back.easeInOut"
+                             data-endeasing="Power1.easeIn"                        
+                             data-endspeed="300">
+                            {{'Produits'|trans}} <strong>{{'Hygiéniques'|trans}}</strong>
+                        </div>
+                    </li>
+                    <!-- END SLIDE -->
+
+                    <li class="revolution-mch-1" data-transition="fade" data-slotamount="5" data-masterspeed="1000" data-title="Slide 3">
+                        <!-- MAIN IMAGE -->
+                        <img src="{{ asset('assets/img/bicos.jpg')}}"  alt="darkblurbg"  data-bgfit="cover" data-bgposition="top left" data-bgrepeat="no-repeat">
+
+                        <div class="tp-caption revolution-ch1 sft start"
+                             data-x="center"
+                             data-hoffset="5"
+                             data-y="130"
+                             data-speed="1500"
+                             data-start="500"
+                             data-easing="Back.easeInOut"
+                             data-endeasing="Power1.easeIn"                        
+                             data-endspeed="300">
+                            {{'Produits'|trans}} {{'Cosmétiques'|trans}} <strong>{{'Bio'|trans}}</strong>
+                        </div>
+                    </li>
+
                     <!-- END SLIDE -->
 
                 </ul>
@@ -102,36 +106,57 @@
             </div>
         </div>
     </div>
+                        
     <div class="div2">
-        <!--=== Service Block ===-->
         <div class="container content-sm">
             <div class="row">
-                <div class="col-md-4 content-boxes-v6 md-margin-bottom-50">
-                    <i class="rounded-x icon-link"></i>
-                    <h1 class="title-v3-md text-uppercase margin-bottom-10">Fully responsive</h1>
-                    <p>At vero eos et accusato odio dignissimos ducimus qui blanditiis praesentium voluptatum.</p>
+                <div class="heading heading-v1 margin-bottom-20">
+                    <h2>{{ 'our_services'|trans }}</h2>
                 </div>
-                <div class="col-md-4 content-boxes-v6 md-margin-bottom-50">
-                    <i class="rounded-x icon-paper-plane"></i>
-                    <h2 class="title-v3-md text-uppercase margin-bottom-10">Modern design</h2>
-                    <p>At vero eos et accusato odio dignissimos ducimus qui blanditiis praesentium voluptatum.</p>
+                <div class="row text-center margin-top-20">
+                    <div class="col-md-4">
+                        <img class="image-md margin-bottom-20" src="{{ asset('img/cargo-ship.png') }}" alt="">
+                        <h1 class="title-v3-md margin-bottom-10">{{ 'features_title_1'|trans }}</h1>
+                        <p>{{ 'features_text_1'|trans }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <img class="image-md margin-bottom-20" src="{{ asset('img/teamwork.png') }}" alt="">
+                        <h1 class="title-v3-md margin-bottom-10">{{ 'features_title_2'|trans }}</h1>
+                        <p>{{ 'features_text_2'|trans }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <img class="image-md margin-bottom-20" src="{{ asset('img/delivery-truck.png') }}" alt="">
+                        <h1 class="title-v3-md margin-bottom-10">{{ 'features_title_5'|trans }}</h1>
+                        <p>{{ 'features_text_5'|trans }}</p>
+                    </div>
                 </div>
-                <div class="col-md-4 content-boxes-v6">
-                    <i class="rounded-x icon-refresh"></i>
-                    <h2 class="title-v3-md text-uppercase margin-bottom-10">Powerful slides</h2>
-                    <p>At vero eos et accusato odio dignissimos ducimus qui blanditiis praesentium voluptatum.</p>
+                <div class="row text-center margin-bottom-60 margin-top-20 col-md-offset-3">
+                    <div class="col-md-4">
+                        <img class="image-md margin-bottom-20" src="{{ asset('img/warehouse.png') }}" alt="">
+                        <h1 class="title-v3-md margin-bottom-10">{{ 'features_title_4'|trans }}</h1>
+                        <p>{{ 'features_text_4'|trans }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <img class="image-md margin-bottom-20" src="{{ asset('img/deal.png') }}" alt="">
+                        <h1 class="title-v3-md margin-bottom-10">{{ 'features_title_3'|trans }}</h1>
+                        <p>{{ 'features_text_3'|trans }}</p>
+                    </div>
                 </div>
-            </div><!--/row-->
-        </div><!--/container-->
-        <!--=== End Service Block ===-->
+            </div>
+        </div>
+
+
         <!--=== Parallax Backgound ===-->
         <div class="bg-image-v2 bg-image-v2-dark parallaxBg1">
             <div class="container">
+                <div class="heading heading-v1 margin-bottom-20">
+                    <h2 class="text-uppercase">{{ 'hs_trading'|trans }}</h2>
+                </div>
                 <div class="headline-center-v2 margin-bottom-10">
-                    <h2>Unify is a clean and fully responsive incredible template</h2>
+                    <p style="font-size: 16px;">{{ 'description1'|trans }}</p><br>
                     <span class="bordered-icon"><i class="fa fa-th-large"></i></span>
-                    <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et qua s molestias excepturi vehicula sem ut volutpat. Ut non libero magna fusce co.</p><br><br>
-                    <button type="button" class="btn-u btn-brd btn-brd-hover btn-u-light">Download Now</button>
+                    <p style="font-size: 15px;">{{ 'description2'|trans }}</p><br>
+                    <p style="font-size: 15px;">{{ 'description3'|trans }}</p>
                 </div><!--/Headline Center V2-->   
             </div><!--/container-->
         </div>
@@ -142,8 +167,7 @@
     <div class="div4">
         <div class="container content-md">
             <div class="heading heading-v1 margin-bottom-20">
-                <h2>Featured products</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed odio elit, ultrices vel cursus sed, placerat ut leo. Phasellus in magna erat. Etiam gravida convallis augue non tincidunt. Nunc lobortis dapibus neque quis lacinia. Nam dapibus tellus sit amet odio venenatis</p>
+                <h2>{{ 'our_products'|trans }}</h2>
             </div>
 
             <!--=== Illustration v2 ===-->
@@ -152,140 +176,135 @@
                     <a class="owl-btn prev rounded-x"><i class="fa fa-angle-left"></i></a>
                     <a class="owl-btn next rounded-x"><i class="fa fa-angle-right"></i></a>
                 </div>
-
                 <ul class="list-inline owl-slider">
                     <li class="item">
                         <div class="product-img">
-                            <a href="shop-ui-inner.html"><img class="full-width img-responsive" src="{{ asset('assets/img/blog/09.jpg')}}" alt=""></a>
-                            <a class="product-review" href="shop-ui-inner.html">Quick review</a>
+                            <img class="full-width img-responsive" src="{{ asset('assets/img/pastap.jpg')}}" alt="">
+                            <a class="product-review" id="agro" name="Produits Agroalimentaires" style="cursor: pointer">{{ 'view_products'|trans }}</a>
                         </div>
                         <div class="product-description product-description-brd">
                             <div class="overflow-h margin-bottom-5">
                                 <div class="pull-left">
-                                    <h4 class="title-price"><a href="shop-ui-inner.html">Double-breasted</a></h4>
-                                    <span class="gender text-uppercase">Men</span>
-                                    <span class="gender">Suits - Blazers</span>
+                                    <h4 class="title-price">{{ 'Agroalimentaire'|trans }}</h4>
+                                    <span class="gender">{{ 'Agro_Products'|trans }}</span>
                                 </div>    
-                                <div class="product-price">
-                                    <span class="title-price">$95.00</span>
-                                </div>
                             </div>    
-                            <ul class="list-inline product-ratings">
-                                <li><i class="rating-selected fa fa-star"></i></li>
-                                <li><i class="rating-selected fa fa-star"></i></li>
-                                <li><i class="rating-selected fa fa-star"></i></li>
-                                <li><i class="rating fa fa-star"></i></li>
-                                <li><i class="rating fa fa-star"></i></li>
-                            </ul>    
                         </div>
                     </li>
                     <li class="item">
                         <div class="product-img">
-                            <a href="shop-ui-inner.html"><img class="full-width img-responsive" src="{{ asset('assets/img/blog/09.jpg')}}" alt=""></a>
-                            <a class="product-review" href="shop-ui-inner.html">Quick review</a>
-                        </div> 
+                            <img class="full-width img-responsive" src="{{ asset('assets/img/oop.jpg')}}" alt="">
+                            <a class="product-review" id="pab" name="Produits Alimentaires Bio" style="cursor: pointer">{{ 'view_products'|trans }}</a>
+                        </div>
                         <div class="product-description product-description-brd">
                             <div class="overflow-h margin-bottom-5">
                                 <div class="pull-left">
-                                    <h4 class="title-price"><a href="shop-ui-inner.html">Double-breasted</a></h4>
-                                    <span class="gender text-uppercase">Women</span>
-                                    <span class="gender">Suits - Blazers</span>
+                                    <h4 class="title-price">{{ 'Produits alimentaires'|trans }} {{ 'Bio'|trans }}</h4>
+                                    <span class="gender">{{ 'Bio_food_products'|trans }}</span>
                                 </div>    
-                                <div class="product-price">
-                                    <span class="title-price">$60.00</span>
-                                    <span class="title-price line-through">$95.00</span>
-                                </div>
                             </div>    
-                            <ul class="list-inline product-ratings">
-                                <li><i class="rating-selected fa fa-star"></i></li>
-                                <li><i class="rating-selected fa fa-star"></i></li>
-                                <li><i class="rating-selected fa fa-star"></i></li>
-                                <li><i class="rating fa fa-star"></i></li>
-                                <li><i class="rating fa fa-star"></i></li>
-                            </ul>    
                         </div>
                     </li>
                     <li class="item">
                         <div class="product-img">
-                            <a href="shop-ui-inner.html"><img class="full-width img-responsive" src="{{ asset('assets/img/blog/09.jpg')}}" alt=""></a>
-                            <a class="product-review" href="shop-ui-inner.html">Quick review</a>
-                            <div class="shop-rgba-red rgba-banner">Out of stock</div>
-                        </div> 
+                            <img class="full-width img-responsive" src="{{ asset('assets/img/artisap.jpg')}}" alt="">
+                            <a class="product-review" id="par" name="Prouits Artisanaux" style="cursor: pointer">{{ 'view_products'|trans }}</a>
+                        </div>
                         <div class="product-description product-description-brd">
                             <div class="overflow-h margin-bottom-5">
                                 <div class="pull-left">
-                                    <h4 class="title-price"><a href="shop-ui-inner.html">Double-breasted</a></h4>
-                                    <span class="gender text-uppercase">Men</span>
-                                    <span class="gender">Suits - Blazers</span>
+                                    <h4 class="title-price">{{ 'Produits'|trans }} {{ 'Artisanaux'|trans }}</h4>
+                                    <span class="gender">{{ 'artisan_products'|trans }}</span>
                                 </div>    
-                                <div class="product-price">
-                                    <span class="title-price">$95.00</span>
-                                </div>
                             </div>    
-                            <ul class="list-inline product-ratings">
-                                <li><i class="rating-selected fa fa-star"></i></li>
-                                <li><i class="rating-selected fa fa-star"></i></li>
-                                <li><i class="rating-selected fa fa-star"></i></li>
-                                <li><i class="rating fa fa-star"></i></li>
-                                <li><i class="rating fa fa-star"></i></li>
-                            </ul>    
                         </div>
                     </li>
                     <li class="item">
                         <div class="product-img">
-                            <a href="shop-ui-inner.html"><img class="full-width img-responsive" src="{{ asset('assets/img/blog/09.jpg')}}" alt=""></a>
-                            <a class="product-review" href="shop-ui-inner.html">Quick review</a>
-                            <div class="shop-rgba-dark-green rgba-banner">New</div>
+                            <img class="full-width img-responsive" src="{{ asset('assets/img/cosp.jpg')}}" alt="">
+                            <a class="product-review" id="pcb" name="Produits Cosmétiques Bio" style="cursor: pointer">{{ 'view_products'|trans }}</a>
                         </div> 
                         <div class="product-description product-description-brd">
                             <div class="overflow-h margin-bottom-5">
                                 <div class="pull-left">
-                                    <h4 class="title-price"><a href="shop-ui-inner.html">Double-breasted</a></h4>
-                                    <span class="gender text-uppercase">Women</span>
-                                    <span class="gender">Suits - Blazers</span>
+                                    <h4 class="title-price">{{ 'Produits'|trans }} {{ 'Cosmétiques'|trans }} {{ 'Bio'|trans }}</h4>
+                                    <span class="gender">{{ 'p_c_products'|trans }}</span>
                                 </div>    
-                                <div class="product-price">
-                                    <span class="title-price">$95.00</span>
-                                </div>
                             </div>    
-                            <ul class="list-inline product-ratings">
-                                <li><i class="rating-selected fa fa-star"></i></li>
-                                <li><i class="rating-selected fa fa-star"></i></li>
-                                <li><i class="rating-selected fa fa-star"></i></li>
-                                <li><i class="rating fa fa-star"></i></li>
-                                <li><i class="rating fa fa-star"></i></li>
-                            </ul>    
                         </div>
                     </li>
                     <li class="item">
                         <div class="product-img">
-                            <a href="shop-ui-inner.html"><img class="full-width img-responsive" src="{{ asset('assets/img/blog/09.jpg')}}" alt=""></a>
-                            <a class="product-review" href="shop-ui-inner.html">Quick review</a>
+                            <img class="full-width img-responsive" src="{{ asset('assets/img/php.jpg')}}" alt="">
+                            <a class="product-review" id="ph" name="Produis Hygiéniques" style="cursor: pointer">{{ 'view_products'|trans }}</a>
                         </div> 
                         <div class="product-description product-description-brd">
                             <div class="overflow-h margin-bottom-5">
                                 <div class="pull-left">
-                                    <h4 class="title-price"><a href="shop-ui-inner.html">Double-breasted</a></h4>
-                                    <span class="gender text-uppercase">Women</span>
-                                    <span class="gender">Suits - Blazers</span>
+                                    <h4 class="title-price">{{ 'Produits'|trans }} {{ 'Hygiéniques'|trans }}</h4>
+                                    <span class="gender">{{ 'p_h_products'|trans }}</span>
                                 </div>    
-                                <div class="product-price">
-                                    <span class="title-price">$95.00</span>
-                                </div>
                             </div>    
-                            <ul class="list-inline product-ratings">
-                                <li><i class="rating-selected fa fa-star"></i></li>
-                                <li><i class="rating-selected fa fa-star"></i></li>
-                                <li><i class="rating-selected fa fa-star"></i></li>
-                                <li><i class="rating fa fa-star"></i></li>
-                                <li><i class="rating fa fa-star"></i></li>
-                            </ul>    
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="product-img">
+                            <img class="full-width img-responsive" src="{{ asset('assets/img/cuisp.jpg')}}" alt="">
+                            <a class="product-review" id="divers" name="Ustensiles de cuisine et Robinetterie" style="cursor: pointer">{{ 'view_products'|trans }}</a>
+                        </div> 
+                        <div class="product-description product-description-brd">
+                            <div class="overflow-h margin-bottom-5">
+                                <div class="pull-left">
+                                    <h4 class="title-price">{{ 'divers'|trans }}</h4>
+                                </div>    
+                            </div>    
                         </div>
                     </li>
                 </ul>
             </div> 
         </div> 
     </div>
+    {#<div class="headline">
+        <h2>Our Clients</h2>
+    </div>
+    <div class="owl-clients-v1 owl-carousel owl-theme" style="opacity: 1; display: block;">
+        <div class="owl-wrapper-outer"><div class="owl-wrapper" style="width: 2934px; left: 0px; display: block; transition: all 1000ms ease 0s; transform: translate3d(0px, 0px, 0px);"><div class="owl-item" style="width: 163px;"><div class="item">
+                        <img alt="" src="{{ asset('assets/img/blog/01.jpg') }}">
+                    </div></div><div class="owl-item" style="width: 163px;"><div class="item">
+                        <img alt="" src="{{ asset('assets/img/blog/02.jpg') }}">
+                    </div></div><div class="owl-item" style="width: 163px;"><div class="item">
+                        <img alt="" src="{{ asset('assets/img/blog/03.jpg') }}">
+                    </div></div><div class="owl-item" style="width: 163px;"><div class="item">
+                        <img alt="" src="{{ asset('assets/img/blog/04.jpg') }}">
+                    </div></div><div class="owl-item" style="width: 163px;"><div class="item">
+                        <img alt="" src="{{ asset('assets/img/blog/05.jpg') }}">
+                    </div></div><div class="owl-item" style="width: 163px;"><div class="item">
+                        <img alt="" src="{{ asset('assets/img/blog/06.jpg') }}">
+                    </div></div><div class="owl-item" style="width: 163px;"><div class="item">
+                        <img alt="" src="{{ asset('assets/img/blog/07.jpg') }}">
+                    </div></div><div class="owl-item" style="width: 163px;"><div class="item">
+                        <img alt="" src="{{ asset('assets/img/blog/08.jpg') }}">
+                    </div></div><div class="owl-item" style="width: 163px;"><div class="item">
+                        <img alt="" src="{{ asset('assets/img/blog/09.jpg') }}">
+                    </div></div></div></div>
+
+        <div class="owl-controls clickable"><div class="owl-pagination"><div class="owl-page active"><span class=""></span></div><div class="owl-page"><span class=""></span></div></div></div></div>
+
+    <div class="clients-section parallaxBg" style="background-position: 50% -2052px;">
+        <div class="container">
+            <div class="title-v1">
+                <h2>Our Clients</h2>
+            </div>
+            <ul class="owl-clients-v2 owl-carousel owl-theme" style="opacity: 1; display: block;">
+                <div class="owl-wrapper-outer"><div class="owl-wrapper" style="width: 2736px; left: 0px; display: block; transition: all 800ms ease 0s; transform: translate3d(-228px, 0px, 0px);"><div class="owl-item" style="width: 228px;"><li class="item"><a href="#"><img alt="" src="assets/img/clients/national-geographic.png"></a></li></div><div class="owl-item" style="width: 228px;"><li class="item"><a href="#"><img alt="" src="assets/img/clients/inspiring.png"></a></li></div><div class="owl-item" style="width: 228px;"><li class="item"><a href="#"><img alt="" src="assets/img/clients/fred-perry.png"></a></li></div><div class="owl-item" style="width: 228px;"><li class="item"><a href="#"><img alt="" src="assets/img/clients/emirates.png"></a></li></div><div class="owl-item" style="width: 228px;"><li class="item"><a href="#"><img alt="" src="assets/img/clients/baderbrau.png"></a></li></div><div class="owl-item" style="width: 228px;"><li class="item"><a href="#"><img alt="" src="assets/img/clients/inspiring.png"></a></li></div></div></div>
+
+
+
+
+
+                <div class="owl-controls clickable"><div class="owl-pagination"><div class="owl-page"><span class=""></span></div><div class="owl-page active"><span class=""></span></div></div></div></ul>
+        </div>
+    </div>#}
 {% endblock %}
 
 {% block javascripts %}

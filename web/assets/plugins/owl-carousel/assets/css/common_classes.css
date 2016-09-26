@@ -516,10 +516,10 @@ ul.star-icons li i {
     background-color: #75c62d !important;
     color: #fff !important;
     border-radius: inherit !important;
-    -webkit-border-radius: inherit !important 
-    -moz-border-radius: inherit !important    
-    -ms-border-radius: inherit !important     
-    -o-border-radius: inherit !important
+    -webkit-border-radius: inherit !important;
+    -moz-border-radius: inherit !important    ;
+    -ms-border-radius: inherit !important     ;
+    -o-border-radius: inherit !important;
 }
 
 .loda-btn.loda-btn-loading {

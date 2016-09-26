@@ -254,7 +254,7 @@ li:first-child {
 }
 
 .illustration-v2 .customNavigation a.owl-btn {
-	color: #ccc;
+	color: #8FBC8F;
 	width: 30px;
 	height: 30px;
 	font-size: 17px;
@@ -262,7 +262,7 @@ li:first-child {
 	line-height: 24px;
 	text-align: center;
 	display: inline-block;
-	border: 2px solid #ddd;
+	border: 2px solid #8FBC8F;
 }
 
 .illustration-v2 .customNavigation a.owl-btn:hover {

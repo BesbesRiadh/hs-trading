@@ -4,69 +4,47 @@
             <div class="row">
                 <!-- About -->
                 <div class="col-md-4 md-margin-bottom-40">
-                    <a href="index.html"><img class="footer-logo" src="assets/img/logo-2.png" alt=""></a>
+                    <a href="index.html"><img class="footer-logo" src="{{ asset('assets/img/logo-dark.png') }}" alt=""></a>
                     <ul class="list-unstyled address-list margin-bottom-20">
-                        <li><i class="fa fa-angle-right"></i>California, US, Lorem Lis Street, Orange, 25</li>
-                        <li><i class="fa fa-angle-right"></i>Phone: 800 123 3456</li>
-                        <li><i class="fa fa-angle-right"></i>Email: info@anybiz.co</li>
+                        <li><i class="fa fa-angle-right"></i>22 Résidence Opéra, Bhar Lazreg, Marsa Tunis, Tunisie</li>
+                        <li><i class="fa fa-angle-right"></i>{{ 'tin'|trans }}: 1457615TAM000</li>
+                        <li><i class="fa fa-angle-right"></i>{{ 'phone'|trans }}: +216 27 380 438</li>
+                        <li><i class="fa fa-angle-right"></i>{{ 'mail'|trans }}: contact@harzallah-trading.com</li>
                     </ul>
 
-                    <ul class="list-inline shop-social">
-                        <li><a href="#"><i class="fb rounded-md fa fa-facebook"></i></a></li>
-                    </ul>
                 </div>
                 <!-- End About -->                    
 
                 <!-- Simple List -->
-                <div class="col-md-2 col-sm-3">
+                <div class="col-md-2 col-sm-3 col-md-offset-3 margin-top-20">
                     <div class="row">
                         <div class="col-sm-12 col-xs-6">
-                            <h2 class="thumb-headline">Secciones</h2>
-                            <ul class="list-unstyled simple-list margin-bottom-20">
-                                <li><a href="#">Ultima Hora</a></li>
-                                <li><a href="#">Exclusiva</a></li>
-                                <li><a href="#">Documentos </a></li>
-                                <li><a href="#">Francisco papa</a></li>
-                            </ul>
-                        </div>    
-                    </div>
-                </div>    
-
-                <div class="col-md-2 col-sm-3">
-                    <div class="row">
-                        <div class="col-sm-12 col-xs-6">
-                            <h2 class="thumb-headline">Utilidades</h2>
-                            <ul class="list-unstyled simple-list margin-bottom-20">
-                                <li><a href="#">Ultima Hora</a></li>
-                                <li><a href="#">Exclusiva</a></li>
-                                <li><a href="#">Documentos </a></li>
+                            <h2 class="thumb-headline">{{ 'our_markets'|trans }}</h2>
+                            <ul class="list-unstyled simple-list margin-bottom-20 col-md-offset-1">
+                                <li><span class="flag-icon flag-icon-ca"></span> <span class="flag-icon flag-icon-us"></span> <span class="flag-icon flag-icon-fr"></span> <span class="flag-icon flag-icon-pl"></span></li>
+                                <li><span class="flag-icon flag-icon-bi"></span> <span class="flag-icon flag-icon-cf"></span> <span class="flag-icon flag-icon-td"></span> <span class="flag-icon flag-icon-de"></span></li>
+                                <li><span class="flag-icon flag-icon-cd"></span> <span class="flag-icon flag-icon-rw"></span> <span class="flag-icon flag-icon-dz"></span> <span class="flag-icon flag-icon-bj"></span></li>
+                                <li><span class="flag-icon flag-icon-ly"></span> <span class="flag-icon flag-icon-es"></span> <span class="flag-icon flag-icon-pt"></span> <span class="flag-icon flag-icon-bf"></span></li>
+                                <li><span class="flag-icon flag-icon-cv"></span> <span class="flag-icon flag-icon-ci"></span> <span class="flag-icon flag-icon-gm"></span> <span class="flag-icon flag-icon-gh"></span></li>
+                                <li><span class="flag-icon flag-icon-gn"></span> <span class="flag-icon flag-icon-gw"></span> <span class="flag-icon flag-icon-lr"></span> <span class="flag-icon flag-icon-mr"></span></li>
+                                <li><span class="flag-icon flag-icon-ne"></span> <span class="flag-icon flag-icon-ng"></span> <span class="flag-icon flag-icon-sn"></span> <span class="flag-icon flag-icon-sl"></span></li>
                             </ul>
                         </div>    
                     </div>        
                 </div>
 
-                <div class="col-md-2 col-sm-3">
+                <div class="col-md-3 col-sm-4 margin-top-20">
                     <div class="row">
                         <div class="col-sm-12 col-xs-6">
-                            <h2 class="thumb-headline">Publicidad</h2>
-                            <ul class="list-unstyled simple-list margin-bottom-20">
-                                <li><a href="#">Ultima Hora</a></li>
-                                <li><a href="#">Exclusiva</a></li>
-                                <li><a href="#">Documentos </a></li>
-                                <li><a href="#">Francisco papa</a></li>
-                            </ul>
-                        </div>    
-                    </div>        
-                </div>
-
-                <div class="col-md-2 col-sm-3">
-                    <div class="row">
-                        <div class="col-sm-12 col-xs-6">
-                            <h2 class="thumb-headline">Utilidades</h2>
-                            <ul class="list-unstyled simple-list margin-bottom-20">
-                                <li><a href="#">Ultima Hora</a></li>
-                                <li><a href="#">Exclusiva</a></li>
-                            </ul>
+                            <h2 class="thumb-headline">{{ 'stay_connected'|trans }}</h2>
+                            <div class="row brand-page margin-bottom-40">
+                                <div class="col-sm-6 col-md-8">
+                                    <button class="btn btn-block btn-facebook-inversed rounded">
+                                        <i class="fa fa-facebook"></i>
+                                        Facebook
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>        
                 </div>

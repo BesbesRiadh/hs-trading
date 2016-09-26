@@ -1,0 +1,57 @@
+{% form_theme form 'FrontendBundle:Form:fieldsSubscription.html.twig' %}
+
+{% set formId = form.vars.id~'Form' %}
+{{ form_start(form, {'attr' : {'class': 'sky-form', 'id' : formId}}) }}
+{{ form_errors(form) }}
+<fieldset>
+    <div class="row">
+        <section class="col col-6 col-xs-4">
+            <label class="select">
+                {{ form_row(form.gender) }}
+                <i></i>
+            </label>
+        </section>
+        <section class="col col-6">
+            <label class="input {{ form_errors(form.mail.first)|trim ? 'state-error' : '' }}">
+                <i class="icon-prepend fa fa-envelope"></i>
+                {{ form_row(form.mail.first) }}
+            </label>
+            {%if form.mail.first.vars.required %}
+                <div class="note note-success">{{ 'field_required' |trans}}</div>
+            {%endif %}
+        </section>
+    </div>
+    <div class="row">
+        <section class="col col-6">
+            <label class="input {{ form_errors(form.lastname)|trim ? 'state-error' : '' }}">
+                <i class="icon-prepend fa fa-user"></i>
+                {{ form_row(form.lastname) }}
+            </label>
+            {%if form.lastname.vars.required %}
+                <div class="note note-success">{{ 'field_required' |trans}}</div>
+            {%endif %}
+        </section>
+        <section class="col col-6">
+            <label class="input {{ form_errors(form.mail.second)|trim ? 'state-error' : '' }}">
+                <i class="icon-prepend fa fa-envelope"></i>
+                {{ form_row(form.mail.second) }}
+            </label>
+            {%if form.mail.second.vars.required %}
+                <div class="note note-success">{{ 'field_required' |trans}}</div>
+            {%endif %}
+        </section>
+    </div>
+    <div class="row">
+        <section class="col col-6">
+            <label class="input {{ form_errors(form.firstname)|trim ? 'state-error' : '' }}">
+                <i class="icon-prepend fa fa-user"></i>
+                {{ form_row(form.firstname) }}
+            </label>
+            {%if form.firstname.vars.required %}
+                <div class="note note-success">{{ 'field_required' |trans}}</div>
+            {%endif %}
+        </section>
+    </div>
+</fieldset>
+{{ form_end(form) }}
+{{ form_rest(form) }}
