@@ -10,22 +10,15 @@ use hsTrading\FrontEndBundle\Utils\EchTools;
  *
  * @author SSH1
  */
-class MailService
-{
+class MailService {
 
     private $oContainer;
     private $sNoReplyMail;
 
-    public function __construct(Container $oContainer)
-    {
-        $this->oContainer   = $oContainer;
-        $this->sNoReplyMail = array($this->oContainer->getParameter('no-reply_mail') => 'Echrili.tn');
-    }
-
-    public function getLogo($psImg)
-    {
-        $sPath = DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . $psImg . '.png';
-        return \Swift_Image::fromPath($this->oContainer->getParameter('kernel.root_dir') . $sPath);
+    public function __construct(Container $oContainer) {
+        $this->oContainer = $oContainer;
+        $this->sNoReplyMail = $this->oContainer->getParameter('noreply_mail');
+        $this->sContactMail = $this->oContainer->getParameter('contact_mail');
     }
 
     /**
@@ -38,49 +31,39 @@ class MailService
      *
      * @author Walid Saadaoui
      */
-    public function sendMail($psMailTo, $psUrl, $psSubject, $oUser, $Template, $psLocale, $psCpltSubject = '')
-    {
-
-        $psSubject = $this->oContainer->get('translator')->trans($psSubject, array(), 'messages', $psLocale) . ' ' . $psCpltSubject;
-        $oLogger   = $this->oContainer->get('mail_logger');
-        try
-        {
+    public function sendMail($oData) {
+        $oLogger = $this->oContainer->get('mail_logger');
+        try {
             $oMailer = $this->oContainer->get('mailer');
 
             $oMail = \Swift_Message::newInstance();
 
-            $sBody = $this->oContainer->get('templating')->render($Template, array(
-                'url' => $psUrl,
+            $sBody = $this->oContainer->get('templating')->render('hsTradingFrontEndBundle:Mail:index.html.twig', array(
                 'logo' => $oMail->embed(\Swift_Image::fromPath(EchTools::getStdPath($this->oContainer->getParameter('kernel.root_dir') . '\..\web\img\logo.png'))),
                 'facebook' => $oMail->embed(\Swift_Image::fromPath(EchTools::getStdPath($this->oContainer->getParameter('kernel.root_dir') . '\..\web\img\facebook.png'))),
-                'twitter' => $oMail->embed(\Swift_Image::fromPath(EchTools::getStdPath($this->oContainer->getParameter('kernel.root_dir') . '\..\web\img\twitter.png'))),
-                'data' => $oUser));
+                'data' => $oData));
 
-            $oMail->setSubject($psSubject)
+            $oMail->setSubject('Nouveau message de contact')
                     ->setFrom($this->sNoReplyMail)
-                    ->setTo($psMailTo)
+                    ->setTo($this->sContactMail)
                     ->setBody($sBody)
                     ->setContentType('text/html');
 
             $bSended = $oMailer->send($oMail);
 
             $transport = $oMailer->getTransport();
-            if ($transport instanceof \Swift_Transport_SpoolTransport)
-            {
+            if ($transport instanceof \Swift_Transport_SpoolTransport) {
                 $spool = $transport->getSpool();
-                $sent  = $spool->flushQueue($this->oContainer->get('swiftmailer.transport.real'));
-                if (is_array($psMailTo))
-                {
-                    $psMailTo = implode(",", $psMailTo);
+                $sent = $spool->flushQueue($this->oContainer->get('swiftmailer.transport.real'));
+                if (is_array($this->sContactMail)) {
+                    $this->sContactMail = implode(",", $this->sContactMail);
                 }
-                $oLogger->info("Envoie $psSubject vers $psMailTo");
+                $oLogger->info("Envoie Nouveau message de contact vers $this->sContactMail");
 
                 return true;
             }
             return $bSended;
-        }
-        catch (\Exception $ex)
-        {
+        } catch (\Exception $ex) {
             $oLogger->error($ex->getMessage());
             throw $ex;
         }

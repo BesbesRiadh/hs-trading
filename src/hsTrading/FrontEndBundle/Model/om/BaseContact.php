@@ -13,22 +13,22 @@ use \Propel;
 use \PropelDateTime;
 use \PropelException;
 use \PropelPDO;
-use hsTrading\FrontEndBundle\Model\Product;
-use hsTrading\FrontEndBundle\Model\ProductPeer;
-use hsTrading\FrontEndBundle\Model\ProductQuery;
+use hsTrading\FrontEndBundle\Model\Contact;
+use hsTrading\FrontEndBundle\Model\ContactPeer;
+use hsTrading\FrontEndBundle\Model\ContactQuery;
 
-abstract class BaseProduct extends BaseObject implements Persistent
+abstract class BaseContact extends BaseObject implements Persistent
 {
     /**
      * Peer class name
      */
-    const PEER = 'hsTrading\\FrontEndBundle\\Model\\ProductPeer';
+    const PEER = 'hsTrading\\FrontEndBundle\\Model\\ContactPeer';
 
     /**
      * The Peer class.
      * Instance provides a convenient way of calling static methods on a class
      * that calling code may not be able to identify.
-     * @var        ProductPeer
+     * @var        ContactPeer
      */
     protected static $peer;
 
@@ -45,40 +45,59 @@ abstract class BaseProduct extends BaseObject implements Persistent
     protected $id;
 
     /**
-     * The value for the code field.
+     * The value for the mail field.
      * @var        string
      */
-    protected $code;
+    protected $mail;
 
     /**
-     * The value for the category field.
+     * The value for the phone field.
      * @var        string
      */
-    protected $category;
+    protected $phone;
 
     /**
-     * The value for the description field.
+     * The value for the firstname field.
      * @var        string
      */
-    protected $description;
+    protected $firstname;
 
     /**
-     * The value for the designation field.
+     * The value for the lastname field.
      * @var        string
      */
-    protected $designation;
+    protected $lastname;
 
     /**
-     * The value for the price field.
+     * The value for the company field.
      * @var        string
      */
-    protected $price;
+    protected $company;
 
     /**
-     * The value for the img field.
+     * The value for the company_function field.
      * @var        string
      */
-    protected $img;
+    protected $company_function;
+
+    /**
+     * The value for the country field.
+     * @var        string
+     */
+    protected $country;
+
+    /**
+     * The value for the message field.
+     * @var        string
+     */
+    protected $message;
+
+    /**
+     * The value for the treated field.
+     * Note: this column has a database default value of: false
+     * @var        boolean
+     */
+    protected $treated;
 
     /**
      * The value for the created_at field.
@@ -113,6 +132,27 @@ abstract class BaseProduct extends BaseObject implements Persistent
     protected $alreadyInClearAllReferencesDeep = false;
 
     /**
+     * Applies default values to this object.
+     * This method should be called from the object's constructor (or
+     * equivalent initialization method).
+     * @see        __construct()
+     */
+    public function applyDefaultValues()
+    {
+        $this->treated = false;
+    }
+
+    /**
+     * Initializes internal state of BaseContact object.
+     * @see        applyDefaults()
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->applyDefaultValues();
+    }
+
+    /**
      * Get the [id] column value.
      *
      * @return string
@@ -124,69 +164,102 @@ abstract class BaseProduct extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [code] column value.
+     * Get the [mail] column value.
      *
      * @return string
      */
-    public function getCode()
+    public function getMail()
     {
 
-        return $this->code;
+        return $this->mail;
     }
 
     /**
-     * Get the [category] column value.
+     * Get the [phone] column value.
      *
      * @return string
      */
-    public function getCategory()
+    public function getPhone()
     {
 
-        return $this->category;
+        return $this->phone;
     }
 
     /**
-     * Get the [description] column value.
+     * Get the [firstname] column value.
      *
      * @return string
      */
-    public function getDescription()
+    public function getFirstname()
     {
 
-        return $this->description;
+        return $this->firstname;
     }
 
     /**
-     * Get the [designation] column value.
+     * Get the [lastname] column value.
      *
      * @return string
      */
-    public function getDesignation()
+    public function getLastname()
     {
 
-        return $this->designation;
+        return $this->lastname;
     }
 
     /**
-     * Get the [price] column value.
+     * Get the [company] column value.
      *
      * @return string
      */
-    public function getPrice()
+    public function getCompany()
     {
 
-        return $this->price;
+        return $this->company;
     }
 
     /**
-     * Get the [img] column value.
+     * Get the [company_function] column value.
      *
      * @return string
      */
-    public function getImg()
+    public function getCompanyFunction()
     {
 
-        return $this->img;
+        return $this->company_function;
+    }
+
+    /**
+     * Get the [country] column value.
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+
+        return $this->country;
+    }
+
+    /**
+     * Get the [message] column value.
+     *
+     * @return string
+     */
+    public function getMessage()
+    {
+
+        return $this->message;
+    }
+
+    /**
+     * Get the [treated] column value.
+     *
+     * @return boolean
+     */
+    public function getTreated()
+    {
+
+        return $this->treated;
     }
 
     /**
@@ -273,7 +346,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      * Set the value of [id] column.
      *
      * @param  string $v new value
-     * @return Product The current object (for fluent API support)
+     * @return Contact The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -283,7 +356,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[] = ProductPeer::ID;
+            $this->modifiedColumns[] = ContactPeer::ID;
         }
 
 
@@ -291,137 +364,208 @@ abstract class BaseProduct extends BaseObject implements Persistent
     } // setId()
 
     /**
-     * Set the value of [code] column.
+     * Set the value of [mail] column.
      *
      * @param  string $v new value
-     * @return Product The current object (for fluent API support)
+     * @return Contact The current object (for fluent API support)
      */
-    public function setCode($v)
+    public function setMail($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->code !== $v) {
-            $this->code = $v;
-            $this->modifiedColumns[] = ProductPeer::CODE;
+        if ($this->mail !== $v) {
+            $this->mail = $v;
+            $this->modifiedColumns[] = ContactPeer::MAIL;
         }
 
 
         return $this;
-    } // setCode()
+    } // setMail()
 
     /**
-     * Set the value of [category] column.
+     * Set the value of [phone] column.
      *
      * @param  string $v new value
-     * @return Product The current object (for fluent API support)
+     * @return Contact The current object (for fluent API support)
      */
-    public function setCategory($v)
+    public function setPhone($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->category !== $v) {
-            $this->category = $v;
-            $this->modifiedColumns[] = ProductPeer::CATEGORY;
+        if ($this->phone !== $v) {
+            $this->phone = $v;
+            $this->modifiedColumns[] = ContactPeer::PHONE;
         }
 
 
         return $this;
-    } // setCategory()
+    } // setPhone()
 
     /**
-     * Set the value of [description] column.
+     * Set the value of [firstname] column.
      *
      * @param  string $v new value
-     * @return Product The current object (for fluent API support)
+     * @return Contact The current object (for fluent API support)
      */
-    public function setDescription($v)
+    public function setFirstname($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->description !== $v) {
-            $this->description = $v;
-            $this->modifiedColumns[] = ProductPeer::DESCRIPTION;
+        if ($this->firstname !== $v) {
+            $this->firstname = $v;
+            $this->modifiedColumns[] = ContactPeer::FIRSTNAME;
         }
 
 
         return $this;
-    } // setDescription()
+    } // setFirstname()
 
     /**
-     * Set the value of [designation] column.
+     * Set the value of [lastname] column.
      *
      * @param  string $v new value
-     * @return Product The current object (for fluent API support)
+     * @return Contact The current object (for fluent API support)
      */
-    public function setDesignation($v)
+    public function setLastname($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->designation !== $v) {
-            $this->designation = $v;
-            $this->modifiedColumns[] = ProductPeer::DESIGNATION;
+        if ($this->lastname !== $v) {
+            $this->lastname = $v;
+            $this->modifiedColumns[] = ContactPeer::LASTNAME;
         }
 
 
         return $this;
-    } // setDesignation()
+    } // setLastname()
 
     /**
-     * Set the value of [price] column.
+     * Set the value of [company] column.
      *
      * @param  string $v new value
-     * @return Product The current object (for fluent API support)
+     * @return Contact The current object (for fluent API support)
      */
-    public function setPrice($v)
+    public function setCompany($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->price !== $v) {
-            $this->price = $v;
-            $this->modifiedColumns[] = ProductPeer::PRICE;
+        if ($this->company !== $v) {
+            $this->company = $v;
+            $this->modifiedColumns[] = ContactPeer::COMPANY;
         }
 
 
         return $this;
-    } // setPrice()
+    } // setCompany()
 
     /**
-     * Set the value of [img] column.
+     * Set the value of [company_function] column.
      *
      * @param  string $v new value
-     * @return Product The current object (for fluent API support)
+     * @return Contact The current object (for fluent API support)
      */
-    public function setImg($v)
+    public function setCompanyFunction($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->img !== $v) {
-            $this->img = $v;
-            $this->modifiedColumns[] = ProductPeer::IMG;
+        if ($this->company_function !== $v) {
+            $this->company_function = $v;
+            $this->modifiedColumns[] = ContactPeer::COMPANY_FUNCTION;
         }
 
 
         return $this;
-    } // setImg()
+    } // setCompanyFunction()
+
+    /**
+     * Set the value of [country] column.
+     *
+     * @param  string $v new value
+     * @return Contact The current object (for fluent API support)
+     */
+    public function setCountry($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->country !== $v) {
+            $this->country = $v;
+            $this->modifiedColumns[] = ContactPeer::COUNTRY;
+        }
+
+
+        return $this;
+    } // setCountry()
+
+    /**
+     * Set the value of [message] column.
+     *
+     * @param  string $v new value
+     * @return Contact The current object (for fluent API support)
+     */
+    public function setMessage($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->message !== $v) {
+            $this->message = $v;
+            $this->modifiedColumns[] = ContactPeer::MESSAGE;
+        }
+
+
+        return $this;
+    } // setMessage()
+
+    /**
+     * Sets the value of the [treated] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     *
+     * @param boolean|integer|string $v The new value
+     * @return Contact The current object (for fluent API support)
+     */
+    public function setTreated($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->treated !== $v) {
+            $this->treated = $v;
+            $this->modifiedColumns[] = ContactPeer::TREATED;
+        }
+
+
+        return $this;
+    } // setTreated()
 
     /**
      * Sets the value of [created_at] column to a normalized version of the date/time value specified.
      *
      * @param mixed $v string, integer (timestamp), or DateTime value.
      *               Empty strings are treated as null.
-     * @return Product The current object (for fluent API support)
+     * @return Contact The current object (for fluent API support)
      */
     public function setCreatedAt($v)
     {
@@ -431,7 +575,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
             $newDateAsString = $dt ? $dt->format('Y-m-d H:i:s') : null;
             if ($currentDateAsString !== $newDateAsString) {
                 $this->created_at = $newDateAsString;
-                $this->modifiedColumns[] = ProductPeer::CREATED_AT;
+                $this->modifiedColumns[] = ContactPeer::CREATED_AT;
             }
         } // if either are not null
 
@@ -444,7 +588,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      *
      * @param mixed $v string, integer (timestamp), or DateTime value.
      *               Empty strings are treated as null.
-     * @return Product The current object (for fluent API support)
+     * @return Contact The current object (for fluent API support)
      */
     public function setUpdatedAt($v)
     {
@@ -454,7 +598,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
             $newDateAsString = $dt ? $dt->format('Y-m-d H:i:s') : null;
             if ($currentDateAsString !== $newDateAsString) {
                 $this->updated_at = $newDateAsString;
-                $this->modifiedColumns[] = ProductPeer::UPDATED_AT;
+                $this->modifiedColumns[] = ContactPeer::UPDATED_AT;
             }
         } // if either are not null
 
@@ -472,6 +616,10 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function hasOnlyDefaultValues()
     {
+            if ($this->treated !== false) {
+                return false;
+            }
+
         // otherwise, everything was equal, so return true
         return true;
     } // hasOnlyDefaultValues()
@@ -495,14 +643,17 @@ abstract class BaseProduct extends BaseObject implements Persistent
         try {
 
             $this->id = ($row[$startcol + 0] !== null) ? (string) $row[$startcol + 0] : null;
-            $this->code = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
-            $this->category = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-            $this->description = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-            $this->designation = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
-            $this->price = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
-            $this->img = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
-            $this->created_at = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
-            $this->updated_at = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
+            $this->mail = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
+            $this->phone = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
+            $this->firstname = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
+            $this->lastname = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+            $this->company = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
+            $this->company_function = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
+            $this->country = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
+            $this->message = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
+            $this->treated = ($row[$startcol + 9] !== null) ? (boolean) $row[$startcol + 9] : null;
+            $this->created_at = ($row[$startcol + 10] !== null) ? (string) $row[$startcol + 10] : null;
+            $this->updated_at = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -512,10 +663,10 @@ abstract class BaseProduct extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 9; // 9 = ProductPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 12; // 12 = ContactPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException("Error populating Product object", $e);
+            throw new PropelException("Error populating Contact object", $e);
         }
     }
 
@@ -558,13 +709,13 @@ abstract class BaseProduct extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(ProductPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(ContactPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $stmt = ProductPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
+        $stmt = ContactPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
         $row = $stmt->fetch(PDO::FETCH_NUM);
         $stmt->closeCursor();
         if (!$row) {
@@ -594,12 +745,12 @@ abstract class BaseProduct extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(ProductPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(ContactPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
         try {
-            $deleteQuery = ProductQuery::create()
+            $deleteQuery = ContactQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -637,7 +788,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(ProductPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(ContactPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
@@ -647,16 +798,16 @@ abstract class BaseProduct extends BaseObject implements Persistent
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
                 // timestampable behavior
-                if (!$this->isColumnModified(ProductPeer::CREATED_AT)) {
+                if (!$this->isColumnModified(ContactPeer::CREATED_AT)) {
                     $this->setCreatedAt(time());
                 }
-                if (!$this->isColumnModified(ProductPeer::UPDATED_AT)) {
+                if (!$this->isColumnModified(ContactPeer::UPDATED_AT)) {
                     $this->setUpdatedAt(time());
                 }
             } else {
                 $ret = $ret && $this->preUpdate($con);
                 // timestampable behavior
-                if ($this->isModified() && !$this->isColumnModified(ProductPeer::UPDATED_AT)) {
+                if ($this->isModified() && !$this->isColumnModified(ContactPeer::UPDATED_AT)) {
                     $this->setUpdatedAt(time());
                 }
             }
@@ -668,7 +819,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                ProductPeer::addInstanceToPool($this);
+                ContactPeer::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -729,42 +880,51 @@ abstract class BaseProduct extends BaseObject implements Persistent
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[] = ProductPeer::ID;
+        $this->modifiedColumns[] = ContactPeer::ID;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . ProductPeer::ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . ContactPeer::ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(ProductPeer::ID)) {
+        if ($this->isColumnModified(ContactPeer::ID)) {
             $modifiedColumns[':p' . $index++]  = '`id`';
         }
-        if ($this->isColumnModified(ProductPeer::CODE)) {
-            $modifiedColumns[':p' . $index++]  = '`code`';
+        if ($this->isColumnModified(ContactPeer::MAIL)) {
+            $modifiedColumns[':p' . $index++]  = '`mail`';
         }
-        if ($this->isColumnModified(ProductPeer::CATEGORY)) {
-            $modifiedColumns[':p' . $index++]  = '`category`';
+        if ($this->isColumnModified(ContactPeer::PHONE)) {
+            $modifiedColumns[':p' . $index++]  = '`phone`';
         }
-        if ($this->isColumnModified(ProductPeer::DESCRIPTION)) {
-            $modifiedColumns[':p' . $index++]  = '`description`';
+        if ($this->isColumnModified(ContactPeer::FIRSTNAME)) {
+            $modifiedColumns[':p' . $index++]  = '`firstname`';
         }
-        if ($this->isColumnModified(ProductPeer::DESIGNATION)) {
-            $modifiedColumns[':p' . $index++]  = '`designation`';
+        if ($this->isColumnModified(ContactPeer::LASTNAME)) {
+            $modifiedColumns[':p' . $index++]  = '`lastname`';
         }
-        if ($this->isColumnModified(ProductPeer::PRICE)) {
-            $modifiedColumns[':p' . $index++]  = '`price`';
+        if ($this->isColumnModified(ContactPeer::COMPANY)) {
+            $modifiedColumns[':p' . $index++]  = '`company`';
         }
-        if ($this->isColumnModified(ProductPeer::IMG)) {
-            $modifiedColumns[':p' . $index++]  = '`img`';
+        if ($this->isColumnModified(ContactPeer::COMPANY_FUNCTION)) {
+            $modifiedColumns[':p' . $index++]  = '`company_function`';
         }
-        if ($this->isColumnModified(ProductPeer::CREATED_AT)) {
+        if ($this->isColumnModified(ContactPeer::COUNTRY)) {
+            $modifiedColumns[':p' . $index++]  = '`country`';
+        }
+        if ($this->isColumnModified(ContactPeer::MESSAGE)) {
+            $modifiedColumns[':p' . $index++]  = '`message`';
+        }
+        if ($this->isColumnModified(ContactPeer::TREATED)) {
+            $modifiedColumns[':p' . $index++]  = '`treated`';
+        }
+        if ($this->isColumnModified(ContactPeer::CREATED_AT)) {
             $modifiedColumns[':p' . $index++]  = '`created_at`';
         }
-        if ($this->isColumnModified(ProductPeer::UPDATED_AT)) {
+        if ($this->isColumnModified(ContactPeer::UPDATED_AT)) {
             $modifiedColumns[':p' . $index++]  = '`updated_at`';
         }
 
         $sql = sprintf(
-            'INSERT INTO `hs_product` (%s) VALUES (%s)',
+            'INSERT INTO `hs_contact` (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -776,23 +936,32 @@ abstract class BaseProduct extends BaseObject implements Persistent
                     case '`id`':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_STR);
                         break;
-                    case '`code`':
-                        $stmt->bindValue($identifier, $this->code, PDO::PARAM_STR);
+                    case '`mail`':
+                        $stmt->bindValue($identifier, $this->mail, PDO::PARAM_STR);
                         break;
-                    case '`category`':
-                        $stmt->bindValue($identifier, $this->category, PDO::PARAM_STR);
+                    case '`phone`':
+                        $stmt->bindValue($identifier, $this->phone, PDO::PARAM_STR);
                         break;
-                    case '`description`':
-                        $stmt->bindValue($identifier, $this->description, PDO::PARAM_STR);
+                    case '`firstname`':
+                        $stmt->bindValue($identifier, $this->firstname, PDO::PARAM_STR);
                         break;
-                    case '`designation`':
-                        $stmt->bindValue($identifier, $this->designation, PDO::PARAM_STR);
+                    case '`lastname`':
+                        $stmt->bindValue($identifier, $this->lastname, PDO::PARAM_STR);
                         break;
-                    case '`price`':
-                        $stmt->bindValue($identifier, $this->price, PDO::PARAM_STR);
+                    case '`company`':
+                        $stmt->bindValue($identifier, $this->company, PDO::PARAM_STR);
                         break;
-                    case '`img`':
-                        $stmt->bindValue($identifier, $this->img, PDO::PARAM_STR);
+                    case '`company_function`':
+                        $stmt->bindValue($identifier, $this->company_function, PDO::PARAM_STR);
+                        break;
+                    case '`country`':
+                        $stmt->bindValue($identifier, $this->country, PDO::PARAM_STR);
+                        break;
+                    case '`message`':
+                        $stmt->bindValue($identifier, $this->message, PDO::PARAM_STR);
+                        break;
+                    case '`treated`':
+                        $stmt->bindValue($identifier, (int) $this->treated, PDO::PARAM_INT);
                         break;
                     case '`created_at`':
                         $stmt->bindValue($identifier, $this->created_at, PDO::PARAM_STR);
@@ -894,7 +1063,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
             $failureMap = array();
 
 
-            if (($retval = ProductPeer::doValidate($this, $columns)) !== true) {
+            if (($retval = ContactPeer::doValidate($this, $columns)) !== true) {
                 $failureMap = array_merge($failureMap, $retval);
             }
 
@@ -918,7 +1087,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
     {
-        $pos = ProductPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = ContactPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -938,27 +1107,36 @@ abstract class BaseProduct extends BaseObject implements Persistent
                 return $this->getId();
                 break;
             case 1:
-                return $this->getCode();
+                return $this->getMail();
                 break;
             case 2:
-                return $this->getCategory();
+                return $this->getPhone();
                 break;
             case 3:
-                return $this->getDescription();
+                return $this->getFirstname();
                 break;
             case 4:
-                return $this->getDesignation();
+                return $this->getLastname();
                 break;
             case 5:
-                return $this->getPrice();
+                return $this->getCompany();
                 break;
             case 6:
-                return $this->getImg();
+                return $this->getCompanyFunction();
                 break;
             case 7:
-                return $this->getCreatedAt();
+                return $this->getCountry();
                 break;
             case 8:
+                return $this->getMessage();
+                break;
+            case 9:
+                return $this->getTreated();
+                break;
+            case 10:
+                return $this->getCreatedAt();
+                break;
+            case 11:
                 return $this->getUpdatedAt();
                 break;
             default:
@@ -983,21 +1161,24 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
     {
-        if (isset($alreadyDumpedObjects['Product'][$this->getPrimaryKey()])) {
+        if (isset($alreadyDumpedObjects['Contact'][$this->getPrimaryKey()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Product'][$this->getPrimaryKey()] = true;
-        $keys = ProductPeer::getFieldNames($keyType);
+        $alreadyDumpedObjects['Contact'][$this->getPrimaryKey()] = true;
+        $keys = ContactPeer::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getCode(),
-            $keys[2] => $this->getCategory(),
-            $keys[3] => $this->getDescription(),
-            $keys[4] => $this->getDesignation(),
-            $keys[5] => $this->getPrice(),
-            $keys[6] => $this->getImg(),
-            $keys[7] => $this->getCreatedAt(),
-            $keys[8] => $this->getUpdatedAt(),
+            $keys[1] => $this->getMail(),
+            $keys[2] => $this->getPhone(),
+            $keys[3] => $this->getFirstname(),
+            $keys[4] => $this->getLastname(),
+            $keys[5] => $this->getCompany(),
+            $keys[6] => $this->getCompanyFunction(),
+            $keys[7] => $this->getCountry(),
+            $keys[8] => $this->getMessage(),
+            $keys[9] => $this->getTreated(),
+            $keys[10] => $this->getCreatedAt(),
+            $keys[11] => $this->getUpdatedAt(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1021,7 +1202,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
     {
-        $pos = ProductPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = ContactPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 
         $this->setByPosition($pos, $value);
     }
@@ -1041,27 +1222,36 @@ abstract class BaseProduct extends BaseObject implements Persistent
                 $this->setId($value);
                 break;
             case 1:
-                $this->setCode($value);
+                $this->setMail($value);
                 break;
             case 2:
-                $this->setCategory($value);
+                $this->setPhone($value);
                 break;
             case 3:
-                $this->setDescription($value);
+                $this->setFirstname($value);
                 break;
             case 4:
-                $this->setDesignation($value);
+                $this->setLastname($value);
                 break;
             case 5:
-                $this->setPrice($value);
+                $this->setCompany($value);
                 break;
             case 6:
-                $this->setImg($value);
+                $this->setCompanyFunction($value);
                 break;
             case 7:
-                $this->setCreatedAt($value);
+                $this->setCountry($value);
                 break;
             case 8:
+                $this->setMessage($value);
+                break;
+            case 9:
+                $this->setTreated($value);
+                break;
+            case 10:
+                $this->setCreatedAt($value);
+                break;
+            case 11:
                 $this->setUpdatedAt($value);
                 break;
         } // switch()
@@ -1086,17 +1276,20 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
     {
-        $keys = ProductPeer::getFieldNames($keyType);
+        $keys = ContactPeer::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setCode($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setCategory($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setDescription($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setDesignation($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setPrice($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setImg($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setCreatedAt($arr[$keys[7]]);
-        if (array_key_exists($keys[8], $arr)) $this->setUpdatedAt($arr[$keys[8]]);
+        if (array_key_exists($keys[1], $arr)) $this->setMail($arr[$keys[1]]);
+        if (array_key_exists($keys[2], $arr)) $this->setPhone($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setFirstname($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setLastname($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setCompany($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setCompanyFunction($arr[$keys[6]]);
+        if (array_key_exists($keys[7], $arr)) $this->setCountry($arr[$keys[7]]);
+        if (array_key_exists($keys[8], $arr)) $this->setMessage($arr[$keys[8]]);
+        if (array_key_exists($keys[9], $arr)) $this->setTreated($arr[$keys[9]]);
+        if (array_key_exists($keys[10], $arr)) $this->setCreatedAt($arr[$keys[10]]);
+        if (array_key_exists($keys[11], $arr)) $this->setUpdatedAt($arr[$keys[11]]);
     }
 
     /**
@@ -1106,17 +1299,20 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(ProductPeer::DATABASE_NAME);
+        $criteria = new Criteria(ContactPeer::DATABASE_NAME);
 
-        if ($this->isColumnModified(ProductPeer::ID)) $criteria->add(ProductPeer::ID, $this->id);
-        if ($this->isColumnModified(ProductPeer::CODE)) $criteria->add(ProductPeer::CODE, $this->code);
-        if ($this->isColumnModified(ProductPeer::CATEGORY)) $criteria->add(ProductPeer::CATEGORY, $this->category);
-        if ($this->isColumnModified(ProductPeer::DESCRIPTION)) $criteria->add(ProductPeer::DESCRIPTION, $this->description);
-        if ($this->isColumnModified(ProductPeer::DESIGNATION)) $criteria->add(ProductPeer::DESIGNATION, $this->designation);
-        if ($this->isColumnModified(ProductPeer::PRICE)) $criteria->add(ProductPeer::PRICE, $this->price);
-        if ($this->isColumnModified(ProductPeer::IMG)) $criteria->add(ProductPeer::IMG, $this->img);
-        if ($this->isColumnModified(ProductPeer::CREATED_AT)) $criteria->add(ProductPeer::CREATED_AT, $this->created_at);
-        if ($this->isColumnModified(ProductPeer::UPDATED_AT)) $criteria->add(ProductPeer::UPDATED_AT, $this->updated_at);
+        if ($this->isColumnModified(ContactPeer::ID)) $criteria->add(ContactPeer::ID, $this->id);
+        if ($this->isColumnModified(ContactPeer::MAIL)) $criteria->add(ContactPeer::MAIL, $this->mail);
+        if ($this->isColumnModified(ContactPeer::PHONE)) $criteria->add(ContactPeer::PHONE, $this->phone);
+        if ($this->isColumnModified(ContactPeer::FIRSTNAME)) $criteria->add(ContactPeer::FIRSTNAME, $this->firstname);
+        if ($this->isColumnModified(ContactPeer::LASTNAME)) $criteria->add(ContactPeer::LASTNAME, $this->lastname);
+        if ($this->isColumnModified(ContactPeer::COMPANY)) $criteria->add(ContactPeer::COMPANY, $this->company);
+        if ($this->isColumnModified(ContactPeer::COMPANY_FUNCTION)) $criteria->add(ContactPeer::COMPANY_FUNCTION, $this->company_function);
+        if ($this->isColumnModified(ContactPeer::COUNTRY)) $criteria->add(ContactPeer::COUNTRY, $this->country);
+        if ($this->isColumnModified(ContactPeer::MESSAGE)) $criteria->add(ContactPeer::MESSAGE, $this->message);
+        if ($this->isColumnModified(ContactPeer::TREATED)) $criteria->add(ContactPeer::TREATED, $this->treated);
+        if ($this->isColumnModified(ContactPeer::CREATED_AT)) $criteria->add(ContactPeer::CREATED_AT, $this->created_at);
+        if ($this->isColumnModified(ContactPeer::UPDATED_AT)) $criteria->add(ContactPeer::UPDATED_AT, $this->updated_at);
 
         return $criteria;
     }
@@ -1131,8 +1327,8 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function buildPkeyCriteria()
     {
-        $criteria = new Criteria(ProductPeer::DATABASE_NAME);
-        $criteria->add(ProductPeer::ID, $this->id);
+        $criteria = new Criteria(ContactPeer::DATABASE_NAME);
+        $criteria->add(ContactPeer::ID, $this->id);
 
         return $criteria;
     }
@@ -1173,19 +1369,22 @@ abstract class BaseProduct extends BaseObject implements Persistent
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param object $copyObj An object of Product (or compatible) type.
+     * @param object $copyObj An object of Contact (or compatible) type.
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setCode($this->getCode());
-        $copyObj->setCategory($this->getCategory());
-        $copyObj->setDescription($this->getDescription());
-        $copyObj->setDesignation($this->getDesignation());
-        $copyObj->setPrice($this->getPrice());
-        $copyObj->setImg($this->getImg());
+        $copyObj->setMail($this->getMail());
+        $copyObj->setPhone($this->getPhone());
+        $copyObj->setFirstname($this->getFirstname());
+        $copyObj->setLastname($this->getLastname());
+        $copyObj->setCompany($this->getCompany());
+        $copyObj->setCompanyFunction($this->getCompanyFunction());
+        $copyObj->setCountry($this->getCountry());
+        $copyObj->setMessage($this->getMessage());
+        $copyObj->setTreated($this->getTreated());
         $copyObj->setCreatedAt($this->getCreatedAt());
         $copyObj->setUpdatedAt($this->getUpdatedAt());
         if ($makeNew) {
@@ -1203,7 +1402,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      * objects.
      *
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return Product Clone of current object.
+     * @return Contact Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1223,12 +1422,12 @@ abstract class BaseProduct extends BaseObject implements Persistent
      * same instance for all member of this class. The method could therefore
      * be static, but this would prevent one from overriding the behavior.
      *
-     * @return ProductPeer
+     * @return ContactPeer
      */
     public function getPeer()
     {
         if (self::$peer === null) {
-            self::$peer = new ProductPeer();
+            self::$peer = new ContactPeer();
         }
 
         return self::$peer;
@@ -1240,18 +1439,22 @@ abstract class BaseProduct extends BaseObject implements Persistent
     public function clear()
     {
         $this->id = null;
-        $this->code = null;
-        $this->category = null;
-        $this->description = null;
-        $this->designation = null;
-        $this->price = null;
-        $this->img = null;
+        $this->mail = null;
+        $this->phone = null;
+        $this->firstname = null;
+        $this->lastname = null;
+        $this->company = null;
+        $this->company_function = null;
+        $this->country = null;
+        $this->message = null;
+        $this->treated = null;
         $this->created_at = null;
         $this->updated_at = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;
         $this->clearAllReferences();
+        $this->applyDefaultValues();
         $this->resetModified();
         $this->setNew(true);
         $this->setDeleted(false);
@@ -1283,7 +1486,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function __toString()
     {
-        return (string) $this->exportTo(ProductPeer::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(ContactPeer::DEFAULT_STRING_FORMAT);
     }
 
     /**
@@ -1301,11 +1504,11 @@ abstract class BaseProduct extends BaseObject implements Persistent
     /**
      * Mark the current object so that the update date doesn't get updated during next save
      *
-     * @return     Product The current object (for fluent API support)
+     * @return     Contact The current object (for fluent API support)
      */
     public function keepUpdateDateUnchanged()
     {
-        $this->modifiedColumns[] = ProductPeer::UPDATED_AT;
+        $this->modifiedColumns[] = ContactPeer::UPDATED_AT;
 
         return $this;
     }

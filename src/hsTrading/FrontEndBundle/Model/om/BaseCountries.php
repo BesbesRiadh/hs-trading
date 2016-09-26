@@ -13,22 +13,22 @@ use \Propel;
 use \PropelDateTime;
 use \PropelException;
 use \PropelPDO;
-use hsTrading\FrontEndBundle\Model\Product;
-use hsTrading\FrontEndBundle\Model\ProductPeer;
-use hsTrading\FrontEndBundle\Model\ProductQuery;
+use hsTrading\FrontEndBundle\Model\Countries;
+use hsTrading\FrontEndBundle\Model\CountriesPeer;
+use hsTrading\FrontEndBundle\Model\CountriesQuery;
 
-abstract class BaseProduct extends BaseObject implements Persistent
+abstract class BaseCountries extends BaseObject implements Persistent
 {
     /**
      * Peer class name
      */
-    const PEER = 'hsTrading\\FrontEndBundle\\Model\\ProductPeer';
+    const PEER = 'hsTrading\\FrontEndBundle\\Model\\CountriesPeer';
 
     /**
      * The Peer class.
      * Instance provides a convenient way of calling static methods on a class
      * that calling code may not be able to identify.
-     * @var        ProductPeer
+     * @var        CountriesPeer
      */
     protected static $peer;
 
@@ -40,45 +40,15 @@ abstract class BaseProduct extends BaseObject implements Persistent
 
     /**
      * The value for the id field.
-     * @var        string
+     * @var        int
      */
     protected $id;
 
     /**
-     * The value for the code field.
+     * The value for the countryname field.
      * @var        string
      */
-    protected $code;
-
-    /**
-     * The value for the category field.
-     * @var        string
-     */
-    protected $category;
-
-    /**
-     * The value for the description field.
-     * @var        string
-     */
-    protected $description;
-
-    /**
-     * The value for the designation field.
-     * @var        string
-     */
-    protected $designation;
-
-    /**
-     * The value for the price field.
-     * @var        string
-     */
-    protected $price;
-
-    /**
-     * The value for the img field.
-     * @var        string
-     */
-    protected $img;
+    protected $countryname;
 
     /**
      * The value for the created_at field.
@@ -115,7 +85,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
     /**
      * Get the [id] column value.
      *
-     * @return string
+     * @return int
      */
     public function getId()
     {
@@ -124,69 +94,14 @@ abstract class BaseProduct extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [code] column value.
+     * Get the [countryname] column value.
      *
      * @return string
      */
-    public function getCode()
+    public function getCountryname()
     {
 
-        return $this->code;
-    }
-
-    /**
-     * Get the [category] column value.
-     *
-     * @return string
-     */
-    public function getCategory()
-    {
-
-        return $this->category;
-    }
-
-    /**
-     * Get the [description] column value.
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-
-        return $this->description;
-    }
-
-    /**
-     * Get the [designation] column value.
-     *
-     * @return string
-     */
-    public function getDesignation()
-    {
-
-        return $this->designation;
-    }
-
-    /**
-     * Get the [price] column value.
-     *
-     * @return string
-     */
-    public function getPrice()
-    {
-
-        return $this->price;
-    }
-
-    /**
-     * Get the [img] column value.
-     *
-     * @return string
-     */
-    public function getImg()
-    {
-
-        return $this->img;
+        return $this->countryname;
     }
 
     /**
@@ -272,18 +187,18 @@ abstract class BaseProduct extends BaseObject implements Persistent
     /**
      * Set the value of [id] column.
      *
-     * @param  string $v new value
-     * @return Product The current object (for fluent API support)
+     * @param  int $v new value
+     * @return Countries The current object (for fluent API support)
      */
     public function setId($v)
     {
         if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[] = ProductPeer::ID;
+            $this->modifiedColumns[] = CountriesPeer::ID;
         }
 
 
@@ -291,137 +206,32 @@ abstract class BaseProduct extends BaseObject implements Persistent
     } // setId()
 
     /**
-     * Set the value of [code] column.
+     * Set the value of [countryname] column.
      *
      * @param  string $v new value
-     * @return Product The current object (for fluent API support)
+     * @return Countries The current object (for fluent API support)
      */
-    public function setCode($v)
+    public function setCountryname($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->code !== $v) {
-            $this->code = $v;
-            $this->modifiedColumns[] = ProductPeer::CODE;
+        if ($this->countryname !== $v) {
+            $this->countryname = $v;
+            $this->modifiedColumns[] = CountriesPeer::COUNTRYNAME;
         }
 
 
         return $this;
-    } // setCode()
-
-    /**
-     * Set the value of [category] column.
-     *
-     * @param  string $v new value
-     * @return Product The current object (for fluent API support)
-     */
-    public function setCategory($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->category !== $v) {
-            $this->category = $v;
-            $this->modifiedColumns[] = ProductPeer::CATEGORY;
-        }
-
-
-        return $this;
-    } // setCategory()
-
-    /**
-     * Set the value of [description] column.
-     *
-     * @param  string $v new value
-     * @return Product The current object (for fluent API support)
-     */
-    public function setDescription($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->description !== $v) {
-            $this->description = $v;
-            $this->modifiedColumns[] = ProductPeer::DESCRIPTION;
-        }
-
-
-        return $this;
-    } // setDescription()
-
-    /**
-     * Set the value of [designation] column.
-     *
-     * @param  string $v new value
-     * @return Product The current object (for fluent API support)
-     */
-    public function setDesignation($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->designation !== $v) {
-            $this->designation = $v;
-            $this->modifiedColumns[] = ProductPeer::DESIGNATION;
-        }
-
-
-        return $this;
-    } // setDesignation()
-
-    /**
-     * Set the value of [price] column.
-     *
-     * @param  string $v new value
-     * @return Product The current object (for fluent API support)
-     */
-    public function setPrice($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->price !== $v) {
-            $this->price = $v;
-            $this->modifiedColumns[] = ProductPeer::PRICE;
-        }
-
-
-        return $this;
-    } // setPrice()
-
-    /**
-     * Set the value of [img] column.
-     *
-     * @param  string $v new value
-     * @return Product The current object (for fluent API support)
-     */
-    public function setImg($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->img !== $v) {
-            $this->img = $v;
-            $this->modifiedColumns[] = ProductPeer::IMG;
-        }
-
-
-        return $this;
-    } // setImg()
+    } // setCountryname()
 
     /**
      * Sets the value of [created_at] column to a normalized version of the date/time value specified.
      *
      * @param mixed $v string, integer (timestamp), or DateTime value.
      *               Empty strings are treated as null.
-     * @return Product The current object (for fluent API support)
+     * @return Countries The current object (for fluent API support)
      */
     public function setCreatedAt($v)
     {
@@ -431,7 +241,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
             $newDateAsString = $dt ? $dt->format('Y-m-d H:i:s') : null;
             if ($currentDateAsString !== $newDateAsString) {
                 $this->created_at = $newDateAsString;
-                $this->modifiedColumns[] = ProductPeer::CREATED_AT;
+                $this->modifiedColumns[] = CountriesPeer::CREATED_AT;
             }
         } // if either are not null
 
@@ -444,7 +254,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      *
      * @param mixed $v string, integer (timestamp), or DateTime value.
      *               Empty strings are treated as null.
-     * @return Product The current object (for fluent API support)
+     * @return Countries The current object (for fluent API support)
      */
     public function setUpdatedAt($v)
     {
@@ -454,7 +264,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
             $newDateAsString = $dt ? $dt->format('Y-m-d H:i:s') : null;
             if ($currentDateAsString !== $newDateAsString) {
                 $this->updated_at = $newDateAsString;
-                $this->modifiedColumns[] = ProductPeer::UPDATED_AT;
+                $this->modifiedColumns[] = CountriesPeer::UPDATED_AT;
             }
         } // if either are not null
 
@@ -494,15 +304,10 @@ abstract class BaseProduct extends BaseObject implements Persistent
     {
         try {
 
-            $this->id = ($row[$startcol + 0] !== null) ? (string) $row[$startcol + 0] : null;
-            $this->code = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
-            $this->category = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-            $this->description = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-            $this->designation = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
-            $this->price = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
-            $this->img = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
-            $this->created_at = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
-            $this->updated_at = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
+            $this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
+            $this->countryname = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
+            $this->created_at = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
+            $this->updated_at = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -512,10 +317,10 @@ abstract class BaseProduct extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 9; // 9 = ProductPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 4; // 4 = CountriesPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException("Error populating Product object", $e);
+            throw new PropelException("Error populating Countries object", $e);
         }
     }
 
@@ -558,13 +363,13 @@ abstract class BaseProduct extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(ProductPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(CountriesPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $stmt = ProductPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
+        $stmt = CountriesPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
         $row = $stmt->fetch(PDO::FETCH_NUM);
         $stmt->closeCursor();
         if (!$row) {
@@ -594,12 +399,12 @@ abstract class BaseProduct extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(ProductPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(CountriesPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
         try {
-            $deleteQuery = ProductQuery::create()
+            $deleteQuery = CountriesQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -637,7 +442,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(ProductPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(CountriesPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
@@ -647,16 +452,16 @@ abstract class BaseProduct extends BaseObject implements Persistent
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
                 // timestampable behavior
-                if (!$this->isColumnModified(ProductPeer::CREATED_AT)) {
+                if (!$this->isColumnModified(CountriesPeer::CREATED_AT)) {
                     $this->setCreatedAt(time());
                 }
-                if (!$this->isColumnModified(ProductPeer::UPDATED_AT)) {
+                if (!$this->isColumnModified(CountriesPeer::UPDATED_AT)) {
                     $this->setUpdatedAt(time());
                 }
             } else {
                 $ret = $ret && $this->preUpdate($con);
                 // timestampable behavior
-                if ($this->isModified() && !$this->isColumnModified(ProductPeer::UPDATED_AT)) {
+                if ($this->isModified() && !$this->isColumnModified(CountriesPeer::UPDATED_AT)) {
                     $this->setUpdatedAt(time());
                 }
             }
@@ -668,7 +473,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                ProductPeer::addInstanceToPool($this);
+                CountriesPeer::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -729,42 +534,27 @@ abstract class BaseProduct extends BaseObject implements Persistent
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[] = ProductPeer::ID;
+        $this->modifiedColumns[] = CountriesPeer::ID;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . ProductPeer::ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . CountriesPeer::ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(ProductPeer::ID)) {
+        if ($this->isColumnModified(CountriesPeer::ID)) {
             $modifiedColumns[':p' . $index++]  = '`id`';
         }
-        if ($this->isColumnModified(ProductPeer::CODE)) {
-            $modifiedColumns[':p' . $index++]  = '`code`';
+        if ($this->isColumnModified(CountriesPeer::COUNTRYNAME)) {
+            $modifiedColumns[':p' . $index++]  = '`countryName`';
         }
-        if ($this->isColumnModified(ProductPeer::CATEGORY)) {
-            $modifiedColumns[':p' . $index++]  = '`category`';
-        }
-        if ($this->isColumnModified(ProductPeer::DESCRIPTION)) {
-            $modifiedColumns[':p' . $index++]  = '`description`';
-        }
-        if ($this->isColumnModified(ProductPeer::DESIGNATION)) {
-            $modifiedColumns[':p' . $index++]  = '`designation`';
-        }
-        if ($this->isColumnModified(ProductPeer::PRICE)) {
-            $modifiedColumns[':p' . $index++]  = '`price`';
-        }
-        if ($this->isColumnModified(ProductPeer::IMG)) {
-            $modifiedColumns[':p' . $index++]  = '`img`';
-        }
-        if ($this->isColumnModified(ProductPeer::CREATED_AT)) {
+        if ($this->isColumnModified(CountriesPeer::CREATED_AT)) {
             $modifiedColumns[':p' . $index++]  = '`created_at`';
         }
-        if ($this->isColumnModified(ProductPeer::UPDATED_AT)) {
+        if ($this->isColumnModified(CountriesPeer::UPDATED_AT)) {
             $modifiedColumns[':p' . $index++]  = '`updated_at`';
         }
 
         $sql = sprintf(
-            'INSERT INTO `hs_product` (%s) VALUES (%s)',
+            'INSERT INTO `hs_countries` (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -774,25 +564,10 @@ abstract class BaseProduct extends BaseObject implements Persistent
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
                     case '`id`':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case '`code`':
-                        $stmt->bindValue($identifier, $this->code, PDO::PARAM_STR);
-                        break;
-                    case '`category`':
-                        $stmt->bindValue($identifier, $this->category, PDO::PARAM_STR);
-                        break;
-                    case '`description`':
-                        $stmt->bindValue($identifier, $this->description, PDO::PARAM_STR);
-                        break;
-                    case '`designation`':
-                        $stmt->bindValue($identifier, $this->designation, PDO::PARAM_STR);
-                        break;
-                    case '`price`':
-                        $stmt->bindValue($identifier, $this->price, PDO::PARAM_STR);
-                        break;
-                    case '`img`':
-                        $stmt->bindValue($identifier, $this->img, PDO::PARAM_STR);
+                    case '`countryName`':
+                        $stmt->bindValue($identifier, $this->countryname, PDO::PARAM_STR);
                         break;
                     case '`created_at`':
                         $stmt->bindValue($identifier, $this->created_at, PDO::PARAM_STR);
@@ -894,7 +669,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
             $failureMap = array();
 
 
-            if (($retval = ProductPeer::doValidate($this, $columns)) !== true) {
+            if (($retval = CountriesPeer::doValidate($this, $columns)) !== true) {
                 $failureMap = array_merge($failureMap, $retval);
             }
 
@@ -918,7 +693,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
     {
-        $pos = ProductPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = CountriesPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -938,27 +713,12 @@ abstract class BaseProduct extends BaseObject implements Persistent
                 return $this->getId();
                 break;
             case 1:
-                return $this->getCode();
+                return $this->getCountryname();
                 break;
             case 2:
-                return $this->getCategory();
-                break;
-            case 3:
-                return $this->getDescription();
-                break;
-            case 4:
-                return $this->getDesignation();
-                break;
-            case 5:
-                return $this->getPrice();
-                break;
-            case 6:
-                return $this->getImg();
-                break;
-            case 7:
                 return $this->getCreatedAt();
                 break;
-            case 8:
+            case 3:
                 return $this->getUpdatedAt();
                 break;
             default:
@@ -983,21 +743,16 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
     {
-        if (isset($alreadyDumpedObjects['Product'][$this->getPrimaryKey()])) {
+        if (isset($alreadyDumpedObjects['Countries'][$this->getPrimaryKey()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Product'][$this->getPrimaryKey()] = true;
-        $keys = ProductPeer::getFieldNames($keyType);
+        $alreadyDumpedObjects['Countries'][$this->getPrimaryKey()] = true;
+        $keys = CountriesPeer::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getCode(),
-            $keys[2] => $this->getCategory(),
-            $keys[3] => $this->getDescription(),
-            $keys[4] => $this->getDesignation(),
-            $keys[5] => $this->getPrice(),
-            $keys[6] => $this->getImg(),
-            $keys[7] => $this->getCreatedAt(),
-            $keys[8] => $this->getUpdatedAt(),
+            $keys[1] => $this->getCountryname(),
+            $keys[2] => $this->getCreatedAt(),
+            $keys[3] => $this->getUpdatedAt(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1021,7 +776,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
     {
-        $pos = ProductPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = CountriesPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 
         $this->setByPosition($pos, $value);
     }
@@ -1041,27 +796,12 @@ abstract class BaseProduct extends BaseObject implements Persistent
                 $this->setId($value);
                 break;
             case 1:
-                $this->setCode($value);
+                $this->setCountryname($value);
                 break;
             case 2:
-                $this->setCategory($value);
-                break;
-            case 3:
-                $this->setDescription($value);
-                break;
-            case 4:
-                $this->setDesignation($value);
-                break;
-            case 5:
-                $this->setPrice($value);
-                break;
-            case 6:
-                $this->setImg($value);
-                break;
-            case 7:
                 $this->setCreatedAt($value);
                 break;
-            case 8:
+            case 3:
                 $this->setUpdatedAt($value);
                 break;
         } // switch()
@@ -1086,17 +826,12 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
     {
-        $keys = ProductPeer::getFieldNames($keyType);
+        $keys = CountriesPeer::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setCode($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setCategory($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setDescription($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setDesignation($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setPrice($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setImg($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setCreatedAt($arr[$keys[7]]);
-        if (array_key_exists($keys[8], $arr)) $this->setUpdatedAt($arr[$keys[8]]);
+        if (array_key_exists($keys[1], $arr)) $this->setCountryname($arr[$keys[1]]);
+        if (array_key_exists($keys[2], $arr)) $this->setCreatedAt($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setUpdatedAt($arr[$keys[3]]);
     }
 
     /**
@@ -1106,17 +841,12 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(ProductPeer::DATABASE_NAME);
+        $criteria = new Criteria(CountriesPeer::DATABASE_NAME);
 
-        if ($this->isColumnModified(ProductPeer::ID)) $criteria->add(ProductPeer::ID, $this->id);
-        if ($this->isColumnModified(ProductPeer::CODE)) $criteria->add(ProductPeer::CODE, $this->code);
-        if ($this->isColumnModified(ProductPeer::CATEGORY)) $criteria->add(ProductPeer::CATEGORY, $this->category);
-        if ($this->isColumnModified(ProductPeer::DESCRIPTION)) $criteria->add(ProductPeer::DESCRIPTION, $this->description);
-        if ($this->isColumnModified(ProductPeer::DESIGNATION)) $criteria->add(ProductPeer::DESIGNATION, $this->designation);
-        if ($this->isColumnModified(ProductPeer::PRICE)) $criteria->add(ProductPeer::PRICE, $this->price);
-        if ($this->isColumnModified(ProductPeer::IMG)) $criteria->add(ProductPeer::IMG, $this->img);
-        if ($this->isColumnModified(ProductPeer::CREATED_AT)) $criteria->add(ProductPeer::CREATED_AT, $this->created_at);
-        if ($this->isColumnModified(ProductPeer::UPDATED_AT)) $criteria->add(ProductPeer::UPDATED_AT, $this->updated_at);
+        if ($this->isColumnModified(CountriesPeer::ID)) $criteria->add(CountriesPeer::ID, $this->id);
+        if ($this->isColumnModified(CountriesPeer::COUNTRYNAME)) $criteria->add(CountriesPeer::COUNTRYNAME, $this->countryname);
+        if ($this->isColumnModified(CountriesPeer::CREATED_AT)) $criteria->add(CountriesPeer::CREATED_AT, $this->created_at);
+        if ($this->isColumnModified(CountriesPeer::UPDATED_AT)) $criteria->add(CountriesPeer::UPDATED_AT, $this->updated_at);
 
         return $criteria;
     }
@@ -1131,15 +861,15 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function buildPkeyCriteria()
     {
-        $criteria = new Criteria(ProductPeer::DATABASE_NAME);
-        $criteria->add(ProductPeer::ID, $this->id);
+        $criteria = new Criteria(CountriesPeer::DATABASE_NAME);
+        $criteria->add(CountriesPeer::ID, $this->id);
 
         return $criteria;
     }
 
     /**
      * Returns the primary key for this object (row).
-     * @return string
+     * @return int
      */
     public function getPrimaryKey()
     {
@@ -1149,7 +879,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
     /**
      * Generic method to set the primary key (id column).
      *
-     * @param  string $key Primary key.
+     * @param  int $key Primary key.
      * @return void
      */
     public function setPrimaryKey($key)
@@ -1173,19 +903,14 @@ abstract class BaseProduct extends BaseObject implements Persistent
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param object $copyObj An object of Product (or compatible) type.
+     * @param object $copyObj An object of Countries (or compatible) type.
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setCode($this->getCode());
-        $copyObj->setCategory($this->getCategory());
-        $copyObj->setDescription($this->getDescription());
-        $copyObj->setDesignation($this->getDesignation());
-        $copyObj->setPrice($this->getPrice());
-        $copyObj->setImg($this->getImg());
+        $copyObj->setCountryname($this->getCountryname());
         $copyObj->setCreatedAt($this->getCreatedAt());
         $copyObj->setUpdatedAt($this->getUpdatedAt());
         if ($makeNew) {
@@ -1203,7 +928,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      * objects.
      *
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return Product Clone of current object.
+     * @return Countries Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1223,12 +948,12 @@ abstract class BaseProduct extends BaseObject implements Persistent
      * same instance for all member of this class. The method could therefore
      * be static, but this would prevent one from overriding the behavior.
      *
-     * @return ProductPeer
+     * @return CountriesPeer
      */
     public function getPeer()
     {
         if (self::$peer === null) {
-            self::$peer = new ProductPeer();
+            self::$peer = new CountriesPeer();
         }
 
         return self::$peer;
@@ -1240,12 +965,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
     public function clear()
     {
         $this->id = null;
-        $this->code = null;
-        $this->category = null;
-        $this->description = null;
-        $this->designation = null;
-        $this->price = null;
-        $this->img = null;
+        $this->countryname = null;
         $this->created_at = null;
         $this->updated_at = null;
         $this->alreadyInSave = false;
@@ -1283,7 +1003,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function __toString()
     {
-        return (string) $this->exportTo(ProductPeer::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(CountriesPeer::DEFAULT_STRING_FORMAT);
     }
 
     /**
@@ -1301,11 +1021,11 @@ abstract class BaseProduct extends BaseObject implements Persistent
     /**
      * Mark the current object so that the update date doesn't get updated during next save
      *
-     * @return     Product The current object (for fluent API support)
+     * @return     Countries The current object (for fluent API support)
      */
     public function keepUpdateDateUnchanged()
     {
-        $this->modifiedColumns[] = ProductPeer::UPDATED_AT;
+        $this->modifiedColumns[] = CountriesPeer::UPDATED_AT;
 
         return $this;
     }

@@ -40,11 +40,48 @@ CREATE TABLE `hs_product`
     `designation` VARCHAR(500),
     `price` VARCHAR(500),
     `img` TEXT,
-    `updated_by` INTEGER,
     `created_at` DATETIME,
     `updated_at` DATETIME,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARACTER SET='utf8' COMMENT='Détails des produits';
+
+-- ---------------------------------------------------------------------
+-- hs_contact
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `hs_contact`;
+
+CREATE TABLE `hs_contact`
+(
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `mail` VARCHAR(256),
+    `phone` VARCHAR(256),
+    `firstname` VARCHAR(256),
+    `lastname` VARCHAR(256),
+    `company` VARCHAR(256),
+    `company_function` VARCHAR(256),
+    `country` VARCHAR(256),
+    `message` TEXT,
+    `treated` TINYINT(1) DEFAULT 0,
+    `created_at` DATETIME,
+    `updated_at` DATETIME,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET='utf8' COMMENT='contact clients';
+
+-- ---------------------------------------------------------------------
+-- hs_countries
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `hs_countries`;
+
+CREATE TABLE `hs_countries`
+(
+    `id` INTEGER(20) NOT NULL AUTO_INCREMENT,
+    `countryName` VARCHAR(255) NOT NULL,
+    `created_at` DATETIME,
+    `updated_at` DATETIME,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET='utf8' COMMENT='info code postale';
 
 # This restores the fkey checks, after having unset them earlier
 SET FOREIGN_KEY_CHECKS = 1;

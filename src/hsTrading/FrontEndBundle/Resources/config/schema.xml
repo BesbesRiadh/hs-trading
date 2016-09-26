@@ -30,7 +30,32 @@
         <column name="designation" type="varchar" size="500" required="false" />
         <column name="price" type="varchar" size="500" required="false" />
         <column name="img" type="LongVarchar" required="false" />
-        <column name="updated_by" type="Integer" required="false" />         
+        <behavior name="timestampable"/>
+        <vendor type="mysql">
+            <parameter name="Engine" value="InnoDB" />
+            <parameter name="Charset" value="utf8" />
+        </vendor>
+    </table>
+    <table name="contact" description="contact clients">
+        <column name="id" type="BIGINT" required="true" autoIncrement="true" primaryKey="true" />
+        <column name="mail" type="varchar" size="256" required="false" />
+        <column name="phone" type="varchar" size="256" required="false" />
+        <column name="firstname" type="varchar" size="256" required="false" />
+        <column name="lastname" type="varchar" size="256" required="false" />
+        <column name="company" type="varchar" size="256" required="false" />
+        <column name="company_function" type="varchar" size="256" required="false" />
+        <column name="country" type="varchar" size="256" required="false" />
+        <column name="message" type="LongVarchar" required="false" />
+        <column name="treated" type="boolean" required="false" defaultValue="false" />
+        <behavior name="timestampable"/>
+        <vendor type="mysql">
+            <parameter name="Engine" value="InnoDB" />
+            <parameter name="Charset" value="utf8" />
+        </vendor>
+    </table>
+    <table name="countries" description="info code postale">
+        <column name="id" type="Integer" size="20" required="true" autoIncrement="true" primaryKey="true"/>
+        <column name="countryName" type="varchar" size="255" required="true" />
         <behavior name="timestampable"/>
         <vendor type="mysql">
             <parameter name="Engine" value="InnoDB" />

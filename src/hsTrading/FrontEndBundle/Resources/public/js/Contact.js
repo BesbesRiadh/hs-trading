@@ -1,6 +1,6 @@
 var Contact = function (params)
 {
-    this.add_contact = params.add_contact;
+    this.add_contact = Routing.generate('add_contact');
     this.messages = $.parseJSON(params.Messages);
     this.init();
 };
@@ -31,8 +31,7 @@ Contact.prototype.addContact = function ()
             },
             success: function (data)
             {
-                $('#formContact').html(data);
-                $('#ProfileForm').html(data);
+                $('#contactForm')[0].reset();
                 var options = {
                     message: self.showMessage(self.messages.contact_confirmation_message),
                     title:  self.showMessage(self.messages.confirmation),

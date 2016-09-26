@@ -36,3 +36,13 @@ mail: Email
 firstname: Prénom
 tin: Matricule fiscale
 stay_connected: Restez connectés
+lastname: Nom
+company: Société
+function: Poste
+object: Objet message
+send: Envoyer
+contact: Contactez-nous
+confirmation: Confirmation
+close: Fermer
+contact_confirmation_message: Votre message a été envoyé!
+field_required: '* Champs obligatoires'

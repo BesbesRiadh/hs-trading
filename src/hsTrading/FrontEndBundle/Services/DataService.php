@@ -37,14 +37,12 @@ class DataService {
      * @author Walid Saadaoui 01/09/2014
      *
      */
-    public function getSimpleData($paOptions, $psLog, $psClassName, $psMethodName) {
-        $oLogger = $this->oContainer->get($psLog);
+    public function getSimpleData($paOptions, $psClassName, $psMethodName) {
 
         try {
             $sClassName = $this->getClassName($psClassName, $psMethodName);
             $aData = call_user_func_array(array($sClassName, $psMethodName), array($paOptions));
         } catch (\Exception $ex) {
-            $oLogger->error($psClassName . ',' . $psMethodName . $ex->getMessage());
             $aData = array();
         }
 

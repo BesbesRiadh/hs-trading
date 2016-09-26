@@ -22,7 +22,6 @@ use hsTrading\FrontEndBundle\Model\ProductQuery;
  * @method ProductQuery orderByDesignation($order = Criteria::ASC) Order by the designation column
  * @method ProductQuery orderByPrice($order = Criteria::ASC) Order by the price column
  * @method ProductQuery orderByImg($order = Criteria::ASC) Order by the img column
- * @method ProductQuery orderByUpdatedBy($order = Criteria::ASC) Order by the updated_by column
  * @method ProductQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
  * @method ProductQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
  *
@@ -33,7 +32,6 @@ use hsTrading\FrontEndBundle\Model\ProductQuery;
  * @method ProductQuery groupByDesignation() Group by the designation column
  * @method ProductQuery groupByPrice() Group by the price column
  * @method ProductQuery groupByImg() Group by the img column
- * @method ProductQuery groupByUpdatedBy() Group by the updated_by column
  * @method ProductQuery groupByCreatedAt() Group by the created_at column
  * @method ProductQuery groupByUpdatedAt() Group by the updated_at column
  *
@@ -50,7 +48,6 @@ use hsTrading\FrontEndBundle\Model\ProductQuery;
  * @method Product findOneByDesignation(string $designation) Return the first Product filtered by the designation column
  * @method Product findOneByPrice(string $price) Return the first Product filtered by the price column
  * @method Product findOneByImg(string $img) Return the first Product filtered by the img column
- * @method Product findOneByUpdatedBy(int $updated_by) Return the first Product filtered by the updated_by column
  * @method Product findOneByCreatedAt(string $created_at) Return the first Product filtered by the created_at column
  * @method Product findOneByUpdatedAt(string $updated_at) Return the first Product filtered by the updated_at column
  *
@@ -61,7 +58,6 @@ use hsTrading\FrontEndBundle\Model\ProductQuery;
  * @method array findByDesignation(string $designation) Return Product objects filtered by the designation column
  * @method array findByPrice(string $price) Return Product objects filtered by the price column
  * @method array findByImg(string $img) Return Product objects filtered by the img column
- * @method array findByUpdatedBy(int $updated_by) Return Product objects filtered by the updated_by column
  * @method array findByCreatedAt(string $created_at) Return Product objects filtered by the created_at column
  * @method array findByUpdatedAt(string $updated_at) Return Product objects filtered by the updated_at column
  */
@@ -169,7 +165,7 @@ abstract class BaseProductQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `code`, `category`, `description`, `designation`, `price`, `img`, `updated_by`, `created_at`, `updated_at` FROM `hs_product` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `code`, `category`, `description`, `designation`, `price`, `img`, `created_at`, `updated_at` FROM `hs_product` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_STR);
@@ -472,48 +468,6 @@ abstract class BaseProductQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ProductPeer::IMG, $img, $comparison);
-    }
-
-    /**
-     * Filter the query on the updated_by column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByUpdatedBy(1234); // WHERE updated_by = 1234
-     * $query->filterByUpdatedBy(array(12, 34)); // WHERE updated_by IN (12, 34)
-     * $query->filterByUpdatedBy(array('min' => 12)); // WHERE updated_by >= 12
-     * $query->filterByUpdatedBy(array('max' => 12)); // WHERE updated_by <= 12
-     * </code>
-     *
-     * @param     mixed $updatedBy The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ProductQuery The current query, for fluid interface
-     */
-    public function filterByUpdatedBy($updatedBy = null, $comparison = null)
-    {
-        if (is_array($updatedBy)) {
-            $useMinMax = false;
-            if (isset($updatedBy['min'])) {
-                $this->addUsingAlias(ProductPeer::UPDATED_BY, $updatedBy['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($updatedBy['max'])) {
-                $this->addUsingAlias(ProductPeer::UPDATED_BY, $updatedBy['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(ProductPeer::UPDATED_BY, $updatedBy, $comparison);
     }
 
     /**

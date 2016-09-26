@@ -62,4 +62,9 @@ Home.prototype.Scroll = function ()
             scrollTop: $(".div4").offset().top - 100},
                 'slow');
     });
+    $(".link4").click(function (e) {
+        $('html,body').animate({
+            scrollTop: $(".div5").offset().top - 100},
+                'slow');
+    });
 };

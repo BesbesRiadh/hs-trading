@@ -61,6 +61,9 @@ class="btn btn-primary" type="button" title="' + 'self.Messages.add_user_dialog_
 <p class="{{css.actions}}"></p></div></div></div>"'
         },
         formatters: {
+            "pix": function (column, row) {
+                    return "<img src='" + row.img + "'  style='" + 'width:130px; height:55px;' +"'  />";
+                    }
         }
     }).on("loaded.rs.jquery.bootgrid", function ()
     {

@@ -9,69 +9,54 @@ use \PDOStatement;
 use \Propel;
 use \PropelException;
 use \PropelPDO;
-use hsTrading\FrontEndBundle\Model\Product;
-use hsTrading\FrontEndBundle\Model\ProductPeer;
-use hsTrading\FrontEndBundle\Model\map\ProductTableMap;
+use hsTrading\FrontEndBundle\Model\Countries;
+use hsTrading\FrontEndBundle\Model\CountriesPeer;
+use hsTrading\FrontEndBundle\Model\map\CountriesTableMap;
 
-abstract class BaseProductPeer
+abstract class BaseCountriesPeer
 {
 
     /** the default database name for this class */
     const DATABASE_NAME = 'default';
 
     /** the table name for this class */
-    const TABLE_NAME = 'hs_product';
+    const TABLE_NAME = 'hs_countries';
 
     /** the related Propel class for this table */
-    const OM_CLASS = 'hsTrading\\FrontEndBundle\\Model\\Product';
+    const OM_CLASS = 'hsTrading\\FrontEndBundle\\Model\\Countries';
 
     /** the related TableMap class for this table */
-    const TM_CLASS = 'hsTrading\\FrontEndBundle\\Model\\map\\ProductTableMap';
+    const TM_CLASS = 'hsTrading\\FrontEndBundle\\Model\\map\\CountriesTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 9;
+    const NUM_COLUMNS = 4;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 9;
+    const NUM_HYDRATE_COLUMNS = 4;
 
     /** the column name for the id field */
-    const ID = 'hs_product.id';
+    const ID = 'hs_countries.id';
 
-    /** the column name for the code field */
-    const CODE = 'hs_product.code';
-
-    /** the column name for the category field */
-    const CATEGORY = 'hs_product.category';
-
-    /** the column name for the description field */
-    const DESCRIPTION = 'hs_product.description';
-
-    /** the column name for the designation field */
-    const DESIGNATION = 'hs_product.designation';
-
-    /** the column name for the price field */
-    const PRICE = 'hs_product.price';
-
-    /** the column name for the img field */
-    const IMG = 'hs_product.img';
+    /** the column name for the countryName field */
+    const COUNTRYNAME = 'hs_countries.countryName';
 
     /** the column name for the created_at field */
-    const CREATED_AT = 'hs_product.created_at';
+    const CREATED_AT = 'hs_countries.created_at';
 
     /** the column name for the updated_at field */
-    const UPDATED_AT = 'hs_product.updated_at';
+    const UPDATED_AT = 'hs_countries.updated_at';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
 
     /**
-     * An identity map to hold any loaded instances of Product objects.
+     * An identity map to hold any loaded instances of Countries objects.
      * This must be public so that other peer classes can access this when hydrating from JOIN
      * queries.
-     * @var        array Product[]
+     * @var        array Countries[]
      */
     public static $instances = array();
 
@@ -80,30 +65,30 @@ abstract class BaseProductPeer
      * holds an array of fieldnames
      *
      * first dimension keys are the type constants
-     * e.g. ProductPeer::$fieldNames[ProductPeer::TYPE_PHPNAME][0] = 'Id'
+     * e.g. CountriesPeer::$fieldNames[CountriesPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Id', 'Code', 'Category', 'Description', 'Designation', 'Price', 'Img', 'CreatedAt', 'UpdatedAt', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'code', 'category', 'description', 'designation', 'price', 'img', 'createdAt', 'updatedAt', ),
-        BasePeer::TYPE_COLNAME => array (ProductPeer::ID, ProductPeer::CODE, ProductPeer::CATEGORY, ProductPeer::DESCRIPTION, ProductPeer::DESIGNATION, ProductPeer::PRICE, ProductPeer::IMG, ProductPeer::CREATED_AT, ProductPeer::UPDATED_AT, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'CODE', 'CATEGORY', 'DESCRIPTION', 'DESIGNATION', 'PRICE', 'IMG', 'CREATED_AT', 'UPDATED_AT', ),
-        BasePeer::TYPE_FIELDNAME => array ('id', 'code', 'category', 'description', 'designation', 'price', 'img', 'created_at', 'updated_at', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+        BasePeer::TYPE_PHPNAME => array ('Id', 'Countryname', 'CreatedAt', 'UpdatedAt', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'countryname', 'createdAt', 'updatedAt', ),
+        BasePeer::TYPE_COLNAME => array (CountriesPeer::ID, CountriesPeer::COUNTRYNAME, CountriesPeer::CREATED_AT, CountriesPeer::UPDATED_AT, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'COUNTRYNAME', 'CREATED_AT', 'UPDATED_AT', ),
+        BasePeer::TYPE_FIELDNAME => array ('id', 'countryName', 'created_at', 'updated_at', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
     );
 
     /**
      * holds an array of keys for quick access to the fieldnames array
      *
      * first dimension keys are the type constants
-     * e.g. ProductPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
+     * e.g. CountriesPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Code' => 1, 'Category' => 2, 'Description' => 3, 'Designation' => 4, 'Price' => 5, 'Img' => 6, 'CreatedAt' => 7, 'UpdatedAt' => 8, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'code' => 1, 'category' => 2, 'description' => 3, 'designation' => 4, 'price' => 5, 'img' => 6, 'createdAt' => 7, 'updatedAt' => 8, ),
-        BasePeer::TYPE_COLNAME => array (ProductPeer::ID => 0, ProductPeer::CODE => 1, ProductPeer::CATEGORY => 2, ProductPeer::DESCRIPTION => 3, ProductPeer::DESIGNATION => 4, ProductPeer::PRICE => 5, ProductPeer::IMG => 6, ProductPeer::CREATED_AT => 7, ProductPeer::UPDATED_AT => 8, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'CODE' => 1, 'CATEGORY' => 2, 'DESCRIPTION' => 3, 'DESIGNATION' => 4, 'PRICE' => 5, 'IMG' => 6, 'CREATED_AT' => 7, 'UPDATED_AT' => 8, ),
-        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'code' => 1, 'category' => 2, 'description' => 3, 'designation' => 4, 'price' => 5, 'img' => 6, 'created_at' => 7, 'updated_at' => 8, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Countryname' => 1, 'CreatedAt' => 2, 'UpdatedAt' => 3, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'countryname' => 1, 'createdAt' => 2, 'updatedAt' => 3, ),
+        BasePeer::TYPE_COLNAME => array (CountriesPeer::ID => 0, CountriesPeer::COUNTRYNAME => 1, CountriesPeer::CREATED_AT => 2, CountriesPeer::UPDATED_AT => 3, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'COUNTRYNAME' => 1, 'CREATED_AT' => 2, 'UPDATED_AT' => 3, ),
+        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'countryName' => 1, 'created_at' => 2, 'updated_at' => 3, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
     );
 
     /**
@@ -118,10 +103,10 @@ abstract class BaseProductPeer
      */
     public static function translateFieldName($name, $fromType, $toType)
     {
-        $toNames = ProductPeer::getFieldNames($toType);
-        $key = isset(ProductPeer::$fieldKeys[$fromType][$name]) ? ProductPeer::$fieldKeys[$fromType][$name] : null;
+        $toNames = CountriesPeer::getFieldNames($toType);
+        $key = isset(CountriesPeer::$fieldKeys[$fromType][$name]) ? CountriesPeer::$fieldKeys[$fromType][$name] : null;
         if ($key === null) {
-            throw new PropelException("'$name' could not be found in the field names of type '$fromType'. These are: " . print_r(ProductPeer::$fieldKeys[$fromType], true));
+            throw new PropelException("'$name' could not be found in the field names of type '$fromType'. These are: " . print_r(CountriesPeer::$fieldKeys[$fromType], true));
         }
 
         return $toNames[$key];
@@ -138,11 +123,11 @@ abstract class BaseProductPeer
      */
     public static function getFieldNames($type = BasePeer::TYPE_PHPNAME)
     {
-        if (!array_key_exists($type, ProductPeer::$fieldNames)) {
+        if (!array_key_exists($type, CountriesPeer::$fieldNames)) {
             throw new PropelException('Method getFieldNames() expects the parameter $type to be one of the class constants BasePeer::TYPE_PHPNAME, BasePeer::TYPE_STUDLYPHPNAME, BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM. ' . $type . ' was given.');
         }
 
-        return ProductPeer::$fieldNames[$type];
+        return CountriesPeer::$fieldNames[$type];
     }
 
     /**
@@ -154,12 +139,12 @@ abstract class BaseProductPeer
      *		$c->addJoin(TablePeer::alias("alias1", TablePeer::PRIMARY_KEY_COLUMN), TablePeer::PRIMARY_KEY_COLUMN);
      * </code>
      * @param      string $alias The alias for the current table.
-     * @param      string $column The column name for current table. (i.e. ProductPeer::COLUMN_NAME).
+     * @param      string $column The column name for current table. (i.e. CountriesPeer::COLUMN_NAME).
      * @return string
      */
     public static function alias($alias, $column)
     {
-        return str_replace(ProductPeer::TABLE_NAME.'.', $alias.'.', $column);
+        return str_replace(CountriesPeer::TABLE_NAME.'.', $alias.'.', $column);
     }
 
     /**
@@ -177,23 +162,13 @@ abstract class BaseProductPeer
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(ProductPeer::ID);
-            $criteria->addSelectColumn(ProductPeer::CODE);
-            $criteria->addSelectColumn(ProductPeer::CATEGORY);
-            $criteria->addSelectColumn(ProductPeer::DESCRIPTION);
-            $criteria->addSelectColumn(ProductPeer::DESIGNATION);
-            $criteria->addSelectColumn(ProductPeer::PRICE);
-            $criteria->addSelectColumn(ProductPeer::IMG);
-            $criteria->addSelectColumn(ProductPeer::CREATED_AT);
-            $criteria->addSelectColumn(ProductPeer::UPDATED_AT);
+            $criteria->addSelectColumn(CountriesPeer::ID);
+            $criteria->addSelectColumn(CountriesPeer::COUNTRYNAME);
+            $criteria->addSelectColumn(CountriesPeer::CREATED_AT);
+            $criteria->addSelectColumn(CountriesPeer::UPDATED_AT);
         } else {
             $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.code');
-            $criteria->addSelectColumn($alias . '.category');
-            $criteria->addSelectColumn($alias . '.description');
-            $criteria->addSelectColumn($alias . '.designation');
-            $criteria->addSelectColumn($alias . '.price');
-            $criteria->addSelectColumn($alias . '.img');
+            $criteria->addSelectColumn($alias . '.countryName');
             $criteria->addSelectColumn($alias . '.created_at');
             $criteria->addSelectColumn($alias . '.updated_at');
         }
@@ -215,21 +190,21 @@ abstract class BaseProductPeer
         // We need to set the primary table name, since in the case that there are no WHERE columns
         // it will be impossible for the BasePeer::createSelectSql() method to determine which
         // tables go into the FROM clause.
-        $criteria->setPrimaryTableName(ProductPeer::TABLE_NAME);
+        $criteria->setPrimaryTableName(CountriesPeer::TABLE_NAME);
 
         if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
             $criteria->setDistinct();
         }
 
         if (!$criteria->hasSelectClause()) {
-            ProductPeer::addSelectColumns($criteria);
+            CountriesPeer::addSelectColumns($criteria);
         }
 
         $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
-        $criteria->setDbName(ProductPeer::DATABASE_NAME); // Set the correct dbName
+        $criteria->setDbName(CountriesPeer::DATABASE_NAME); // Set the correct dbName
 
         if ($con === null) {
-            $con = Propel::getConnection(ProductPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(CountriesPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
         // BasePeer returns a PDOStatement
         $stmt = BasePeer::doCount($criteria, $con);
@@ -248,7 +223,7 @@ abstract class BaseProductPeer
      *
      * @param      Criteria $criteria object used to create the SELECT statement.
      * @param      PropelPDO $con
-     * @return Product
+     * @return Countries
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
@@ -256,7 +231,7 @@ abstract class BaseProductPeer
     {
         $critcopy = clone $criteria;
         $critcopy->setLimit(1);
-        $objects = ProductPeer::doSelect($critcopy, $con);
+        $objects = CountriesPeer::doSelect($critcopy, $con);
         if ($objects) {
             return $objects[0];
         }
@@ -274,7 +249,7 @@ abstract class BaseProductPeer
      */
     public static function doSelect(Criteria $criteria, PropelPDO $con = null)
     {
-        return ProductPeer::populateObjects(ProductPeer::doSelectStmt($criteria, $con));
+        return CountriesPeer::populateObjects(CountriesPeer::doSelectStmt($criteria, $con));
     }
     /**
      * Prepares the Criteria object and uses the parent doSelect() method to execute a PDOStatement.
@@ -292,16 +267,16 @@ abstract class BaseProductPeer
     public static function doSelectStmt(Criteria $criteria, PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(ProductPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(CountriesPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
         if (!$criteria->hasSelectClause()) {
             $criteria = clone $criteria;
-            ProductPeer::addSelectColumns($criteria);
+            CountriesPeer::addSelectColumns($criteria);
         }
 
         // Set the correct dbName
-        $criteria->setDbName(ProductPeer::DATABASE_NAME);
+        $criteria->setDbName(CountriesPeer::DATABASE_NAME);
 
         // BasePeer returns a PDOStatement
         return BasePeer::doSelect($criteria, $con);
@@ -315,7 +290,7 @@ abstract class BaseProductPeer
      * to the cache in order to ensure that the same objects are always returned by doSelect*()
      * and retrieveByPK*() calls.
      *
-     * @param Product $obj A Product object.
+     * @param Countries $obj A Countries object.
      * @param      string $key (optional) key to use for instance map (for performance boost if key was already calculated externally).
      */
     public static function addInstanceToPool($obj, $key = null)
@@ -324,7 +299,7 @@ abstract class BaseProductPeer
             if ($key === null) {
                 $key = (string) $obj->getId();
             } // if key === null
-            ProductPeer::$instances[$key] = $obj;
+            CountriesPeer::$instances[$key] = $obj;
         }
     }
 
@@ -336,7 +311,7 @@ abstract class BaseProductPeer
      * methods in your stub classes -- you may need to explicitly remove objects
      * from the cache in order to prevent returning objects that no longer exist.
      *
-     * @param      mixed $value A Product object or a primary key value.
+     * @param      mixed $value A Countries object or a primary key value.
      *
      * @return void
      * @throws PropelException - if the value is invalid.
@@ -344,17 +319,17 @@ abstract class BaseProductPeer
     public static function removeInstanceFromPool($value)
     {
         if (Propel::isInstancePoolingEnabled() && $value !== null) {
-            if (is_object($value) && $value instanceof Product) {
+            if (is_object($value) && $value instanceof Countries) {
                 $key = (string) $value->getId();
             } elseif (is_scalar($value)) {
                 // assume we've been passed a primary key
                 $key = (string) $value;
             } else {
-                $e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or Product object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
+                $e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or Countries object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
                 throw $e;
             }
 
-            unset(ProductPeer::$instances[$key]);
+            unset(CountriesPeer::$instances[$key]);
         }
     } // removeInstanceFromPool()
 
@@ -365,14 +340,14 @@ abstract class BaseProductPeer
      * a multi-column primary key, a serialize()d version of the primary key will be returned.
      *
      * @param      string $key The key (@see getPrimaryKeyHash()) for this instance.
-     * @return Product Found object or null if 1) no instance exists for specified key or 2) instance pooling has been disabled.
+     * @return Countries Found object or null if 1) no instance exists for specified key or 2) instance pooling has been disabled.
      * @see        getPrimaryKeyHash()
      */
     public static function getInstanceFromPool($key)
     {
         if (Propel::isInstancePoolingEnabled()) {
-            if (isset(ProductPeer::$instances[$key])) {
-                return ProductPeer::$instances[$key];
+            if (isset(CountriesPeer::$instances[$key])) {
+                return CountriesPeer::$instances[$key];
             }
         }
 
@@ -387,15 +362,15 @@ abstract class BaseProductPeer
     public static function clearInstancePool($and_clear_all_references = false)
     {
       if ($and_clear_all_references) {
-        foreach (ProductPeer::$instances as $instance) {
+        foreach (CountriesPeer::$instances as $instance) {
           $instance->clearAllReferences(true);
         }
       }
-        ProductPeer::$instances = array();
+        CountriesPeer::$instances = array();
     }
 
     /**
-     * Method to invalidate the instance pool of all tables related to hs_product
+     * Method to invalidate the instance pool of all tables related to hs_countries
      * by a foreign key with ON DELETE CASCADE
      */
     public static function clearRelatedInstancePool()
@@ -434,7 +409,7 @@ abstract class BaseProductPeer
     public static function getPrimaryKeyFromRow($row, $startcol = 0)
     {
 
-        return (string) $row[$startcol];
+        return (int) $row[$startcol];
     }
 
     /**
@@ -449,11 +424,11 @@ abstract class BaseProductPeer
         $results = array();
 
         // set the class once to avoid overhead in the loop
-        $cls = ProductPeer::getOMClass();
+        $cls = CountriesPeer::getOMClass();
         // populate the object(s)
         while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key = ProductPeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj = ProductPeer::getInstanceFromPool($key))) {
+            $key = CountriesPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj = CountriesPeer::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
@@ -462,7 +437,7 @@ abstract class BaseProductPeer
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                ProductPeer::addInstanceToPool($obj, $key);
+                CountriesPeer::addInstanceToPool($obj, $key);
             } // if key exists
         }
         $stmt->closeCursor();
@@ -476,21 +451,21 @@ abstract class BaseProductPeer
      * @param      int $startcol The 0-based offset for reading from the resultset row.
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
-     * @return array (Product object, last column rank)
+     * @return array (Countries object, last column rank)
      */
     public static function populateObject($row, $startcol = 0)
     {
-        $key = ProductPeer::getPrimaryKeyHashFromRow($row, $startcol);
-        if (null !== ($obj = ProductPeer::getInstanceFromPool($key))) {
+        $key = CountriesPeer::getPrimaryKeyHashFromRow($row, $startcol);
+        if (null !== ($obj = CountriesPeer::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $startcol, true); // rehydrate
-            $col = $startcol + ProductPeer::NUM_HYDRATE_COLUMNS;
+            $col = $startcol + CountriesPeer::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = ProductPeer::OM_CLASS;
+            $cls = CountriesPeer::OM_CLASS;
             $obj = new $cls();
             $col = $obj->hydrate($row, $startcol);
-            ProductPeer::addInstanceToPool($obj, $key);
+            CountriesPeer::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -505,7 +480,7 @@ abstract class BaseProductPeer
      */
     public static function getTableMap()
     {
-        return Propel::getDatabaseMap(ProductPeer::DATABASE_NAME)->getTable(ProductPeer::TABLE_NAME);
+        return Propel::getDatabaseMap(CountriesPeer::DATABASE_NAME)->getTable(CountriesPeer::TABLE_NAME);
     }
 
     /**
@@ -513,9 +488,9 @@ abstract class BaseProductPeer
      */
     public static function buildTableMap()
     {
-      $dbMap = Propel::getDatabaseMap(BaseProductPeer::DATABASE_NAME);
-      if (!$dbMap->hasTable(BaseProductPeer::TABLE_NAME)) {
-        $dbMap->addTableObject(new \hsTrading\FrontEndBundle\Model\map\ProductTableMap());
+      $dbMap = Propel::getDatabaseMap(BaseCountriesPeer::DATABASE_NAME);
+      if (!$dbMap->hasTable(BaseCountriesPeer::TABLE_NAME)) {
+        $dbMap->addTableObject(new \hsTrading\FrontEndBundle\Model\map\CountriesTableMap());
       }
     }
 
@@ -527,13 +502,13 @@ abstract class BaseProductPeer
      */
     public static function getOMClass($row = 0, $colnum = 0)
     {
-        return ProductPeer::OM_CLASS;
+        return CountriesPeer::OM_CLASS;
     }
 
     /**
-     * Performs an INSERT on the database, given a Product or Criteria object.
+     * Performs an INSERT on the database, given a Countries or Criteria object.
      *
-     * @param      mixed $values Criteria or Product object containing data that is used to create the INSERT statement.
+     * @param      mixed $values Criteria or Countries object containing data that is used to create the INSERT statement.
      * @param      PropelPDO $con the PropelPDO connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -542,22 +517,22 @@ abstract class BaseProductPeer
     public static function doInsert($values, PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(ProductPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(CountriesPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         if ($values instanceof Criteria) {
             $criteria = clone $values; // rename for clarity
         } else {
-            $criteria = $values->buildCriteria(); // build Criteria from Product object
+            $criteria = $values->buildCriteria(); // build Criteria from Countries object
         }
 
-        if ($criteria->containsKey(ProductPeer::ID) && $criteria->keyContainsValue(ProductPeer::ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.ProductPeer::ID.')');
+        if ($criteria->containsKey(CountriesPeer::ID) && $criteria->keyContainsValue(CountriesPeer::ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.CountriesPeer::ID.')');
         }
 
 
         // Set the correct dbName
-        $criteria->setDbName(ProductPeer::DATABASE_NAME);
+        $criteria->setDbName(CountriesPeer::DATABASE_NAME);
 
         try {
             // use transaction because $criteria could contain info
@@ -574,9 +549,9 @@ abstract class BaseProductPeer
     }
 
     /**
-     * Performs an UPDATE on the database, given a Product or Criteria object.
+     * Performs an UPDATE on the database, given a Countries or Criteria object.
      *
-     * @param      mixed $values Criteria or Product object containing data that is used to create the UPDATE statement.
+     * @param      mixed $values Criteria or Countries object containing data that is used to create the UPDATE statement.
      * @param      PropelPDO $con The connection to use (specify PropelPDO connection object to exert more control over transactions).
      * @return int             The number of affected rows (if supported by underlying database driver).
      * @throws PropelException Any exceptions caught during processing will be
@@ -585,35 +560,35 @@ abstract class BaseProductPeer
     public static function doUpdate($values, PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(ProductPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(CountriesPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
-        $selectCriteria = new Criteria(ProductPeer::DATABASE_NAME);
+        $selectCriteria = new Criteria(CountriesPeer::DATABASE_NAME);
 
         if ($values instanceof Criteria) {
             $criteria = clone $values; // rename for clarity
 
-            $comparison = $criteria->getComparison(ProductPeer::ID);
-            $value = $criteria->remove(ProductPeer::ID);
+            $comparison = $criteria->getComparison(CountriesPeer::ID);
+            $value = $criteria->remove(CountriesPeer::ID);
             if ($value) {
-                $selectCriteria->add(ProductPeer::ID, $value, $comparison);
+                $selectCriteria->add(CountriesPeer::ID, $value, $comparison);
             } else {
-                $selectCriteria->setPrimaryTableName(ProductPeer::TABLE_NAME);
+                $selectCriteria->setPrimaryTableName(CountriesPeer::TABLE_NAME);
             }
 
-        } else { // $values is Product object
+        } else { // $values is Countries object
             $criteria = $values->buildCriteria(); // gets full criteria
             $selectCriteria = $values->buildPkeyCriteria(); // gets criteria w/ primary key(s)
         }
 
         // set the correct dbName
-        $criteria->setDbName(ProductPeer::DATABASE_NAME);
+        $criteria->setDbName(CountriesPeer::DATABASE_NAME);
 
         return BasePeer::doUpdate($selectCriteria, $criteria, $con);
     }
 
     /**
-     * Deletes all rows from the hs_product table.
+     * Deletes all rows from the hs_countries table.
      *
      * @param      PropelPDO $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).
@@ -622,19 +597,19 @@ abstract class BaseProductPeer
     public static function doDeleteAll(PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(ProductPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(CountriesPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
         $affectedRows = 0; // initialize var to track total num of affected rows
         try {
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-            $affectedRows += BasePeer::doDeleteAll(ProductPeer::TABLE_NAME, $con, ProductPeer::DATABASE_NAME);
+            $affectedRows += BasePeer::doDeleteAll(CountriesPeer::TABLE_NAME, $con, CountriesPeer::DATABASE_NAME);
             // Because this db requires some delete cascade/set null emulation, we have to
             // clear the cached instance *after* the emulation has happened (since
             // instances get re-added by the select statement contained therein).
-            ProductPeer::clearInstancePool();
-            ProductPeer::clearRelatedInstancePool();
+            CountriesPeer::clearInstancePool();
+            CountriesPeer::clearRelatedInstancePool();
             $con->commit();
 
             return $affectedRows;
@@ -645,9 +620,9 @@ abstract class BaseProductPeer
     }
 
     /**
-     * Performs a DELETE on the database, given a Product or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a Countries or Criteria object OR a primary key value.
      *
-     * @param      mixed $values Criteria or Product object or primary key or array of primary keys
+     * @param      mixed $values Criteria or Countries object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param      PropelPDO $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -658,32 +633,32 @@ abstract class BaseProductPeer
      public static function doDelete($values, PropelPDO $con = null)
      {
         if ($con === null) {
-            $con = Propel::getConnection(ProductPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(CountriesPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         if ($values instanceof Criteria) {
             // invalidate the cache for all objects of this type, since we have no
             // way of knowing (without running a query) what objects should be invalidated
             // from the cache based on this Criteria.
-            ProductPeer::clearInstancePool();
+            CountriesPeer::clearInstancePool();
             // rename for clarity
             $criteria = clone $values;
-        } elseif ($values instanceof Product) { // it's a model object
+        } elseif ($values instanceof Countries) { // it's a model object
             // invalidate the cache for this single object
-            ProductPeer::removeInstanceFromPool($values);
+            CountriesPeer::removeInstanceFromPool($values);
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(ProductPeer::DATABASE_NAME);
-            $criteria->add(ProductPeer::ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(CountriesPeer::DATABASE_NAME);
+            $criteria->add(CountriesPeer::ID, (array) $values, Criteria::IN);
             // invalidate the cache for this object(s)
             foreach ((array) $values as $singleval) {
-                ProductPeer::removeInstanceFromPool($singleval);
+                CountriesPeer::removeInstanceFromPool($singleval);
             }
         }
 
         // Set the correct dbName
-        $criteria->setDbName(ProductPeer::DATABASE_NAME);
+        $criteria->setDbName(CountriesPeer::DATABASE_NAME);
 
         $affectedRows = 0; // initialize var to track total num of affected rows
 
@@ -693,7 +668,7 @@ abstract class BaseProductPeer
             $con->beginTransaction();
 
             $affectedRows += BasePeer::doDelete($criteria, $con);
-            ProductPeer::clearRelatedInstancePool();
+            CountriesPeer::clearRelatedInstancePool();
             $con->commit();
 
             return $affectedRows;
@@ -704,13 +679,13 @@ abstract class BaseProductPeer
     }
 
     /**
-     * Validates all modified columns of given Product object.
+     * Validates all modified columns of given Countries object.
      * If parameter $columns is either a single column name or an array of column names
      * than only those columns are validated.
      *
      * NOTICE: This does not apply to primary or foreign keys for now.
      *
-     * @param Product $obj The object to validate.
+     * @param Countries $obj The object to validate.
      * @param      mixed $cols Column name or array of column names.
      *
      * @return mixed TRUE if all columns are valid or the error message of the first invalid column.
@@ -720,8 +695,8 @@ abstract class BaseProductPeer
         $columns = array();
 
         if ($cols) {
-            $dbMap = Propel::getDatabaseMap(ProductPeer::DATABASE_NAME);
-            $tableMap = $dbMap->getTable(ProductPeer::TABLE_NAME);
+            $dbMap = Propel::getDatabaseMap(CountriesPeer::DATABASE_NAME);
+            $tableMap = $dbMap->getTable(CountriesPeer::TABLE_NAME);
 
             if (! is_array($cols)) {
                 $cols = array($cols);
@@ -737,31 +712,31 @@ abstract class BaseProductPeer
 
         }
 
-        return BasePeer::doValidate(ProductPeer::DATABASE_NAME, ProductPeer::TABLE_NAME, $columns);
+        return BasePeer::doValidate(CountriesPeer::DATABASE_NAME, CountriesPeer::TABLE_NAME, $columns);
     }
 
     /**
      * Retrieve a single object by pkey.
      *
-     * @param string $pk the primary key.
+     * @param int $pk the primary key.
      * @param      PropelPDO $con the connection to use
-     * @return Product
+     * @return Countries
      */
     public static function retrieveByPK($pk, PropelPDO $con = null)
     {
 
-        if (null !== ($obj = ProductPeer::getInstanceFromPool((string) $pk))) {
+        if (null !== ($obj = CountriesPeer::getInstanceFromPool((string) $pk))) {
             return $obj;
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(ProductPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(CountriesPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria = new Criteria(ProductPeer::DATABASE_NAME);
-        $criteria->add(ProductPeer::ID, $pk);
+        $criteria = new Criteria(CountriesPeer::DATABASE_NAME);
+        $criteria->add(CountriesPeer::ID, $pk);
 
-        $v = ProductPeer::doSelect($criteria, $con);
+        $v = CountriesPeer::doSelect($criteria, $con);
 
         return !empty($v) > 0 ? $v[0] : null;
     }
@@ -771,31 +746,31 @@ abstract class BaseProductPeer
      *
      * @param      array $pks List of primary keys
      * @param      PropelPDO $con the connection to use
-     * @return Product[]
+     * @return Countries[]
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
     public static function retrieveByPKs($pks, PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(ProductPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(CountriesPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
         $objs = null;
         if (empty($pks)) {
             $objs = array();
         } else {
-            $criteria = new Criteria(ProductPeer::DATABASE_NAME);
-            $criteria->add(ProductPeer::ID, $pks, Criteria::IN);
-            $objs = ProductPeer::doSelect($criteria, $con);
+            $criteria = new Criteria(CountriesPeer::DATABASE_NAME);
+            $criteria->add(CountriesPeer::ID, $pks, Criteria::IN);
+            $objs = CountriesPeer::doSelect($criteria, $con);
         }
 
         return $objs;
     }
 
-} // BaseProductPeer
+} // BaseCountriesPeer
 
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-BaseProductPeer::buildTableMap();
+BaseCountriesPeer::buildTableMap();
 

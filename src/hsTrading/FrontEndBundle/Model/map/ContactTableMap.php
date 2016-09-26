@@ -7,7 +7,7 @@ use \TableMap;
 
 
 /**
- * This class defines the structure of the 'hs_product' table.
+ * This class defines the structure of the 'hs_contact' table.
  *
  *
  *
@@ -18,13 +18,13 @@ use \TableMap;
  *
  * @package    propel.generator.src.hsTrading.FrontEndBundle.Model.map
  */
-class ProductTableMap extends TableMap
+class ContactTableMap extends TableMap
 {
 
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = 'src.hsTrading.FrontEndBundle.Model.map.ProductTableMap';
+    const CLASS_NAME = 'src.hsTrading.FrontEndBundle.Model.map.ContactTableMap';
 
     /**
      * Initialize the table attributes, columns and validators
@@ -36,19 +36,22 @@ class ProductTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('hs_product');
-        $this->setPhpName('Product');
-        $this->setClassname('hsTrading\\FrontEndBundle\\Model\\Product');
+        $this->setName('hs_contact');
+        $this->setPhpName('Contact');
+        $this->setClassname('hsTrading\\FrontEndBundle\\Model\\Contact');
         $this->setPackage('src.hsTrading.FrontEndBundle.Model');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'BIGINT', true, null, null);
-        $this->addColumn('code', 'Code', 'VARCHAR', false, 256, null);
-        $this->addColumn('category', 'Category', 'VARCHAR', false, 255, null);
-        $this->addColumn('description', 'Description', 'LONGVARCHAR', false, null, null);
-        $this->addColumn('designation', 'Designation', 'VARCHAR', false, 500, null);
-        $this->addColumn('price', 'Price', 'VARCHAR', false, 500, null);
-        $this->addColumn('img', 'Img', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('mail', 'Mail', 'VARCHAR', false, 256, null);
+        $this->addColumn('phone', 'Phone', 'VARCHAR', false, 256, null);
+        $this->addColumn('firstname', 'Firstname', 'VARCHAR', false, 256, null);
+        $this->addColumn('lastname', 'Lastname', 'VARCHAR', false, 256, null);
+        $this->addColumn('company', 'Company', 'VARCHAR', false, 256, null);
+        $this->addColumn('company_function', 'CompanyFunction', 'VARCHAR', false, 256, null);
+        $this->addColumn('country', 'Country', 'VARCHAR', false, 256, null);
+        $this->addColumn('message', 'Message', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('treated', 'Treated', 'BOOLEAN', false, 1, false);
         $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', false, null, null);
         $this->addColumn('updated_at', 'UpdatedAt', 'TIMESTAMP', false, null, null);
         // validators
@@ -78,4 +81,4 @@ class ProductTableMap extends TableMap
         );
     } // getBehaviors()
 
-} // ProductTableMap
+} // ContactTableMap

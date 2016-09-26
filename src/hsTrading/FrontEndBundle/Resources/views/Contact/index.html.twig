@@ -1,12 +1,14 @@
-{% extends '::base.html.twig' %}
-{% block stylesheets %}
+{#{% extends '::base.html.twig' %}#}
+{#{% block stylesheets %}
     {{ parent() }}
-{% endblock %}
+{% endblock %}#}
 {% block content %}
-    {{ render(path('add_contact')) }}
+    <div id="formContact" class="margin-bottom-20">
+        {{ render(path('add_contact')) }}
+    </div>
 {% endblock %}
 {% block javascripts %}
-    {{ parent()}}
+{#    {{ parent()}}#}
 
     <script src="{{ asset('bundles/hstradingfrontend/js/Contact.js') }}"></script>
     <script type="text/javascript">
@@ -15,7 +17,6 @@
             // Variables twig à passer aux scripts js
             var params =
                     {
-                        add_contact: "{{ path('add_contact') }}",
                         Messages: '{{ ContactMessages|raw }}'
                     };
             var oContact = new Contact(params);

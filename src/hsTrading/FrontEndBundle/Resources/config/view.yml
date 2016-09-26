@@ -184,6 +184,8 @@ parameters:
                 img:
                     width: 30%
                     list: true
+                    htmlOptions:
+                        data-formatter: pix
                     
         ticket:
            options: ~
