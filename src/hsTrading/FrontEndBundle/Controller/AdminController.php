@@ -30,7 +30,7 @@ class AdminController extends BaseIhmController {
      *
      * @return Response
      */
-    public function listUsersAction(Request $poRequest)
+    public function listProductsAction(Request $poRequest)
     {
         $paOptions  = $this->formatBootGridParams(array(), $poRequest->request->all());
         $aResponse = $this->get('dataService')
