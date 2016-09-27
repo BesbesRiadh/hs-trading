@@ -162,6 +162,11 @@ parameters:
         products:
             options: ~
             fields:
+                id:
+                    htmlOptions:
+                        data-identifier: "true"
+                        data-visible : "false"
+                        data-visible-in-selection: "false"
                 code:
                     width: 20%
                     htmlOptions:
@@ -171,13 +176,13 @@ parameters:
                 category:
                     width: 10%
                     list: true
+                designation:
+                    width: 15%
+                    list: true
                 description:
                     list: true
                     width: 15%
                     sorting: true
-                designation:
-                    width: 15%
-                    list: true
                 price:
                     width: 30%
                     list: true
@@ -186,6 +191,18 @@ parameters:
                     list: true
                     htmlOptions:
                         data-formatter: pix
+                action_edit:
+                    width: 10%
+                    sorting: false
+                    htmlOptions:
+                        data-formatter: "action_edit"
+                        data-sortable: "false"
+                action_delete:
+                    width: 10%
+                    sorting: false
+                    htmlOptions:
+                        data-formatter: "action_delete"
+                        data-sortable: "false"
                     
         ticket:
            options: ~
@@ -403,12 +420,12 @@ parameters:
         add_ticket_message: add_ticket_message
         add_ticket: add_ticket
 
-    messages.users:
-        user_table_title: user_table_title
+    messages.products:
+        products_table_title: products_table_title
         dialog_title: dialog_title
         dialog_error_title: dialog_error_title
-        add_user_dialog_title: add_user_dialog_title
-        edit_user_dialog_title: edit_user_dialog_title
+        add_product_dialog_title: add_product_dialog_title
+        edit_product_dialog_title: edit_product_dialog_title
         error: error
         edit_record: edit_record
         confirmation: confirmation
@@ -421,6 +438,7 @@ parameters:
         erreur_title: erreur.title
         enable_title: enable_title
         disable_title: disable_title
+        delete_product_dialog_title: delete_product_dialog_title
 
     messages.address:
         confirmation_title: confirmation_title
@@ -470,3 +488,4 @@ parameters:
         confirmation: confirmation
         close: close
         contact_confirmation_message: contact_confirmation_message
+    

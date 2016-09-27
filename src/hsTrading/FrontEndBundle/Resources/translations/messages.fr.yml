@@ -46,3 +46,24 @@ confirmation: Confirmation
 close: Fermer
 contact_confirmation_message: Votre message a été envoyé!
 field_required: '* Champs obligatoires'
+noResults: Aucune donnée trouvée
+pagination_info: Afficher {{ctx.start}} à {{ctx.end}} de {{ctx.total}}
+refresh: Rafraîchir
+loading: chargement
+all: tous
+category: Catégorie
+description: Description
+designation: Désignation
+price: Prix
+img: Image
+modif_products: Modification des produits
+products_table_title: Liste des produits
+add_product_dialog_title: Ajouter un produit
+action_edit: Modifier
+edit_product_dialog_title: Modifier le produit
+delete_product_dialog_title: Supprimer le produit
+action_delete: Supprimer
+error: Une erruer est survenue
+cancel_button: Anuuler
+save_button: Ajouter
+edit_confirmation: Produit modifié

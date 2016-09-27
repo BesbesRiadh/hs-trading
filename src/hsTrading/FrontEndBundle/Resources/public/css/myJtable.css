@@ -1,0 +1,41 @@
+.description
+{
+    word-wrap: break-word;
+    width: 40%; 
+    overflow: hidden;
+}
+
+@media screen and (max-width:480px)
+{
+    .jtable-column-header{
+        width: 15% !important;
+    }
+}
+div.jtable-main-container table.jtable tbody > tr > td .jtable-edit-command-button {
+    background: url("bundles/frontend/images/edit.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 16px;
+    width: 16px;
+}
+
+div.jtable-child-table-container > div.jtable-main-container > div.jtable-title {
+    background-color: #2980B9;
+    margin-left: 17%;
+    padding-left: 10px;
+    width: 65%;
+}
+
+div.jtable-child-table-container > div.jtable-main-container table.jtable {
+    background-color: #f5f5f5;
+    margin-left: 17%;
+    padding-left: 10px;
+    width: 65%;
+    border: solid 1px #D2E7FE;
+    box-shadow: -1px 2px 10px 3px #D2D2D2 inset;
+}
+
+div.jtable-child-table-container > div.jtable-main-container > div.pagination{
+    background-color: #f5f5f5;
+    margin-left: 17%;
+    padding-left: 10px;
+    width: 65%;
+}
