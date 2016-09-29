@@ -113,7 +113,46 @@ class="btn btn-primary" type="button" title="' + self.Messages.add_product_dialo
 
 AdminPanel.prototype.deleteProduct = function (url)
 {
-    alert(url);
+    var self = this;
+
+    var options = {
+        message: 'Voulez-vous supprimer ce produit?',
+        title: 'Confirmation',
+        size: 'sm',
+        loader: true,
+        callback: function (result) {
+            if (result)
+            {
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    success: function () {
+                        eModal.alert({
+                            message: 'Le produit a a été supprimé',
+                            title: 'Confirmation',
+                            size: 'sm',
+                            useBin: true
+                        });
+                        self.loadBootgrid();
+                        self.init();
+                    },
+                    error: function (jqXHR, event)
+                    {
+                        if (jqXHR.status === 400) {
+                            alert('error');
+                            eModal.alert({
+                                message: 'Une erreur est survenue',
+                                title: 'Erreur',
+                                size: 'sm',
+                                useBin: true
+                            });
+                        }
+                    }
+                });
+            }
+        }
+    };
+    eModal.confirm(options);
 };
 
 

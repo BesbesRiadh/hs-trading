@@ -28,7 +28,7 @@ class LogoutListenerService implements LogoutSuccessHandlerInterface
         //...
         $request->getSession()->set('_locale', $request->getSession()->get('_locale'));
         $request->setDefaultLocale($request->getSession()->get('_locale'));
-        $response = new RedirectResponse($this->oContainer->get('router')->generate('homepage'));
+        $response = new RedirectResponse($this->oContainer->get('router')->generate('home'));
 
         return $response;
     }

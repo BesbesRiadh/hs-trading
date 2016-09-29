@@ -107,21 +107,20 @@ class AdminController extends BaseIhmController {
 
             if ($oForm->isValid()) {
                 $oProduct = $this->get('dataService')
-                ->getSimpleData($code, 'ProductPeer', 'getProductById');
-                
+                        ->getSimpleData($code, 'ProductPeer', 'getProductById');
+
                 $oProduct->fromArray($oForm->getData(), \BasePeer::TYPE_FIELDNAME);
-                
+
                 if ($oProduct->save()) {
                     $aResponse = array('status' => 'OK');
                 } else {
                     $aResponse = array('status' => 'KO');
                 }
-                
+
                 if ('OK' == $aResponse['status']) {
                     return $this->listProductsAction($poRequest);
                 }
-            } 
-            else {
+            } else {
                 $oResponse->setStatusCode(400);
             }
         }
@@ -130,16 +129,23 @@ class AdminController extends BaseIhmController {
     }
 
     /**
-     * @Route("/delete_product", name="delete_product", options={"expose"=true})
+     * @Route("/delete_product/{code}", name="delete_product", options={"expose"=true})
      *
      * @param Request $poRequest Objet requête
      *
      * @return Response
      */
-    public function deleteProductsAction(Request $poRequest) {
-        $aResponse = 'true';
+    public function deleteProductsAction(Request $poRequest, $code) {
 
-        return $this->renderJsonResponse($aResponse);
+        $oResponse = new Response();
+        $aResponse = $this->get('dataService')
+                ->getSimpleData(10, 'ProductPeer', 'deleteProductById');
+
+        if ($aResponse === 'true') {
+            return $oResponse->setStatusCode(200);
+        }
+
+        return $oResponse->setStatusCode(400);
     }
 
 }

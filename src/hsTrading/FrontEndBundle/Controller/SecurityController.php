@@ -25,7 +25,7 @@ class SecurityController extends BaseIhmController
         $oSession = $pRequest->getSession();
         if ($oSession->get('_security_secured_area'))
         {
-            return $this->redirect($this->generateUrl('homepage'));
+            return $this->redirect($this->generateUrl('home'));
         }
 
         $oForm = $this->createForm(new LoginForm(), null, array(

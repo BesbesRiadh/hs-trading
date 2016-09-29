@@ -67,3 +67,13 @@ error: Une erruer est survenue
 cancel_button: Anuuler
 save_button: Ajouter
 edit_confirmation: Produit modifié
+login_page_header: Authentification
+login_btn: Login
+country: Pays
+message: Message
+treated: Traité
+1: Oui
+0: Non
+contacts_history: Historique des contacts
+list_contact: Liste des contacts
+contacts_now: Contacts en cours

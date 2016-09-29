@@ -61,7 +61,7 @@
                 <ul class="nav navbar-nav">
                     <!-- Pages -->
                     <li class="">
-                        <a href="{{ path('products') }}" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
+                        <a href="{{ path('admin_panel') }}">
                             Prouits
                         </a>
                     </li>
@@ -70,8 +70,8 @@
                             Contact
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="index.html">En cours</a></li>
-                            <li><a href="shop-ui-inner.html">Historique</a></li>
+                            <li><a href="{{ path('contacts') }}">En cours</a></li>
+                            <li><a href="{{ path('contacts_history') }}">Historique</a></li>
                         </ul>
                     </li>
                 </ul>

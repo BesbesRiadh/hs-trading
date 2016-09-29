@@ -10,3 +10,6 @@ Security:
 Admin:
     resource: "@hsTradingFrontEndBundle/Controller/AdminController.php"
     type:     annotation
+ContactHistory:
+    resource: "@hsTradingFrontEndBundle/Controller/ContactController.php"
+    type:     annotation

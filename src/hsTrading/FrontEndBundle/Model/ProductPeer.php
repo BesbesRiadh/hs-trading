@@ -66,4 +66,24 @@ class ProductPeer extends BaseProductPeer {
         return self::doSelectOne($oCriteria);
     }
 
+    /**
+     * Récupérer un untilisateur par son code
+     *
+     * @param string $psCode
+     * @return array
+     */
+    public static function deleteProductById($nId) {
+        $aResponse = array('status' => 'KO');
+
+        $oCriteria = new \Criteria();
+        $oCriteria->setPrimaryTableName(self::TABLE_NAME);
+        $oCriteria->add(self::ID, $nId);
+
+//        if (self::doDelete($oCriteria)) {
+//            $aResponse = array('status' => 'OK');
+//        }
+//        return $this->renderJsonResponse($aResponse);
+        return self::doDelete($oCriteria);
+    }
+
 }
