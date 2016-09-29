@@ -45,11 +45,6 @@ class HomeController extends BaseIhmController {
      * @Template("hsTradingFrontEndBundle:Contact:index.html.twig")
      */
     public function contactAction(Request $poRequest) {
-        $oSession = $poRequest->getSession();
-        if ($oSession->get('_security_secured_area')) {
-            return $this->redirect($this->generateUrl('homepage'));
-        }
-
         return array('ContactMessages' => $this->getMessages('messages.contact'));
     }
 
