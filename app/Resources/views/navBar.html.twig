@@ -50,9 +50,15 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ path('home') }}">
+            {% if app.user %}
+            <a class="navbar-brand" href="{{ path('admin_panel') }}">
                 <img id="logo-header" src="{{ asset('assets/img/logo.png') }}" alt="Logo" style="width:170px; height: 85px; padding-bottom: 23px; margin-top: -11px;">
             </a>
+            {% else %}
+                <a class="navbar-brand" href="{{ path('home') }}">
+                <img id="logo-header" src="{{ asset('assets/img/logo.png') }}" alt="Logo" style="width:170px; height: 85px; padding-bottom: 23px; margin-top: -11px;">
+            </a>
+            {% endif %}
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -72,6 +78,15 @@
                         <ul class="dropdown-menu">
                             <li><a href="{{ path('contacts') }}">En cours</a></li>
                             <li><a href="{{ path('contacts_history') }}">Historique</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
+                            Catégorie
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('categories') }}">Gestion des catégories</a></li>
+                            <li><a href="{{ path('sub_categories') }}">Gestion des sous-catégories</a></li>
                         </ul>
                     </li>
                 </ul>

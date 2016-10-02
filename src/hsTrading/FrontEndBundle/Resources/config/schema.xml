@@ -24,13 +24,20 @@
     </table>
     <table name="product" description="Détails des produits">
         <column name="id" type="BIGINT" required="true" autoIncrement="true" primaryKey="true" />
-        <column name="code" type="varchar" size="256" required="false" />
-        <column name="category" type="varchar" required="false"/>
+        <column name="code" type="varchar" size="256" required="false"/>
+        <column name="id_category" type="Integer" required="false" />
+        <column name="id_category_details" type="Integer" required="false"/>
         <column name="description" type="LongVarchar" required="false" />
         <column name="designation" type="varchar" size="500" required="false" />
         <column name="price" type="varchar" size="500" required="false" />
         <column name="img" type="LongVarchar" required="false" />
         <behavior name="timestampable"/>
+        <foreign-key name="FK_category_category" foreignTable ="product_category">
+            <reference local="id_category" foreign="id" />
+        </foreign-key>
+        <foreign-key name="FK_category_details" foreignTable ="product_category_details">
+            <reference local="id_category_details" foreign="id" />
+        </foreign-key>
         <vendor type="mysql">
             <parameter name="Engine" value="InnoDB" />
             <parameter name="Charset" value="utf8" />
@@ -57,6 +64,36 @@
         <column name="id" type="Integer" size="20" required="true" autoIncrement="true" primaryKey="true"/>
         <column name="countryName" type="varchar" size="255" required="true" />
         <behavior name="timestampable"/>
+        <vendor type="mysql">
+            <parameter name="Engine" value="InnoDB" />
+            <parameter name="Charset" value="utf8" />
+        </vendor>
+    </table>
+    <table name="product_category" description="Catégories des produits">
+        <column name="id" type="Integer" required="true" autoIncrement="true" primaryKey="true" />
+        <column name="code" type="varchar" size="60" required="true" />
+        <column name="label" type="varchar" size="60" required="true" />
+        <behavior name="timestampable"/>
+        <unique name="UK_category_code">
+            <unique-column name="code" />
+        </unique>
+        <vendor type="mysql">
+            <parameter name="Engine" value="InnoDB" />
+            <parameter name="Charset" value="utf8" />
+        </vendor>
+    </table>
+    <table name="product_category_details" description="Détails des Catégories de produits">
+        <column name="id" type="Integer" required="true" autoIncrement="true" primaryKey="true" />
+        <column name="productCategory_id" type="Integer" required="true" />
+        <column name="code" type="varchar" size="60" required="true" />
+        <column name="label" type="varchar" size="60" required="true" />
+        <behavior name="timestampable"/>
+        <unique name="UK_category_details_code">
+            <unique-column name="code" />
+        </unique>
+        <foreign-key name="FK_category" foreignTable ="product_category">
+            <reference local="productCategory_id" foreign="id" />
+        </foreign-key>
         <vendor type="mysql">
             <parameter name="Engine" value="InnoDB" />
             <parameter name="Charset" value="utf8" />

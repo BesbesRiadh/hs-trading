@@ -5,19 +5,24 @@ namespace hsTrading\FrontEndBundle\Model\om;
 use \Criteria;
 use \Exception;
 use \ModelCriteria;
+use \ModelJoin;
 use \PDO;
 use \Propel;
+use \PropelCollection;
 use \PropelException;
 use \PropelObjectCollection;
 use \PropelPDO;
 use hsTrading\FrontEndBundle\Model\Product;
+use hsTrading\FrontEndBundle\Model\ProductCategory;
+use hsTrading\FrontEndBundle\Model\ProductCategoryDetails;
 use hsTrading\FrontEndBundle\Model\ProductPeer;
 use hsTrading\FrontEndBundle\Model\ProductQuery;
 
 /**
  * @method ProductQuery orderById($order = Criteria::ASC) Order by the id column
  * @method ProductQuery orderByCode($order = Criteria::ASC) Order by the code column
- * @method ProductQuery orderByCategory($order = Criteria::ASC) Order by the category column
+ * @method ProductQuery orderByIdCategory($order = Criteria::ASC) Order by the id_category column
+ * @method ProductQuery orderByIdCategoryDetails($order = Criteria::ASC) Order by the id_category_details column
  * @method ProductQuery orderByDescription($order = Criteria::ASC) Order by the description column
  * @method ProductQuery orderByDesignation($order = Criteria::ASC) Order by the designation column
  * @method ProductQuery orderByPrice($order = Criteria::ASC) Order by the price column
@@ -27,7 +32,8 @@ use hsTrading\FrontEndBundle\Model\ProductQuery;
  *
  * @method ProductQuery groupById() Group by the id column
  * @method ProductQuery groupByCode() Group by the code column
- * @method ProductQuery groupByCategory() Group by the category column
+ * @method ProductQuery groupByIdCategory() Group by the id_category column
+ * @method ProductQuery groupByIdCategoryDetails() Group by the id_category_details column
  * @method ProductQuery groupByDescription() Group by the description column
  * @method ProductQuery groupByDesignation() Group by the designation column
  * @method ProductQuery groupByPrice() Group by the price column
@@ -39,11 +45,20 @@ use hsTrading\FrontEndBundle\Model\ProductQuery;
  * @method ProductQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method ProductQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method ProductQuery leftJoinProductCategory($relationAlias = null) Adds a LEFT JOIN clause to the query using the ProductCategory relation
+ * @method ProductQuery rightJoinProductCategory($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ProductCategory relation
+ * @method ProductQuery innerJoinProductCategory($relationAlias = null) Adds a INNER JOIN clause to the query using the ProductCategory relation
+ *
+ * @method ProductQuery leftJoinProductCategoryDetails($relationAlias = null) Adds a LEFT JOIN clause to the query using the ProductCategoryDetails relation
+ * @method ProductQuery rightJoinProductCategoryDetails($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ProductCategoryDetails relation
+ * @method ProductQuery innerJoinProductCategoryDetails($relationAlias = null) Adds a INNER JOIN clause to the query using the ProductCategoryDetails relation
+ *
  * @method Product findOne(PropelPDO $con = null) Return the first Product matching the query
  * @method Product findOneOrCreate(PropelPDO $con = null) Return the first Product matching the query, or a new Product object populated from the query conditions when no match is found
  *
  * @method Product findOneByCode(string $code) Return the first Product filtered by the code column
- * @method Product findOneByCategory(string $category) Return the first Product filtered by the category column
+ * @method Product findOneByIdCategory(int $id_category) Return the first Product filtered by the id_category column
+ * @method Product findOneByIdCategoryDetails(int $id_category_details) Return the first Product filtered by the id_category_details column
  * @method Product findOneByDescription(string $description) Return the first Product filtered by the description column
  * @method Product findOneByDesignation(string $designation) Return the first Product filtered by the designation column
  * @method Product findOneByPrice(string $price) Return the first Product filtered by the price column
@@ -53,7 +68,8 @@ use hsTrading\FrontEndBundle\Model\ProductQuery;
  *
  * @method array findById(string $id) Return Product objects filtered by the id column
  * @method array findByCode(string $code) Return Product objects filtered by the code column
- * @method array findByCategory(string $category) Return Product objects filtered by the category column
+ * @method array findByIdCategory(int $id_category) Return Product objects filtered by the id_category column
+ * @method array findByIdCategoryDetails(int $id_category_details) Return Product objects filtered by the id_category_details column
  * @method array findByDescription(string $description) Return Product objects filtered by the description column
  * @method array findByDesignation(string $designation) Return Product objects filtered by the designation column
  * @method array findByPrice(string $price) Return Product objects filtered by the price column
@@ -165,7 +181,7 @@ abstract class BaseProductQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `code`, `category`, `description`, `designation`, `price`, `img`, `created_at`, `updated_at` FROM `hs_product` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `code`, `id_category`, `id_category_details`, `description`, `designation`, `price`, `img`, `created_at`, `updated_at` FROM `hs_product` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_STR);
@@ -326,32 +342,91 @@ abstract class BaseProductQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the category column
+     * Filter the query on the id_category column
      *
      * Example usage:
      * <code>
-     * $query->filterByCategory('fooValue');   // WHERE category = 'fooValue'
-     * $query->filterByCategory('%fooValue%'); // WHERE category LIKE '%fooValue%'
+     * $query->filterByIdCategory(1234); // WHERE id_category = 1234
+     * $query->filterByIdCategory(array(12, 34)); // WHERE id_category IN (12, 34)
+     * $query->filterByIdCategory(array('min' => 12)); // WHERE id_category >= 12
+     * $query->filterByIdCategory(array('max' => 12)); // WHERE id_category <= 12
      * </code>
      *
-     * @param     string $category The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
+     * @see       filterByProductCategory()
+     *
+     * @param     mixed $idCategory The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ProductQuery The current query, for fluid interface
      */
-    public function filterByCategory($category = null, $comparison = null)
+    public function filterByIdCategory($idCategory = null, $comparison = null)
     {
-        if (null === $comparison) {
-            if (is_array($category)) {
+        if (is_array($idCategory)) {
+            $useMinMax = false;
+            if (isset($idCategory['min'])) {
+                $this->addUsingAlias(ProductPeer::ID_CATEGORY, $idCategory['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($idCategory['max'])) {
+                $this->addUsingAlias(ProductPeer::ID_CATEGORY, $idCategory['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $category)) {
-                $category = str_replace('*', '%', $category);
-                $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(ProductPeer::CATEGORY, $category, $comparison);
+        return $this->addUsingAlias(ProductPeer::ID_CATEGORY, $idCategory, $comparison);
+    }
+
+    /**
+     * Filter the query on the id_category_details column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByIdCategoryDetails(1234); // WHERE id_category_details = 1234
+     * $query->filterByIdCategoryDetails(array(12, 34)); // WHERE id_category_details IN (12, 34)
+     * $query->filterByIdCategoryDetails(array('min' => 12)); // WHERE id_category_details >= 12
+     * $query->filterByIdCategoryDetails(array('max' => 12)); // WHERE id_category_details <= 12
+     * </code>
+     *
+     * @see       filterByProductCategoryDetails()
+     *
+     * @param     mixed $idCategoryDetails The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ProductQuery The current query, for fluid interface
+     */
+    public function filterByIdCategoryDetails($idCategoryDetails = null, $comparison = null)
+    {
+        if (is_array($idCategoryDetails)) {
+            $useMinMax = false;
+            if (isset($idCategoryDetails['min'])) {
+                $this->addUsingAlias(ProductPeer::ID_CATEGORY_DETAILS, $idCategoryDetails['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($idCategoryDetails['max'])) {
+                $this->addUsingAlias(ProductPeer::ID_CATEGORY_DETAILS, $idCategoryDetails['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(ProductPeer::ID_CATEGORY_DETAILS, $idCategoryDetails, $comparison);
     }
 
     /**
@@ -554,6 +629,158 @@ abstract class BaseProductQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ProductPeer::UPDATED_AT, $updatedAt, $comparison);
+    }
+
+    /**
+     * Filter the query by a related ProductCategory object
+     *
+     * @param   ProductCategory|PropelObjectCollection $productCategory The related object(s) to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return                 ProductQuery The current query, for fluid interface
+     * @throws PropelException - if the provided filter is invalid.
+     */
+    public function filterByProductCategory($productCategory, $comparison = null)
+    {
+        if ($productCategory instanceof ProductCategory) {
+            return $this
+                ->addUsingAlias(ProductPeer::ID_CATEGORY, $productCategory->getId(), $comparison);
+        } elseif ($productCategory instanceof PropelObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(ProductPeer::ID_CATEGORY, $productCategory->toKeyValue('PrimaryKey', 'Id'), $comparison);
+        } else {
+            throw new PropelException('filterByProductCategory() only accepts arguments of type ProductCategory or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the ProductCategory relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return ProductQuery The current query, for fluid interface
+     */
+    public function joinProductCategory($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('ProductCategory');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'ProductCategory');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the ProductCategory relation ProductCategory object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   \hsTrading\FrontEndBundle\Model\ProductCategoryQuery A secondary query class using the current class as primary query
+     */
+    public function useProductCategoryQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinProductCategory($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'ProductCategory', '\hsTrading\FrontEndBundle\Model\ProductCategoryQuery');
+    }
+
+    /**
+     * Filter the query by a related ProductCategoryDetails object
+     *
+     * @param   ProductCategoryDetails|PropelObjectCollection $productCategoryDetails The related object(s) to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return                 ProductQuery The current query, for fluid interface
+     * @throws PropelException - if the provided filter is invalid.
+     */
+    public function filterByProductCategoryDetails($productCategoryDetails, $comparison = null)
+    {
+        if ($productCategoryDetails instanceof ProductCategoryDetails) {
+            return $this
+                ->addUsingAlias(ProductPeer::ID_CATEGORY_DETAILS, $productCategoryDetails->getId(), $comparison);
+        } elseif ($productCategoryDetails instanceof PropelObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(ProductPeer::ID_CATEGORY_DETAILS, $productCategoryDetails->toKeyValue('PrimaryKey', 'Id'), $comparison);
+        } else {
+            throw new PropelException('filterByProductCategoryDetails() only accepts arguments of type ProductCategoryDetails or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the ProductCategoryDetails relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return ProductQuery The current query, for fluid interface
+     */
+    public function joinProductCategoryDetails($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('ProductCategoryDetails');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'ProductCategoryDetails');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the ProductCategoryDetails relation ProductCategoryDetails object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   \hsTrading\FrontEndBundle\Model\ProductCategoryDetailsQuery A secondary query class using the current class as primary query
+     */
+    public function useProductCategoryDetailsQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinProductCategoryDetails($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'ProductCategoryDetails', '\hsTrading\FrontEndBundle\Model\ProductCategoryDetailsQuery');
     }
 
     /**

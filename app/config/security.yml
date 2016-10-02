@@ -42,4 +42,5 @@ security:
          - { path: ^/admin_panel, roles: ROLE_ADMIN }
          - { path: ^/contacts_history, roles: ROLE_ADMIN }
          - { path: ^/contacts, roles: ROLE_ADMIN }
+         - { path: ^/categories, roles: ROLE_ADMIN }
          - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }

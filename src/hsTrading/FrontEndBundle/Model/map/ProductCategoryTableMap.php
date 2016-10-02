@@ -7,7 +7,7 @@ use \TableMap;
 
 
 /**
- * This class defines the structure of the 'hs_product' table.
+ * This class defines the structure of the 'hs_product_category' table.
  *
  *
  *
@@ -18,13 +18,13 @@ use \TableMap;
  *
  * @package    propel.generator.src.hsTrading.FrontEndBundle.Model.map
  */
-class ProductTableMap extends TableMap
+class ProductCategoryTableMap extends TableMap
 {
 
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = 'src.hsTrading.FrontEndBundle.Model.map.ProductTableMap';
+    const CLASS_NAME = 'src.hsTrading.FrontEndBundle.Model.map.ProductCategoryTableMap';
 
     /**
      * Initialize the table attributes, columns and validators
@@ -36,20 +36,15 @@ class ProductTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('hs_product');
-        $this->setPhpName('Product');
-        $this->setClassname('hsTrading\\FrontEndBundle\\Model\\Product');
+        $this->setName('hs_product_category');
+        $this->setPhpName('ProductCategory');
+        $this->setClassname('hsTrading\\FrontEndBundle\\Model\\ProductCategory');
         $this->setPackage('src.hsTrading.FrontEndBundle.Model');
         $this->setUseIdGenerator(true);
         // columns
-        $this->addPrimaryKey('id', 'Id', 'BIGINT', true, null, null);
-        $this->addColumn('code', 'Code', 'VARCHAR', false, 256, null);
-        $this->addForeignKey('id_category', 'IdCategory', 'INTEGER', 'hs_product_category', 'id', false, null, null);
-        $this->addForeignKey('id_category_details', 'IdCategoryDetails', 'INTEGER', 'hs_product_category_details', 'id', false, null, null);
-        $this->addColumn('description', 'Description', 'LONGVARCHAR', false, null, null);
-        $this->addColumn('designation', 'Designation', 'VARCHAR', false, 500, null);
-        $this->addColumn('price', 'Price', 'VARCHAR', false, 500, null);
-        $this->addColumn('img', 'Img', 'LONGVARCHAR', false, null, null);
+        $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
+        $this->addColumn('code', 'Code', 'VARCHAR', true, 60, null);
+        $this->addColumn('label', 'Label', 'VARCHAR', true, 60, null);
         $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', false, null, null);
         $this->addColumn('updated_at', 'UpdatedAt', 'TIMESTAMP', false, null, null);
         // validators
@@ -60,8 +55,8 @@ class ProductTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('ProductCategory', 'hsTrading\\FrontEndBundle\\Model\\ProductCategory', RelationMap::MANY_TO_ONE, array('id_category' => 'id', ), null, null);
-        $this->addRelation('ProductCategoryDetails', 'hsTrading\\FrontEndBundle\\Model\\ProductCategoryDetails', RelationMap::MANY_TO_ONE, array('id_category_details' => 'id', ), null, null);
+        $this->addRelation('Product', 'hsTrading\\FrontEndBundle\\Model\\Product', RelationMap::ONE_TO_MANY, array('id' => 'id_category', ), null, null, 'Products');
+        $this->addRelation('ProductCategoryDetails', 'hsTrading\\FrontEndBundle\\Model\\ProductCategoryDetails', RelationMap::ONE_TO_MANY, array('id' => 'productCategory_id', ), null, null, 'ProductCategoryDetailss');
     } // buildRelations()
 
     /**
@@ -81,4 +76,4 @@ class ProductTableMap extends TableMap
         );
     } // getBehaviors()
 
-} // ProductTableMap
+} // ProductCategoryTableMap
