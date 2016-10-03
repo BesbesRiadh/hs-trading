@@ -13,3 +13,6 @@ Admin:
 ContactHistory:
     resource: "@hsTradingFrontEndBundle/Controller/ContactController.php"
     type:     annotation
+Categories:
+    resource: "@hsTradingFrontEndBundle/Controller/CategoriesController.php"
+    type:     annotation

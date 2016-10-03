@@ -91,6 +91,65 @@ parameters:
                     htmlOptions:
                         data-formatter: "action_edit"
                         data-sortable: "false"
+        categories:
+            options: ~
+            fields:
+                id:
+                    htmlOptions:
+                        data-identifier: "true"
+                        data-visible : "false"
+                        data-visible-in-selection: "false"
+                code:
+                    width: 40%
+                    list: true
+                label:
+                    width: 40%
+                    list: true
+                action_edit:
+                    width: 10%
+                    sorting: false
+                    htmlOptions:
+                        data-formatter: "action_edit"
+                        data-sortable: "false"
+                        data-width: "10%"
+                action_delete:
+                    width: 10%
+                    sorting: false
+                    htmlOptions:
+                        data-formatter: "action_delete"
+                        data-sortable: "false"
+                        data-width: "10%"
+        sub_categories:
+            options: ~
+            fields:
+                id:
+                    htmlOptions:
+                        data-identifier: "true"
+                        data-visible : "false"
+                        data-visible-in-selection: "false"
+                code:
+                    width: 40%
+                    list: true
+                productCategory_id:
+                    width: 40%
+                    list: true
+                label:
+                    width: 40%
+                    list: true
+                action_edit:
+                    width: 10%
+                    sorting: false
+                    htmlOptions:
+                        data-formatter: "action_edit"
+                        data-sortable: "false"
+                        data-width: "10%"
+                action_delete:
+                    width: 10%
+                    sorting: false
+                    htmlOptions:
+                        data-formatter: "action_delete"
+                        data-sortable: "false"
+                        data-width: "10%"
                     
 
     messages.bootgrid:

@@ -1,0 +1,39 @@
+{% form_theme form 'hsTradingFrontEndBundle:Contact:fields.html.twig' %}
+
+{% set formId = form.vars.id~'Form' %}
+{{ form_start(form, {'attr' : {'class': 'sky-form', 'id' : formId}}) }}
+{{ form_errors(form) }}
+<fieldset>
+    <div class="row">
+        <section class="col col-11">
+            <label class="select">
+                {{ form_row(form.productCategory_id) }}
+                <i></i>
+            </label>
+        </section>
+    </div>
+    <div class="row">
+        <section class="col col-11">
+            <label class="input {{ form_errors(form.code)|trim ? 'state-error' : '' }}">
+                <i class="icon-prepend fa fa-envelope"></i>
+                {{ form_row(form.code) }}
+            </label>
+            {%if form.code.vars.required %}
+                <div class="note note-success">{{ 'field_required' |trans}}</div>
+            {%endif %}
+        </section>
+    </div>
+    <div class="row">
+        <section class="col col-11">
+            <label class="input {{ form_errors(form.label)|trim ? 'state-error' : '' }}">
+                <i class="icon-prepend fa fa-user"></i>
+                {{ form_row(form.label) }}
+            </label>
+            {%if form.label.vars.required %}
+                <div class="note note-success">{{ 'field_required' |trans}}</div>
+            {%endif %}
+        </section>
+    </div>
+</fieldset>
+{{ form_end(form) }}
+{{ form_rest(form) }}

@@ -10,29 +10,31 @@ use \Exception;
 use \PDO;
 use \Persistent;
 use \Propel;
+use \PropelCollection;
 use \PropelDateTime;
 use \PropelException;
+use \PropelObjectCollection;
 use \PropelPDO;
 use hsTrading\FrontEndBundle\Model\Product;
 use hsTrading\FrontEndBundle\Model\ProductCategory;
 use hsTrading\FrontEndBundle\Model\ProductCategoryDetails;
 use hsTrading\FrontEndBundle\Model\ProductCategoryDetailsQuery;
+use hsTrading\FrontEndBundle\Model\ProductCategoryPeer;
 use hsTrading\FrontEndBundle\Model\ProductCategoryQuery;
-use hsTrading\FrontEndBundle\Model\ProductPeer;
 use hsTrading\FrontEndBundle\Model\ProductQuery;
 
-abstract class BaseProduct extends BaseObject implements Persistent
+abstract class BaseProductCategory extends BaseObject implements Persistent
 {
     /**
      * Peer class name
      */
-    const PEER = 'hsTrading\\FrontEndBundle\\Model\\ProductPeer';
+    const PEER = 'hsTrading\\FrontEndBundle\\Model\\ProductCategoryPeer';
 
     /**
      * The Peer class.
      * Instance provides a convenient way of calling static methods on a class
      * that calling code may not be able to identify.
-     * @var        ProductPeer
+     * @var        ProductCategoryPeer
      */
     protected static $peer;
 
@@ -44,7 +46,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
 
     /**
      * The value for the id field.
-     * @var        string
+     * @var        int
      */
     protected $id;
 
@@ -55,40 +57,10 @@ abstract class BaseProduct extends BaseObject implements Persistent
     protected $code;
 
     /**
-     * The value for the id_category field.
-     * @var        int
-     */
-    protected $id_category;
-
-    /**
-     * The value for the id_category_details field.
-     * @var        int
-     */
-    protected $id_category_details;
-
-    /**
-     * The value for the description field.
+     * The value for the label field.
      * @var        string
      */
-    protected $description;
-
-    /**
-     * The value for the designation field.
-     * @var        string
-     */
-    protected $designation;
-
-    /**
-     * The value for the price field.
-     * @var        string
-     */
-    protected $price;
-
-    /**
-     * The value for the img field.
-     * @var        string
-     */
-    protected $img;
+    protected $label;
 
     /**
      * The value for the created_at field.
@@ -103,14 +75,16 @@ abstract class BaseProduct extends BaseObject implements Persistent
     protected $updated_at;
 
     /**
-     * @var        ProductCategory
+     * @var        PropelObjectCollection|Product[] Collection to store aggregation of Product objects.
      */
-    protected $aProductCategory;
+    protected $collProducts;
+    protected $collProductsPartial;
 
     /**
-     * @var        ProductCategoryDetails
+     * @var        PropelObjectCollection|ProductCategoryDetails[] Collection to store aggregation of ProductCategoryDetails objects.
      */
-    protected $aProductCategoryDetails;
+    protected $collProductCategoryDetailss;
+    protected $collProductCategoryDetailssPartial;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -133,9 +107,21 @@ abstract class BaseProduct extends BaseObject implements Persistent
     protected $alreadyInClearAllReferencesDeep = false;
 
     /**
+     * An array of objects scheduled for deletion.
+     * @var		PropelObjectCollection
+     */
+    protected $productsScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var		PropelObjectCollection
+     */
+    protected $productCategoryDetailssScheduledForDeletion = null;
+
+    /**
      * Get the [id] column value.
      *
-     * @return string
+     * @return int
      */
     public function getId()
     {
@@ -155,69 +141,14 @@ abstract class BaseProduct extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [id_category] column value.
-     *
-     * @return int
-     */
-    public function getIdCategory()
-    {
-
-        return $this->id_category;
-    }
-
-    /**
-     * Get the [id_category_details] column value.
-     *
-     * @return int
-     */
-    public function getIdCategoryDetails()
-    {
-
-        return $this->id_category_details;
-    }
-
-    /**
-     * Get the [description] column value.
+     * Get the [label] column value.
      *
      * @return string
      */
-    public function getDescription()
+    public function getLabel()
     {
 
-        return $this->description;
-    }
-
-    /**
-     * Get the [designation] column value.
-     *
-     * @return string
-     */
-    public function getDesignation()
-    {
-
-        return $this->designation;
-    }
-
-    /**
-     * Get the [price] column value.
-     *
-     * @return string
-     */
-    public function getPrice()
-    {
-
-        return $this->price;
-    }
-
-    /**
-     * Get the [img] column value.
-     *
-     * @return string
-     */
-    public function getImg()
-    {
-
-        return $this->img;
+        return $this->label;
     }
 
     /**
@@ -303,18 +234,18 @@ abstract class BaseProduct extends BaseObject implements Persistent
     /**
      * Set the value of [id] column.
      *
-     * @param  string $v new value
-     * @return Product The current object (for fluent API support)
+     * @param  int $v new value
+     * @return ProductCategory The current object (for fluent API support)
      */
     public function setId($v)
     {
         if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[] = ProductPeer::ID;
+            $this->modifiedColumns[] = ProductCategoryPeer::ID;
         }
 
 
@@ -325,7 +256,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      * Set the value of [code] column.
      *
      * @param  string $v new value
-     * @return Product The current object (for fluent API support)
+     * @return ProductCategory The current object (for fluent API support)
      */
     public function setCode($v)
     {
@@ -335,7 +266,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
 
         if ($this->code !== $v) {
             $this->code = $v;
-            $this->modifiedColumns[] = ProductPeer::CODE;
+            $this->modifiedColumns[] = ProductCategoryPeer::CODE;
         }
 
 
@@ -343,145 +274,32 @@ abstract class BaseProduct extends BaseObject implements Persistent
     } // setCode()
 
     /**
-     * Set the value of [id_category] column.
-     *
-     * @param  int $v new value
-     * @return Product The current object (for fluent API support)
-     */
-    public function setIdCategory($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (int) $v;
-        }
-
-        if ($this->id_category !== $v) {
-            $this->id_category = $v;
-            $this->modifiedColumns[] = ProductPeer::ID_CATEGORY;
-        }
-
-        if ($this->aProductCategory !== null && $this->aProductCategory->getId() !== $v) {
-            $this->aProductCategory = null;
-        }
-
-
-        return $this;
-    } // setIdCategory()
-
-    /**
-     * Set the value of [id_category_details] column.
-     *
-     * @param  int $v new value
-     * @return Product The current object (for fluent API support)
-     */
-    public function setIdCategoryDetails($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (int) $v;
-        }
-
-        if ($this->id_category_details !== $v) {
-            $this->id_category_details = $v;
-            $this->modifiedColumns[] = ProductPeer::ID_CATEGORY_DETAILS;
-        }
-
-        if ($this->aProductCategoryDetails !== null && $this->aProductCategoryDetails->getId() !== $v) {
-            $this->aProductCategoryDetails = null;
-        }
-
-
-        return $this;
-    } // setIdCategoryDetails()
-
-    /**
-     * Set the value of [description] column.
+     * Set the value of [label] column.
      *
      * @param  string $v new value
-     * @return Product The current object (for fluent API support)
+     * @return ProductCategory The current object (for fluent API support)
      */
-    public function setDescription($v)
+    public function setLabel($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->description !== $v) {
-            $this->description = $v;
-            $this->modifiedColumns[] = ProductPeer::DESCRIPTION;
+        if ($this->label !== $v) {
+            $this->label = $v;
+            $this->modifiedColumns[] = ProductCategoryPeer::LABEL;
         }
 
 
         return $this;
-    } // setDescription()
-
-    /**
-     * Set the value of [designation] column.
-     *
-     * @param  string $v new value
-     * @return Product The current object (for fluent API support)
-     */
-    public function setDesignation($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->designation !== $v) {
-            $this->designation = $v;
-            $this->modifiedColumns[] = ProductPeer::DESIGNATION;
-        }
-
-
-        return $this;
-    } // setDesignation()
-
-    /**
-     * Set the value of [price] column.
-     *
-     * @param  string $v new value
-     * @return Product The current object (for fluent API support)
-     */
-    public function setPrice($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->price !== $v) {
-            $this->price = $v;
-            $this->modifiedColumns[] = ProductPeer::PRICE;
-        }
-
-
-        return $this;
-    } // setPrice()
-
-    /**
-     * Set the value of [img] column.
-     *
-     * @param  string $v new value
-     * @return Product The current object (for fluent API support)
-     */
-    public function setImg($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->img !== $v) {
-            $this->img = $v;
-            $this->modifiedColumns[] = ProductPeer::IMG;
-        }
-
-
-        return $this;
-    } // setImg()
+    } // setLabel()
 
     /**
      * Sets the value of [created_at] column to a normalized version of the date/time value specified.
      *
      * @param mixed $v string, integer (timestamp), or DateTime value.
      *               Empty strings are treated as null.
-     * @return Product The current object (for fluent API support)
+     * @return ProductCategory The current object (for fluent API support)
      */
     public function setCreatedAt($v)
     {
@@ -491,7 +309,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
             $newDateAsString = $dt ? $dt->format('Y-m-d H:i:s') : null;
             if ($currentDateAsString !== $newDateAsString) {
                 $this->created_at = $newDateAsString;
-                $this->modifiedColumns[] = ProductPeer::CREATED_AT;
+                $this->modifiedColumns[] = ProductCategoryPeer::CREATED_AT;
             }
         } // if either are not null
 
@@ -504,7 +322,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      *
      * @param mixed $v string, integer (timestamp), or DateTime value.
      *               Empty strings are treated as null.
-     * @return Product The current object (for fluent API support)
+     * @return ProductCategory The current object (for fluent API support)
      */
     public function setUpdatedAt($v)
     {
@@ -514,7 +332,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
             $newDateAsString = $dt ? $dt->format('Y-m-d H:i:s') : null;
             if ($currentDateAsString !== $newDateAsString) {
                 $this->updated_at = $newDateAsString;
-                $this->modifiedColumns[] = ProductPeer::UPDATED_AT;
+                $this->modifiedColumns[] = ProductCategoryPeer::UPDATED_AT;
             }
         } // if either are not null
 
@@ -554,16 +372,11 @@ abstract class BaseProduct extends BaseObject implements Persistent
     {
         try {
 
-            $this->id = ($row[$startcol + 0] !== null) ? (string) $row[$startcol + 0] : null;
+            $this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
             $this->code = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
-            $this->id_category = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
-            $this->id_category_details = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
-            $this->description = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
-            $this->designation = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
-            $this->price = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
-            $this->img = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
-            $this->created_at = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
-            $this->updated_at = ($row[$startcol + 9] !== null) ? (string) $row[$startcol + 9] : null;
+            $this->label = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
+            $this->created_at = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
+            $this->updated_at = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -573,10 +386,10 @@ abstract class BaseProduct extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 10; // 10 = ProductPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 5; // 5 = ProductCategoryPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException("Error populating Product object", $e);
+            throw new PropelException("Error populating ProductCategory object", $e);
         }
     }
 
@@ -596,12 +409,6 @@ abstract class BaseProduct extends BaseObject implements Persistent
     public function ensureConsistency()
     {
 
-        if ($this->aProductCategory !== null && $this->id_category !== $this->aProductCategory->getId()) {
-            $this->aProductCategory = null;
-        }
-        if ($this->aProductCategoryDetails !== null && $this->id_category_details !== $this->aProductCategoryDetails->getId()) {
-            $this->aProductCategoryDetails = null;
-        }
     } // ensureConsistency
 
     /**
@@ -625,13 +432,13 @@ abstract class BaseProduct extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(ProductPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(ProductCategoryPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $stmt = ProductPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
+        $stmt = ProductCategoryPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
         $row = $stmt->fetch(PDO::FETCH_NUM);
         $stmt->closeCursor();
         if (!$row) {
@@ -641,8 +448,10 @@ abstract class BaseProduct extends BaseObject implements Persistent
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aProductCategory = null;
-            $this->aProductCategoryDetails = null;
+            $this->collProducts = null;
+
+            $this->collProductCategoryDetailss = null;
+
         } // if (deep)
     }
 
@@ -663,12 +472,12 @@ abstract class BaseProduct extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(ProductPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(ProductCategoryPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
         try {
-            $deleteQuery = ProductQuery::create()
+            $deleteQuery = ProductCategoryQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -706,7 +515,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(ProductPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(ProductCategoryPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
@@ -716,16 +525,16 @@ abstract class BaseProduct extends BaseObject implements Persistent
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
                 // timestampable behavior
-                if (!$this->isColumnModified(ProductPeer::CREATED_AT)) {
+                if (!$this->isColumnModified(ProductCategoryPeer::CREATED_AT)) {
                     $this->setCreatedAt(time());
                 }
-                if (!$this->isColumnModified(ProductPeer::UPDATED_AT)) {
+                if (!$this->isColumnModified(ProductCategoryPeer::UPDATED_AT)) {
                     $this->setUpdatedAt(time());
                 }
             } else {
                 $ret = $ret && $this->preUpdate($con);
                 // timestampable behavior
-                if ($this->isModified() && !$this->isColumnModified(ProductPeer::UPDATED_AT)) {
+                if ($this->isModified() && !$this->isColumnModified(ProductCategoryPeer::UPDATED_AT)) {
                     $this->setUpdatedAt(time());
                 }
             }
@@ -737,7 +546,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                ProductPeer::addInstanceToPool($this);
+                ProductCategoryPeer::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -767,25 +576,6 @@ abstract class BaseProduct extends BaseObject implements Persistent
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
 
-            // We call the save method on the following object(s) if they
-            // were passed to this object by their corresponding set
-            // method.  This object relates to these object(s) by a
-            // foreign key reference.
-
-            if ($this->aProductCategory !== null) {
-                if ($this->aProductCategory->isModified() || $this->aProductCategory->isNew()) {
-                    $affectedRows += $this->aProductCategory->save($con);
-                }
-                $this->setProductCategory($this->aProductCategory);
-            }
-
-            if ($this->aProductCategoryDetails !== null) {
-                if ($this->aProductCategoryDetails->isModified() || $this->aProductCategoryDetails->isNew()) {
-                    $affectedRows += $this->aProductCategoryDetails->save($con);
-                }
-                $this->setProductCategoryDetails($this->aProductCategoryDetails);
-            }
-
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
                 if ($this->isNew()) {
@@ -795,6 +585,41 @@ abstract class BaseProduct extends BaseObject implements Persistent
                 }
                 $affectedRows += 1;
                 $this->resetModified();
+            }
+
+            if ($this->productsScheduledForDeletion !== null) {
+                if (!$this->productsScheduledForDeletion->isEmpty()) {
+                    foreach ($this->productsScheduledForDeletion as $product) {
+                        // need to save related object because we set the relation to null
+                        $product->save($con);
+                    }
+                    $this->productsScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collProducts !== null) {
+                foreach ($this->collProducts as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
+            if ($this->productCategoryDetailssScheduledForDeletion !== null) {
+                if (!$this->productCategoryDetailssScheduledForDeletion->isEmpty()) {
+                    ProductCategoryDetailsQuery::create()
+                        ->filterByPrimaryKeys($this->productCategoryDetailssScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->productCategoryDetailssScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collProductCategoryDetailss !== null) {
+                foreach ($this->collProductCategoryDetailss as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
             }
 
             $this->alreadyInSave = false;
@@ -817,45 +642,30 @@ abstract class BaseProduct extends BaseObject implements Persistent
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[] = ProductPeer::ID;
+        $this->modifiedColumns[] = ProductCategoryPeer::ID;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . ProductPeer::ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . ProductCategoryPeer::ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(ProductPeer::ID)) {
+        if ($this->isColumnModified(ProductCategoryPeer::ID)) {
             $modifiedColumns[':p' . $index++]  = '`id`';
         }
-        if ($this->isColumnModified(ProductPeer::CODE)) {
+        if ($this->isColumnModified(ProductCategoryPeer::CODE)) {
             $modifiedColumns[':p' . $index++]  = '`code`';
         }
-        if ($this->isColumnModified(ProductPeer::ID_CATEGORY)) {
-            $modifiedColumns[':p' . $index++]  = '`id_category`';
+        if ($this->isColumnModified(ProductCategoryPeer::LABEL)) {
+            $modifiedColumns[':p' . $index++]  = '`label`';
         }
-        if ($this->isColumnModified(ProductPeer::ID_CATEGORY_DETAILS)) {
-            $modifiedColumns[':p' . $index++]  = '`id_category_details`';
-        }
-        if ($this->isColumnModified(ProductPeer::DESCRIPTION)) {
-            $modifiedColumns[':p' . $index++]  = '`description`';
-        }
-        if ($this->isColumnModified(ProductPeer::DESIGNATION)) {
-            $modifiedColumns[':p' . $index++]  = '`designation`';
-        }
-        if ($this->isColumnModified(ProductPeer::PRICE)) {
-            $modifiedColumns[':p' . $index++]  = '`price`';
-        }
-        if ($this->isColumnModified(ProductPeer::IMG)) {
-            $modifiedColumns[':p' . $index++]  = '`img`';
-        }
-        if ($this->isColumnModified(ProductPeer::CREATED_AT)) {
+        if ($this->isColumnModified(ProductCategoryPeer::CREATED_AT)) {
             $modifiedColumns[':p' . $index++]  = '`created_at`';
         }
-        if ($this->isColumnModified(ProductPeer::UPDATED_AT)) {
+        if ($this->isColumnModified(ProductCategoryPeer::UPDATED_AT)) {
             $modifiedColumns[':p' . $index++]  = '`updated_at`';
         }
 
         $sql = sprintf(
-            'INSERT INTO `hs_product` (%s) VALUES (%s)',
+            'INSERT INTO `hs_product_category` (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -865,28 +675,13 @@ abstract class BaseProduct extends BaseObject implements Persistent
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
                     case '`id`':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
                     case '`code`':
                         $stmt->bindValue($identifier, $this->code, PDO::PARAM_STR);
                         break;
-                    case '`id_category`':
-                        $stmt->bindValue($identifier, $this->id_category, PDO::PARAM_INT);
-                        break;
-                    case '`id_category_details`':
-                        $stmt->bindValue($identifier, $this->id_category_details, PDO::PARAM_INT);
-                        break;
-                    case '`description`':
-                        $stmt->bindValue($identifier, $this->description, PDO::PARAM_STR);
-                        break;
-                    case '`designation`':
-                        $stmt->bindValue($identifier, $this->designation, PDO::PARAM_STR);
-                        break;
-                    case '`price`':
-                        $stmt->bindValue($identifier, $this->price, PDO::PARAM_STR);
-                        break;
-                    case '`img`':
-                        $stmt->bindValue($identifier, $this->img, PDO::PARAM_STR);
+                    case '`label`':
+                        $stmt->bindValue($identifier, $this->label, PDO::PARAM_STR);
                         break;
                     case '`created_at`':
                         $stmt->bindValue($identifier, $this->created_at, PDO::PARAM_STR);
@@ -988,28 +783,26 @@ abstract class BaseProduct extends BaseObject implements Persistent
             $failureMap = array();
 
 
-            // We call the validate method on the following object(s) if they
-            // were passed to this object by their corresponding set
-            // method.  This object relates to these object(s) by a
-            // foreign key reference.
-
-            if ($this->aProductCategory !== null) {
-                if (!$this->aProductCategory->validate($columns)) {
-                    $failureMap = array_merge($failureMap, $this->aProductCategory->getValidationFailures());
-                }
-            }
-
-            if ($this->aProductCategoryDetails !== null) {
-                if (!$this->aProductCategoryDetails->validate($columns)) {
-                    $failureMap = array_merge($failureMap, $this->aProductCategoryDetails->getValidationFailures());
-                }
-            }
-
-
-            if (($retval = ProductPeer::doValidate($this, $columns)) !== true) {
+            if (($retval = ProductCategoryPeer::doValidate($this, $columns)) !== true) {
                 $failureMap = array_merge($failureMap, $retval);
             }
 
+
+                if ($this->collProducts !== null) {
+                    foreach ($this->collProducts as $referrerFK) {
+                        if (!$referrerFK->validate($columns)) {
+                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+                        }
+                    }
+                }
+
+                if ($this->collProductCategoryDetailss !== null) {
+                    foreach ($this->collProductCategoryDetailss as $referrerFK) {
+                        if (!$referrerFK->validate($columns)) {
+                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+                        }
+                    }
+                }
 
 
             $this->alreadyInValidation = false;
@@ -1030,7 +823,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
     {
-        $pos = ProductPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = ProductCategoryPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -1053,27 +846,12 @@ abstract class BaseProduct extends BaseObject implements Persistent
                 return $this->getCode();
                 break;
             case 2:
-                return $this->getIdCategory();
+                return $this->getLabel();
                 break;
             case 3:
-                return $this->getIdCategoryDetails();
-                break;
-            case 4:
-                return $this->getDescription();
-                break;
-            case 5:
-                return $this->getDesignation();
-                break;
-            case 6:
-                return $this->getPrice();
-                break;
-            case 7:
-                return $this->getImg();
-                break;
-            case 8:
                 return $this->getCreatedAt();
                 break;
-            case 9:
+            case 4:
                 return $this->getUpdatedAt();
                 break;
             default:
@@ -1099,22 +877,17 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
-        if (isset($alreadyDumpedObjects['Product'][$this->getPrimaryKey()])) {
+        if (isset($alreadyDumpedObjects['ProductCategory'][$this->getPrimaryKey()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Product'][$this->getPrimaryKey()] = true;
-        $keys = ProductPeer::getFieldNames($keyType);
+        $alreadyDumpedObjects['ProductCategory'][$this->getPrimaryKey()] = true;
+        $keys = ProductCategoryPeer::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getCode(),
-            $keys[2] => $this->getIdCategory(),
-            $keys[3] => $this->getIdCategoryDetails(),
-            $keys[4] => $this->getDescription(),
-            $keys[5] => $this->getDesignation(),
-            $keys[6] => $this->getPrice(),
-            $keys[7] => $this->getImg(),
-            $keys[8] => $this->getCreatedAt(),
-            $keys[9] => $this->getUpdatedAt(),
+            $keys[2] => $this->getLabel(),
+            $keys[3] => $this->getCreatedAt(),
+            $keys[4] => $this->getUpdatedAt(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1122,11 +895,11 @@ abstract class BaseProduct extends BaseObject implements Persistent
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->aProductCategory) {
-                $result['ProductCategory'] = $this->aProductCategory->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            if (null !== $this->collProducts) {
+                $result['Products'] = $this->collProducts->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
-            if (null !== $this->aProductCategoryDetails) {
-                $result['ProductCategoryDetails'] = $this->aProductCategoryDetails->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            if (null !== $this->collProductCategoryDetailss) {
+                $result['ProductCategoryDetailss'] = $this->collProductCategoryDetailss->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -1146,7 +919,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
     {
-        $pos = ProductPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = ProductCategoryPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 
         $this->setByPosition($pos, $value);
     }
@@ -1169,27 +942,12 @@ abstract class BaseProduct extends BaseObject implements Persistent
                 $this->setCode($value);
                 break;
             case 2:
-                $this->setIdCategory($value);
+                $this->setLabel($value);
                 break;
             case 3:
-                $this->setIdCategoryDetails($value);
-                break;
-            case 4:
-                $this->setDescription($value);
-                break;
-            case 5:
-                $this->setDesignation($value);
-                break;
-            case 6:
-                $this->setPrice($value);
-                break;
-            case 7:
-                $this->setImg($value);
-                break;
-            case 8:
                 $this->setCreatedAt($value);
                 break;
-            case 9:
+            case 4:
                 $this->setUpdatedAt($value);
                 break;
         } // switch()
@@ -1214,18 +972,13 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
     {
-        $keys = ProductPeer::getFieldNames($keyType);
+        $keys = ProductCategoryPeer::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setCode($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setIdCategory($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setIdCategoryDetails($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setDescription($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setDesignation($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setPrice($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setImg($arr[$keys[7]]);
-        if (array_key_exists($keys[8], $arr)) $this->setCreatedAt($arr[$keys[8]]);
-        if (array_key_exists($keys[9], $arr)) $this->setUpdatedAt($arr[$keys[9]]);
+        if (array_key_exists($keys[2], $arr)) $this->setLabel($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setCreatedAt($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setUpdatedAt($arr[$keys[4]]);
     }
 
     /**
@@ -1235,18 +988,13 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(ProductPeer::DATABASE_NAME);
+        $criteria = new Criteria(ProductCategoryPeer::DATABASE_NAME);
 
-        if ($this->isColumnModified(ProductPeer::ID)) $criteria->add(ProductPeer::ID, $this->id);
-        if ($this->isColumnModified(ProductPeer::CODE)) $criteria->add(ProductPeer::CODE, $this->code);
-        if ($this->isColumnModified(ProductPeer::ID_CATEGORY)) $criteria->add(ProductPeer::ID_CATEGORY, $this->id_category);
-        if ($this->isColumnModified(ProductPeer::ID_CATEGORY_DETAILS)) $criteria->add(ProductPeer::ID_CATEGORY_DETAILS, $this->id_category_details);
-        if ($this->isColumnModified(ProductPeer::DESCRIPTION)) $criteria->add(ProductPeer::DESCRIPTION, $this->description);
-        if ($this->isColumnModified(ProductPeer::DESIGNATION)) $criteria->add(ProductPeer::DESIGNATION, $this->designation);
-        if ($this->isColumnModified(ProductPeer::PRICE)) $criteria->add(ProductPeer::PRICE, $this->price);
-        if ($this->isColumnModified(ProductPeer::IMG)) $criteria->add(ProductPeer::IMG, $this->img);
-        if ($this->isColumnModified(ProductPeer::CREATED_AT)) $criteria->add(ProductPeer::CREATED_AT, $this->created_at);
-        if ($this->isColumnModified(ProductPeer::UPDATED_AT)) $criteria->add(ProductPeer::UPDATED_AT, $this->updated_at);
+        if ($this->isColumnModified(ProductCategoryPeer::ID)) $criteria->add(ProductCategoryPeer::ID, $this->id);
+        if ($this->isColumnModified(ProductCategoryPeer::CODE)) $criteria->add(ProductCategoryPeer::CODE, $this->code);
+        if ($this->isColumnModified(ProductCategoryPeer::LABEL)) $criteria->add(ProductCategoryPeer::LABEL, $this->label);
+        if ($this->isColumnModified(ProductCategoryPeer::CREATED_AT)) $criteria->add(ProductCategoryPeer::CREATED_AT, $this->created_at);
+        if ($this->isColumnModified(ProductCategoryPeer::UPDATED_AT)) $criteria->add(ProductCategoryPeer::UPDATED_AT, $this->updated_at);
 
         return $criteria;
     }
@@ -1261,15 +1009,15 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function buildPkeyCriteria()
     {
-        $criteria = new Criteria(ProductPeer::DATABASE_NAME);
-        $criteria->add(ProductPeer::ID, $this->id);
+        $criteria = new Criteria(ProductCategoryPeer::DATABASE_NAME);
+        $criteria->add(ProductCategoryPeer::ID, $this->id);
 
         return $criteria;
     }
 
     /**
      * Returns the primary key for this object (row).
-     * @return string
+     * @return int
      */
     public function getPrimaryKey()
     {
@@ -1279,7 +1027,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
     /**
      * Generic method to set the primary key (id column).
      *
-     * @param  string $key Primary key.
+     * @param  int $key Primary key.
      * @return void
      */
     public function setPrimaryKey($key)
@@ -1303,7 +1051,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param object $copyObj An object of Product (or compatible) type.
+     * @param object $copyObj An object of ProductCategory (or compatible) type.
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -1311,12 +1059,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setCode($this->getCode());
-        $copyObj->setIdCategory($this->getIdCategory());
-        $copyObj->setIdCategoryDetails($this->getIdCategoryDetails());
-        $copyObj->setDescription($this->getDescription());
-        $copyObj->setDesignation($this->getDesignation());
-        $copyObj->setPrice($this->getPrice());
-        $copyObj->setImg($this->getImg());
+        $copyObj->setLabel($this->getLabel());
         $copyObj->setCreatedAt($this->getCreatedAt());
         $copyObj->setUpdatedAt($this->getUpdatedAt());
 
@@ -1326,6 +1069,18 @@ abstract class BaseProduct extends BaseObject implements Persistent
             $copyObj->setNew(false);
             // store object hash to prevent cycle
             $this->startCopy = true;
+
+            foreach ($this->getProducts() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addProduct($relObj->copy($deepCopy));
+                }
+            }
+
+            foreach ($this->getProductCategoryDetailss() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addProductCategoryDetails($relObj->copy($deepCopy));
+                }
+            }
 
             //unflag object copy
             $this->startCopy = false;
@@ -1346,7 +1101,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      * objects.
      *
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return Product Clone of current object.
+     * @return ProductCategory Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1366,119 +1121,509 @@ abstract class BaseProduct extends BaseObject implements Persistent
      * same instance for all member of this class. The method could therefore
      * be static, but this would prevent one from overriding the behavior.
      *
-     * @return ProductPeer
+     * @return ProductCategoryPeer
      */
     public function getPeer()
     {
         if (self::$peer === null) {
-            self::$peer = new ProductPeer();
+            self::$peer = new ProductCategoryPeer();
         }
 
         return self::$peer;
     }
 
+
     /**
-     * Declares an association between this object and a ProductCategory object.
+     * Initializes a collection based on the name of a relation.
+     * Avoids crafting an 'init[$relationName]s' method name
+     * that wouldn't work when StandardEnglishPluralizer is used.
      *
-     * @param                  ProductCategory $v
-     * @return Product The current object (for fluent API support)
+     * @param string $relationName The name of the relation to initialize
+     * @return void
+     */
+    public function initRelation($relationName)
+    {
+        if ('Product' == $relationName) {
+            $this->initProducts();
+        }
+        if ('ProductCategoryDetails' == $relationName) {
+            $this->initProductCategoryDetailss();
+        }
+    }
+
+    /**
+     * Clears out the collProducts collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return ProductCategory The current object (for fluent API support)
+     * @see        addProducts()
+     */
+    public function clearProducts()
+    {
+        $this->collProducts = null; // important to set this to null since that means it is uninitialized
+        $this->collProductsPartial = null;
+
+        return $this;
+    }
+
+    /**
+     * reset is the collProducts collection loaded partially
+     *
+     * @return void
+     */
+    public function resetPartialProducts($v = true)
+    {
+        $this->collProductsPartial = $v;
+    }
+
+    /**
+     * Initializes the collProducts collection.
+     *
+     * By default this just sets the collProducts collection to an empty array (like clearcollProducts());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initProducts($overrideExisting = true)
+    {
+        if (null !== $this->collProducts && !$overrideExisting) {
+            return;
+        }
+        $this->collProducts = new PropelObjectCollection();
+        $this->collProducts->setModel('Product');
+    }
+
+    /**
+     * Gets an array of Product objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ProductCategory is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @return PropelObjectCollection|Product[] List of Product objects
      * @throws PropelException
      */
-    public function setProductCategory(ProductCategory $v = null)
+    public function getProducts($criteria = null, PropelPDO $con = null)
     {
-        if ($v === null) {
-            $this->setIdCategory(NULL);
-        } else {
-            $this->setIdCategory($v->getId());
+        $partial = $this->collProductsPartial && !$this->isNew();
+        if (null === $this->collProducts || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collProducts) {
+                // return empty collection
+                $this->initProducts();
+            } else {
+                $collProducts = ProductQuery::create(null, $criteria)
+                    ->filterByProductCategory($this)
+                    ->find($con);
+                if (null !== $criteria) {
+                    if (false !== $this->collProductsPartial && count($collProducts)) {
+                      $this->initProducts(false);
+
+                      foreach ($collProducts as $obj) {
+                        if (false == $this->collProducts->contains($obj)) {
+                          $this->collProducts->append($obj);
+                        }
+                      }
+
+                      $this->collProductsPartial = true;
+                    }
+
+                    $collProducts->getInternalIterator()->rewind();
+
+                    return $collProducts;
+                }
+
+                if ($partial && $this->collProducts) {
+                    foreach ($this->collProducts as $obj) {
+                        if ($obj->isNew()) {
+                            $collProducts[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collProducts = $collProducts;
+                $this->collProductsPartial = false;
+            }
         }
 
-        $this->aProductCategory = $v;
+        return $this->collProducts;
+    }
 
-        // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the ProductCategory object, it will not be re-added.
-        if ($v !== null) {
-            $v->addProduct($this);
+    /**
+     * Sets a collection of Product objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param PropelCollection $products A Propel collection.
+     * @param PropelPDO $con Optional connection object
+     * @return ProductCategory The current object (for fluent API support)
+     */
+    public function setProducts(PropelCollection $products, PropelPDO $con = null)
+    {
+        $productsToDelete = $this->getProducts(new Criteria(), $con)->diff($products);
+
+
+        $this->productsScheduledForDeletion = $productsToDelete;
+
+        foreach ($productsToDelete as $productRemoved) {
+            $productRemoved->setProductCategory(null);
         }
 
+        $this->collProducts = null;
+        foreach ($products as $product) {
+            $this->addProduct($product);
+        }
+
+        $this->collProducts = $products;
+        $this->collProductsPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related Product objects.
+     *
+     * @param Criteria $criteria
+     * @param boolean $distinct
+     * @param PropelPDO $con
+     * @return int             Count of related Product objects.
+     * @throws PropelException
+     */
+    public function countProducts(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    {
+        $partial = $this->collProductsPartial && !$this->isNew();
+        if (null === $this->collProducts || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collProducts) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getProducts());
+            }
+            $query = ProductQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByProductCategory($this)
+                ->count($con);
+        }
+
+        return count($this->collProducts);
+    }
+
+    /**
+     * Method called to associate a Product object to this object
+     * through the Product foreign key attribute.
+     *
+     * @param    Product $l Product
+     * @return ProductCategory The current object (for fluent API support)
+     */
+    public function addProduct(Product $l)
+    {
+        if ($this->collProducts === null) {
+            $this->initProducts();
+            $this->collProductsPartial = true;
+        }
+
+        if (!in_array($l, $this->collProducts->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddProduct($l);
+
+            if ($this->productsScheduledForDeletion and $this->productsScheduledForDeletion->contains($l)) {
+                $this->productsScheduledForDeletion->remove($this->productsScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param	Product $product The product object to add.
+     */
+    protected function doAddProduct($product)
+    {
+        $this->collProducts[]= $product;
+        $product->setProductCategory($this);
+    }
+
+    /**
+     * @param	Product $product The product object to remove.
+     * @return ProductCategory The current object (for fluent API support)
+     */
+    public function removeProduct($product)
+    {
+        if ($this->getProducts()->contains($product)) {
+            $this->collProducts->remove($this->collProducts->search($product));
+            if (null === $this->productsScheduledForDeletion) {
+                $this->productsScheduledForDeletion = clone $this->collProducts;
+                $this->productsScheduledForDeletion->clear();
+            }
+            $this->productsScheduledForDeletion[]= $product;
+            $product->setProductCategory(null);
+        }
 
         return $this;
     }
 
 
     /**
-     * Get the associated ProductCategory object
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this ProductCategory is new, it will return
+     * an empty collection; or if this ProductCategory has previously
+     * been saved, it will retrieve related Products from storage.
      *
-     * @param PropelPDO $con Optional Connection object.
-     * @param $doQuery Executes a query to get the object if required
-     * @return ProductCategory The associated ProductCategory object.
-     * @throws PropelException
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in ProductCategory.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|Product[] List of Product objects
      */
-    public function getProductCategory(PropelPDO $con = null, $doQuery = true)
+    public function getProductsJoinProductCategoryDetails($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
-        if ($this->aProductCategory === null && ($this->id_category !== null) && $doQuery) {
-            $this->aProductCategory = ProductCategoryQuery::create()->findPk($this->id_category, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aProductCategory->addProducts($this);
-             */
-        }
+        $query = ProductQuery::create(null, $criteria);
+        $query->joinWith('ProductCategoryDetails', $join_behavior);
 
-        return $this->aProductCategory;
+        return $this->getProducts($query, $con);
     }
 
     /**
-     * Declares an association between this object and a ProductCategoryDetails object.
+     * Clears out the collProductCategoryDetailss collection
      *
-     * @param                  ProductCategoryDetails $v
-     * @return Product The current object (for fluent API support)
-     * @throws PropelException
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return ProductCategory The current object (for fluent API support)
+     * @see        addProductCategoryDetailss()
      */
-    public function setProductCategoryDetails(ProductCategoryDetails $v = null)
+    public function clearProductCategoryDetailss()
     {
-        if ($v === null) {
-            $this->setIdCategoryDetails(NULL);
-        } else {
-            $this->setIdCategoryDetails($v->getId());
-        }
-
-        $this->aProductCategoryDetails = $v;
-
-        // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the ProductCategoryDetails object, it will not be re-added.
-        if ($v !== null) {
-            $v->addProduct($this);
-        }
-
+        $this->collProductCategoryDetailss = null; // important to set this to null since that means it is uninitialized
+        $this->collProductCategoryDetailssPartial = null;
 
         return $this;
     }
 
+    /**
+     * reset is the collProductCategoryDetailss collection loaded partially
+     *
+     * @return void
+     */
+    public function resetPartialProductCategoryDetailss($v = true)
+    {
+        $this->collProductCategoryDetailssPartial = $v;
+    }
 
     /**
-     * Get the associated ProductCategoryDetails object
+     * Initializes the collProductCategoryDetailss collection.
      *
-     * @param PropelPDO $con Optional Connection object.
-     * @param $doQuery Executes a query to get the object if required
-     * @return ProductCategoryDetails The associated ProductCategoryDetails object.
+     * By default this just sets the collProductCategoryDetailss collection to an empty array (like clearcollProductCategoryDetailss());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initProductCategoryDetailss($overrideExisting = true)
+    {
+        if (null !== $this->collProductCategoryDetailss && !$overrideExisting) {
+            return;
+        }
+        $this->collProductCategoryDetailss = new PropelObjectCollection();
+        $this->collProductCategoryDetailss->setModel('ProductCategoryDetails');
+    }
+
+    /**
+     * Gets an array of ProductCategoryDetails objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ProductCategory is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @return PropelObjectCollection|ProductCategoryDetails[] List of ProductCategoryDetails objects
      * @throws PropelException
      */
-    public function getProductCategoryDetails(PropelPDO $con = null, $doQuery = true)
+    public function getProductCategoryDetailss($criteria = null, PropelPDO $con = null)
     {
-        if ($this->aProductCategoryDetails === null && ($this->id_category_details !== null) && $doQuery) {
-            $this->aProductCategoryDetails = ProductCategoryDetailsQuery::create()->findPk($this->id_category_details, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aProductCategoryDetails->addProducts($this);
-             */
+        $partial = $this->collProductCategoryDetailssPartial && !$this->isNew();
+        if (null === $this->collProductCategoryDetailss || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collProductCategoryDetailss) {
+                // return empty collection
+                $this->initProductCategoryDetailss();
+            } else {
+                $collProductCategoryDetailss = ProductCategoryDetailsQuery::create(null, $criteria)
+                    ->filterByProductCategory($this)
+                    ->find($con);
+                if (null !== $criteria) {
+                    if (false !== $this->collProductCategoryDetailssPartial && count($collProductCategoryDetailss)) {
+                      $this->initProductCategoryDetailss(false);
+
+                      foreach ($collProductCategoryDetailss as $obj) {
+                        if (false == $this->collProductCategoryDetailss->contains($obj)) {
+                          $this->collProductCategoryDetailss->append($obj);
+                        }
+                      }
+
+                      $this->collProductCategoryDetailssPartial = true;
+                    }
+
+                    $collProductCategoryDetailss->getInternalIterator()->rewind();
+
+                    return $collProductCategoryDetailss;
+                }
+
+                if ($partial && $this->collProductCategoryDetailss) {
+                    foreach ($this->collProductCategoryDetailss as $obj) {
+                        if ($obj->isNew()) {
+                            $collProductCategoryDetailss[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collProductCategoryDetailss = $collProductCategoryDetailss;
+                $this->collProductCategoryDetailssPartial = false;
+            }
         }
 
-        return $this->aProductCategoryDetails;
+        return $this->collProductCategoryDetailss;
+    }
+
+    /**
+     * Sets a collection of ProductCategoryDetails objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param PropelCollection $productCategoryDetailss A Propel collection.
+     * @param PropelPDO $con Optional connection object
+     * @return ProductCategory The current object (for fluent API support)
+     */
+    public function setProductCategoryDetailss(PropelCollection $productCategoryDetailss, PropelPDO $con = null)
+    {
+        $productCategoryDetailssToDelete = $this->getProductCategoryDetailss(new Criteria(), $con)->diff($productCategoryDetailss);
+
+
+        $this->productCategoryDetailssScheduledForDeletion = $productCategoryDetailssToDelete;
+
+        foreach ($productCategoryDetailssToDelete as $productCategoryDetailsRemoved) {
+            $productCategoryDetailsRemoved->setProductCategory(null);
+        }
+
+        $this->collProductCategoryDetailss = null;
+        foreach ($productCategoryDetailss as $productCategoryDetails) {
+            $this->addProductCategoryDetails($productCategoryDetails);
+        }
+
+        $this->collProductCategoryDetailss = $productCategoryDetailss;
+        $this->collProductCategoryDetailssPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related ProductCategoryDetails objects.
+     *
+     * @param Criteria $criteria
+     * @param boolean $distinct
+     * @param PropelPDO $con
+     * @return int             Count of related ProductCategoryDetails objects.
+     * @throws PropelException
+     */
+    public function countProductCategoryDetailss(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    {
+        $partial = $this->collProductCategoryDetailssPartial && !$this->isNew();
+        if (null === $this->collProductCategoryDetailss || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collProductCategoryDetailss) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getProductCategoryDetailss());
+            }
+            $query = ProductCategoryDetailsQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByProductCategory($this)
+                ->count($con);
+        }
+
+        return count($this->collProductCategoryDetailss);
+    }
+
+    /**
+     * Method called to associate a ProductCategoryDetails object to this object
+     * through the ProductCategoryDetails foreign key attribute.
+     *
+     * @param    ProductCategoryDetails $l ProductCategoryDetails
+     * @return ProductCategory The current object (for fluent API support)
+     */
+    public function addProductCategoryDetails(ProductCategoryDetails $l)
+    {
+        if ($this->collProductCategoryDetailss === null) {
+            $this->initProductCategoryDetailss();
+            $this->collProductCategoryDetailssPartial = true;
+        }
+
+        if (!in_array($l, $this->collProductCategoryDetailss->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddProductCategoryDetails($l);
+
+            if ($this->productCategoryDetailssScheduledForDeletion and $this->productCategoryDetailssScheduledForDeletion->contains($l)) {
+                $this->productCategoryDetailssScheduledForDeletion->remove($this->productCategoryDetailssScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param	ProductCategoryDetails $productCategoryDetails The productCategoryDetails object to add.
+     */
+    protected function doAddProductCategoryDetails($productCategoryDetails)
+    {
+        $this->collProductCategoryDetailss[]= $productCategoryDetails;
+        $productCategoryDetails->setProductCategory($this);
+    }
+
+    /**
+     * @param	ProductCategoryDetails $productCategoryDetails The productCategoryDetails object to remove.
+     * @return ProductCategory The current object (for fluent API support)
+     */
+    public function removeProductCategoryDetails($productCategoryDetails)
+    {
+        if ($this->getProductCategoryDetailss()->contains($productCategoryDetails)) {
+            $this->collProductCategoryDetailss->remove($this->collProductCategoryDetailss->search($productCategoryDetails));
+            if (null === $this->productCategoryDetailssScheduledForDeletion) {
+                $this->productCategoryDetailssScheduledForDeletion = clone $this->collProductCategoryDetailss;
+                $this->productCategoryDetailssScheduledForDeletion->clear();
+            }
+            $this->productCategoryDetailssScheduledForDeletion[]= clone $productCategoryDetails;
+            $productCategoryDetails->setProductCategory(null);
+        }
+
+        return $this;
     }
 
     /**
@@ -1488,12 +1633,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
     {
         $this->id = null;
         $this->code = null;
-        $this->id_category = null;
-        $this->id_category_details = null;
-        $this->description = null;
-        $this->designation = null;
-        $this->price = null;
-        $this->img = null;
+        $this->label = null;
         $this->created_at = null;
         $this->updated_at = null;
         $this->alreadyInSave = false;
@@ -1518,18 +1658,28 @@ abstract class BaseProduct extends BaseObject implements Persistent
     {
         if ($deep && !$this->alreadyInClearAllReferencesDeep) {
             $this->alreadyInClearAllReferencesDeep = true;
-            if ($this->aProductCategory instanceof Persistent) {
-              $this->aProductCategory->clearAllReferences($deep);
+            if ($this->collProducts) {
+                foreach ($this->collProducts as $o) {
+                    $o->clearAllReferences($deep);
+                }
             }
-            if ($this->aProductCategoryDetails instanceof Persistent) {
-              $this->aProductCategoryDetails->clearAllReferences($deep);
+            if ($this->collProductCategoryDetailss) {
+                foreach ($this->collProductCategoryDetailss as $o) {
+                    $o->clearAllReferences($deep);
+                }
             }
 
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
 
-        $this->aProductCategory = null;
-        $this->aProductCategoryDetails = null;
+        if ($this->collProducts instanceof PropelCollection) {
+            $this->collProducts->clearIterator();
+        }
+        $this->collProducts = null;
+        if ($this->collProductCategoryDetailss instanceof PropelCollection) {
+            $this->collProductCategoryDetailss->clearIterator();
+        }
+        $this->collProductCategoryDetailss = null;
     }
 
     /**
@@ -1539,7 +1689,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function __toString()
     {
-        return (string) $this->exportTo(ProductPeer::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(ProductCategoryPeer::DEFAULT_STRING_FORMAT);
     }
 
     /**
@@ -1557,11 +1707,11 @@ abstract class BaseProduct extends BaseObject implements Persistent
     /**
      * Mark the current object so that the update date doesn't get updated during next save
      *
-     * @return     Product The current object (for fluent API support)
+     * @return     ProductCategory The current object (for fluent API support)
      */
     public function keepUpdateDateUnchanged()
     {
-        $this->modifiedColumns[] = ProductPeer::UPDATED_AT;
+        $this->modifiedColumns[] = ProductCategoryPeer::UPDATED_AT;
 
         return $this;
     }
