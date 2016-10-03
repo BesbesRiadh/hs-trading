@@ -26,6 +26,7 @@ Home.prototype.ActionListener = function ()
 Home.prototype.show = function (item, item_view, title)
 {
     var self = this;
+//    console.log(item_view);
     item_view.click(function () {
         var options = {
             url: self.listProducts + '/' + item,

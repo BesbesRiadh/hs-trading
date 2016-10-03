@@ -37,9 +37,9 @@ class HomeController extends BaseIhmController {
      *
      */
     public function listAction(Request $request, $code) {
-        return $this->render('hsTradingFrontEndBundle:Home:products.html.twig', array('code' => $code));
+        return $this->render('hsTradingFrontEndBundle:Home:products.html.twig');
     }
-
+    
     /**
      * @Route("/contact", name="contact")
      * @Template("hsTradingFrontEndBundle:Contact:index.html.twig")
