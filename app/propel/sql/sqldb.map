@@ -8,3 +8,5 @@ default.sql=default
 default.sql=default
 # Sqlfile -> Database map
 default.sql=default
+# Sqlfile -> Database map
+default.sql=default

@@ -192,17 +192,11 @@ class CategoriesController extends BaseIhmController {
      */
     public function addSubCategoryAction(Request $poRequest) {
         $oResponse = new Response();
-        
-        $paOptions = $this->formatBootGridParams(array(), $poRequest->request->all());
-        $paOptions['paginated'] = false;
+
         $aCategories = $this->get('dataService')
-                ->getPaginated2Data($paOptions, 'ProductCategoryPeer', 'retrieveByFilters');
-        foreach ($aCategories['rows'] as $key => $value) {
-           $aCategories['category'] =array($aCategories['rows'][$key]['code'] => $aCategories['rows'][$key]['code'] );
-        }
-        
-        $oForm = $this->createForm(new AddSubCategoryForm($aCategories));
-        
+                ->getSimpleData('', 'ProductCategoryPeer', 'getCategory');
+        $oForm = $this->createForm(new AddSubCategoryForm(array( 'category' => $aCategories)));
+
         if ($poRequest->isMethod('POST')) {
             $oForm->handleRequest($poRequest);
             if ($oForm->isValid()) {
@@ -213,10 +207,9 @@ class CategoriesController extends BaseIhmController {
                     $aData = $oForm->getData();
                     $oSubCategory = new \hsTrading\FrontEndBundle\Model\ProductCategoryDetails();
                     $oSubCategory->fromArray($aData, \BasePeer::TYPE_FIELDNAME);
-                    EchTools::pr($oSubCategory);
+//                    EchTools::pr($oSubCategory);
                     $oSubCategory->save();
                     $aResponse = array('status' => 'OK');
-                    
                 } catch (\Exception $e) {
                     $aResponse['message'] = $e->getMessage();
                 }

@@ -5,17 +5,15 @@ namespace hsTrading\FrontEndBundle\Model;
 use hsTrading\FrontEndBundle\Model\om\BaseProductCategoryDetailsPeer;
 use hsTrading\FrontEndBundle\Utils\EchTools;
 
-class ProductCategoryDetailsPeer extends BaseProductCategoryDetailsPeer
-{
-     public static function getCategorydetails($paOptions)
-    {
-        $Category  = EchTools::getOption($paOptions, 'category');
+class ProductCategoryDetailsPeer extends BaseProductCategoryDetailsPeer {
+
+    public static function getCategorydetails($paOptions) {
+        $Category = EchTools::getOption($paOptions, 'category');
         $oCriteria = new \Criteria();
         $oCriteria->setPrimaryTableName(self::TABLE_NAME);
         $oCriteria->addJoin(self::PRODUCTCATEGORY_ID, ProductCategoryPeer::ID, \Criteria::INNER_JOIN);
 
-        if ($Category)
-        {
+        if ($Category) {
             $oCriteria->add(ProductCategoryPeer::CODE, $Category);
         }
         $oCriteria->addSelectColumn(self::CODE);
@@ -31,17 +29,15 @@ class ProductCategoryDetailsPeer extends BaseProductCategoryDetailsPeer
      *
      * @author Walid Saadaoui
      */
-    public static function retrieveOne($paOptions = array())
-    {
+    public static function retrieveOne($paOptions = array()) {
         $nParent = EchTools::getOption($paOptions, 'id_category');
-        $sCode   = EchTools::getOption($paOptions, 'code');
-        $sLabel  = EchTools::getOption($paOptions, 'label');
+        $sCode = EchTools::getOption($paOptions, 'code');
+        $sLabel = EchTools::getOption($paOptions, 'label');
 
         $oCriteria = new \Criteria();
         $oCriteria->setPrimaryTableName(self::TABLE_NAME);
 
-        if (!empty($sCode) && !empty($sLabel))
-        {
+        if (!empty($sCode) && !empty($sLabel)) {
             $oCriteria->add(self::PRODUCTCATEGORY_ID, $nParent);
             $oCriteria->add(self::CODE, $sCode);
             $oCriteria->addOr(self::LABEL, $sLabel);
@@ -58,29 +54,24 @@ class ProductCategoryDetailsPeer extends BaseProductCategoryDetailsPeer
      * @return <Object> PropelPager
      * @author Walid Saadaoui
      */
-    public static function retrieveByFilters($paOptions = array())
-    {
-        $nPage       = EchTools::getOption($paOptions, 'page', 1);
+    public static function retrieveByFilters($paOptions = array()) {
+        $nPage = EchTools::getOption($paOptions, 'page', 1);
         $nMaxPerPage = EchTools::getOption($paOptions, 'max_per_page', 50);
-        $sSortColumn = EchTools::getOption($paOptions, 'sort_column', self::CREATED_AT);
-        $sSortOrder  = EchTools::getOption($paOptions, 'sort_order', 'desc');
-        $bPaginate   = EchTools::getOption($paOptions, 'paginate', true);
+        $sSortOrder = EchTools::getOption($paOptions, 'sort_order', 'asc');
+        $bPaginate = EchTools::getOption($paOptions, 'paginate', true);
 
         $oCriteria = new \Criteria();
         $oCriteria->setPrimaryTableName(self::TABLE_NAME);
-
-        if ($sSortColumn && $sSortOrder)
-        {
-            call_user_func(array($oCriteria, 'add' . ucfirst($sSortOrder) . 'endingOrderByColumn'), $sSortColumn);
-        }
-
+        $oCriteria->addJoin(self::PRODUCTCATEGORY_ID, ProductCategoryPeer::ID, \Criteria::LEFT_JOIN);
+        call_user_func(array($oCriteria, 'add' . ucfirst($sSortOrder) . 'endingOrderByColumn'), ProductCategoryPeer::LABEL);
+        $oCriteria->addAsColumn('category_label', ProductCategoryPeer::LABEL);
         self::addSelectColumns($oCriteria);
 
-        if (!$bPaginate)
-        {
+        if (!$bPaginate) {
             return self::doSelectStmt($oCriteria)->fetchAll(\PDO::FETCH_ASSOC);
         }
 
         return new \PropelPager($oCriteria, get_class(), 'doSelectStmt', $nPage, $nMaxPerPage);
     }
+
 }

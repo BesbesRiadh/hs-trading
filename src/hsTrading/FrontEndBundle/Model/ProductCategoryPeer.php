@@ -7,6 +7,16 @@ use hsTrading\FrontEndBundle\Utils\EchTools;
 
 class ProductCategoryPeer extends BaseProductCategoryPeer
 {
+    
+    public static function getCategory()
+    {
+        $oCriteria = new \Criteria();
+        $oCriteria->setPrimaryTableName(self::TABLE_NAME);
+        $oCriteria->addSelectColumn(self::LABEL);
+        $oCriteria->addSelectColumn(self::ID);
+        return EchTools::getColumnFromResultSet(self::doSelectStmt($oCriteria), 'label', 'id');
+    }
+    
         /**
      * Récupérer un untilisateur par son code
      *
@@ -63,8 +73,7 @@ class ProductCategoryPeer extends BaseProductCategoryPeer
 
         $oCriteria = new \Criteria();
         $oCriteria->setPrimaryTableName(self::TABLE_NAME);
-
-
+//        $oCriteria->addAsColumn(ProductCategoryPeer::ID, ProductCategoryPeer::LABEL);
         if (!empty($sCode))
         {
             $oCriteria->addAnd(self::CODE, '%' . $sCode . '%', \Criteria::LIKE);

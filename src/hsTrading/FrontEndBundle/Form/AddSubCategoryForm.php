@@ -7,18 +7,17 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use hsTrading\FrontEndBundle\Utils\EchTools;
 
-class AddSubCategoryForm extends AbstractType
-{   
-     public function __construct($aOptions = array()) {
+class AddSubCategoryForm extends AbstractType {
+
+    public function __construct($aOptions = array()) {
         $this->aCategory = EchTools::getOption($aOptions, 'category');
     }
-    
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+
+    public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                 ->add('productCategory_id', 'choice', array(
                     'choices' => $this->aCategory
-                    ))
+                ))
                 ->add('code', 'text', array(
                     'required' => true,
                     'trim' => true,
@@ -33,18 +32,14 @@ class AddSubCategoryForm extends AbstractType
                     'attr' => array('placeholder' => 'label',
                     )
                 ))
-               ;
-                
+        ;
     }
 
-
-    public function getName()
-    {
+    public function getName() {
         return 'AddSubCategory';
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
+    public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
             'csrf_protection' => true,
         ));

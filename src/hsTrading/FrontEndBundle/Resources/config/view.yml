@@ -127,10 +127,10 @@ parameters:
                         data-identifier: "true"
                         data-visible : "false"
                         data-visible-in-selection: "false"
-                code:
+                category_label:
                     width: 40%
                     list: true
-                productCategory_id:
+                code:
                     width: 40%
                     list: true
                 label:
