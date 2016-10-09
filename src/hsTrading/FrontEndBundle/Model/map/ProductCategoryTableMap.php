@@ -55,8 +55,8 @@ class ProductCategoryTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Product', 'hsTrading\\FrontEndBundle\\Model\\Product', RelationMap::ONE_TO_MANY, array('id' => 'id_category', ), null, null, 'Products');
         $this->addRelation('ProductCategoryDetails', 'hsTrading\\FrontEndBundle\\Model\\ProductCategoryDetails', RelationMap::ONE_TO_MANY, array('id' => 'productCategory_id', ), null, null, 'ProductCategoryDetailss');
+        $this->addRelation('Product', 'hsTrading\\FrontEndBundle\\Model\\Product', RelationMap::ONE_TO_MANY, array('id' => 'id_category', ), null, null, 'Products');
     } // buildRelations()
 
     /**

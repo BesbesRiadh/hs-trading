@@ -25,56 +25,34 @@
     <div class="cube-portfolio container margin-bottom-60 col-md-12">
         <div class="content-xs">
             <div id="filters-container" class="cbp-l-filters-text content-xs">
-                <div data-filter="*" class="cbp-filter-item-active cbp-filter-item"> All </div> |
-                <div data-filter=".identity" class="cbp-filter-item"> Identity </div> |
-                <div data-filter=".web-design" class="cbp-filter-item"> Web Design </div> |
-                <div data-filter=".graphic" class="cbp-filter-item"> Graphic </div> |
-                <div data-filter=".logos" class="cbp-filter-item"> Logo </div>
+                    | <div class="cbp-filter-item-active cbp-filter-item" data-filter="*"> Tous les produits </div> |
+                {% for oField in cat %}
+                    | <div data-filter=".{{ oField.label }}" class="cbp-filter-item"> {{ oField.label }} </div> |
+                {% endfor %}
             </div><!--/end Filters Container-->
         </div>
 
         <div id="grid-container" class="cbp-l-grid-agency">
-            <div class="cbp-item graphic">
-                <div class="cbp-caption">
-                    <div class="cbp-caption-defaultWrap">
-                        <img src="{{ asset('assets/img/main/img26.jpg')}}" alt="">
-                    </div>
-                    <div class="cbp-caption-activeWrap">
-                        <div class="cbp-l-caption-alignCenter">
-                            <div class="cbp-l-caption-body">
-                                <ul class="link-captions">
-                                    <li><a href="portfolio_single_item.html"><i class="rounded-x fa fa-link"></i></a></li>
-                                    <li><a href="{{ asset('assets/img/main/img26.jpg')}}" class="cbp-lightbox" data-title="Design Object"><i class="rounded-x fa fa-search"></i></a></li>
-                                </ul>
-                                <div class="cbp-l-grid-agency-title">Design Object 01</div>
-                                <div class="cbp-l-grid-agency-desc">Web Design</div>
+            {% for oField in products %}
+                <div class="cbp-item {{ oField.sub_category }}">
+                    <div class="cbp-caption">
+                        <div class="cbp-caption-defaultWrap">
+                            <img src="{{ oField.img }}" alt="">
+                        </div>
+                        <div class="cbp-caption-activeWrap">
+                            <div class="cbp-l-caption-alignCenter">
+                                <div class="cbp-l-caption-body">
+                                    <div class="cbp-l-grid-agency-title">{{ oField.designation }}</div>
+                                    <div class="cbp-l-grid-agency-desc">{{ oField.description }}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="cbp-item web-design logos">
-                <div class="cbp-caption">
-                    <div class="cbp-caption-defaultWrap">
-                        <img src="{{ asset('assets/img/main/img26.jpg')}}" alt="">
-                    </div>
-                    <div class="cbp-caption-activeWrap">
-                        <div class="cbp-l-caption-alignCenter">
-                            <div class="cbp-l-caption-body">
-                                <ul class="link-captions">
-                                    <li><a href="portfolio_single_item.html"><i class="rounded-x fa fa-link"></i></a></li>
-                                    <li><a href="{{ asset('assets/img/main/img26.jpg')}}" class="cbp-lightbox" data-title="Design Object"><i class="rounded-x fa fa-search"></i></a></li>
-                                </ul>
-                                <div class="cbp-l-grid-agency-title">Design Object 02</div>
-                                <div class="cbp-l-grid-agency-desc">Web Design</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    </div><!--/end Grid Container-->
-</div>    
-<!--=== End Cube-Portfdlio ===-->
+            {% endfor %}
+        </div><!--/end Grid Container-->
+    </div>    
+    <!--=== End Cube-Portfdlio ===-->
 {% endblock%}
 
 {% block javascripts %}

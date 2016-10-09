@@ -5,6 +5,7 @@ var AdminPanel = function (params)
         this.editProductURL = Routing.generate('edit_product');
         this.deleteProductURL = Routing.generate('delete_product');
         this.addProductURL = Routing.generate('add_product');
+        this.uploadImg = Routing.generate('upload_img');
         this.maxPerPage = $.parseJSON(params.maxPerPage);
         this.Messages = $.parseJSON(params.Messages);
     } catch (e)
@@ -289,7 +290,34 @@ AdminPanel.prototype.addProduct = function ()
                                 });
                             }
                         }
-                    ]
+                    ],
+                    callback: function () {
+                        var fileEl = $('#AddProduct_img');
+                        fileEl.pekeUpload({
+                            url: self.uploadImg,
+                            maxSize: 1,
+                            theme: "bootstrap",
+                            isLargeBtn: true,
+                            data: {
+                            },
+                            btnText: 'Séléctionnez votre fichier',
+                            allowedExtensions: 'png|jpg',
+                            invalidExtError: "Type de fichier refusé",
+                            onFileError: function (file, error) {
+                            },
+                            onFileSuccess: function (file, data) {
+                                $('.pekecontainer').
+                                        html($('#import-succes').
+                                                html());
+                                $(".progress ").
+                                        fadeOut('slow');
+                            }
+                        });
+                        fileEl.click(function (e) {
+                            $('.pekecontainer').
+                                    html('');
+                        });
+                    }
                 };
 
                 eModal.ajax(options);

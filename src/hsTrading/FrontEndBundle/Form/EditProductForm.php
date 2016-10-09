@@ -17,8 +17,11 @@ use hsTrading\FrontEndBundle\Utils\EchTools;
  */
 class EditProductForm extends AbstractType {
 
-    public function __construct($aOptions = array()) {
-        $this->aCategory = EchTools::getOption($aOptions, 'category');
+    public function __construct($aOptions = array(),$aOptions2 = array()) {
+        $this->aCategoryChoice = EchTools::getOption($aOptions2, 'cat');
+        $this->aSubCategoryChoice = EchTools::getOption($aOptions2, 'subcat');
+        $this->aCategory = EchTools::getOption($aOptions2, 'category');
+        $this->aSubCategory = EchTools::getOption($aOptions2, 'sub_category');
         $this->aDesignation = EchTools::getOption($aOptions, 'designation');
         $this->aDescription = EchTools::getOption($aOptions, 'description');
         $this->sPrice = EchTools::getOption($aOptions, 'price');
@@ -27,19 +30,19 @@ class EditProductForm extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('category', 'choice', array(
-                    'choices' => array('agro' => 'Agroalimentaire'
-                        , 'pab' => 'Produits Alimentaires Bio'
-                        , 'par' => 'Produits Artisanaux'
-                        , 'pcb' => 'Produits Cosmétiques Bio'
-                        , 'ph' => 'Produits Hygiéniques'
-                        , 'divers' => 'Divers'
-                    ),
+                ->add('id_category', 'choice', array(
+                    'choices' => $this->aCategoryChoice,
                     'required' => true,
                     'data' => $this->aCategory,
                     'trim' => true,
                     'max_length' => 255,
-                    'empty_value' => 'category',
+                ))
+                ->add('id_category_details', 'choice', array(
+                    'choices' => $this->aSubCategoryChoice,
+                    'required' => true,
+                    'data' => $this->aCategory,
+                    'trim' => true,
+                    'max_length' => 255,
                 ))
                 ->add('designation', 'text', array(
                     'required' => true,

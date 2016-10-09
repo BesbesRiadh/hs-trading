@@ -17,22 +17,32 @@ use hsTrading\FrontEndBundle\Utils\EchTools;
  */
 class AddProductForm extends AbstractType
 {
-
+    
+    public function __construct($aOptions = array())
+    {
+        $this->aListCat  = EchTools::getOption($aOptions, 'cat');
+        $this->aListSubCat = EchTools::getOption($aOptions, 'subcat');
+    }
+    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('category', 'choice', array(
-                    'choices' => array('agro' => 'Agroalimentaire'
-                        , 'pab' => 'Produits Alimentaires Bio'
-                        , 'par' => 'Produits Artisanaux'
-                        , 'pcb' => 'Produits Cosmétiques Bio'
-                        , 'ph' => 'Produits Hygiéniques'
-                        , 'divers' => 'Divers'
-                        ),
+                ->add('id_category', 'choice', array(
+                    'choices' => $this->aListCat,
                     'required' => true,
                     'trim' => true,
                     'max_length' => 255,
                     'empty_value' => 'category',
+                    'constraints' => array(
+                        new Constraints\NotBlank(),
+                    )
+                ))
+                ->add('id_category_details', 'choice', array(
+                    'choices' => $this->aListSubCat,
+                    'required' => true,
+                    'trim' => true,
+                    'max_length' => 255,
+                    'empty_value' => 'sub_category',
                     'constraints' => array(
                         new Constraints\NotBlank(),
                     )
@@ -58,11 +68,10 @@ class AddProductForm extends AbstractType
                     'attr' => array('placeholder' => 'price',
                     )
                 ))
-                ->add('img', 'textarea', array(
-                    'required' => true,
-                    'trim' => true,
-                    'attr' => array('placeholder' => 'img', 'style' => 'width: 800px; height: 140px; resize:none;'
-                    )
+                ->add('img', 'file', array(
+                    'mapped' => true,
+//                    'attr' => array('placeholder' => 'img', 'style' => 'width: 800px; height: 140px; resize:none;'
+//                    )
                 ));
                 
     }

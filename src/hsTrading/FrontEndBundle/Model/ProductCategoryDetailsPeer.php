@@ -9,12 +9,17 @@ class ProductCategoryDetailsPeer extends BaseProductCategoryDetailsPeer {
 
     public static function getCategorydetails($paOptions) {
         $Category = EchTools::getOption($paOptions, 'category');
+        $code = EchTools::getOption($paOptions, 'code');
         $oCriteria = new \Criteria();
         $oCriteria->setPrimaryTableName(self::TABLE_NAME);
         $oCriteria->addJoin(self::PRODUCTCATEGORY_ID, ProductCategoryPeer::ID, \Criteria::INNER_JOIN);
 
         if ($Category) {
             $oCriteria->add(ProductCategoryPeer::CODE, $Category);
+        }
+        if ($code) {
+            $oCriteria->add(ProductCategoryPeer::CODE, $code);
+            return EchTools::getColumnFromResultSet(self::doSelectStmt($oCriteria), 'label', 'code_label');
         }
         $oCriteria->addSelectColumn(self::CODE);
         $oCriteria->addSelectColumn(self::LABEL);
@@ -72,6 +77,32 @@ class ProductCategoryDetailsPeer extends BaseProductCategoryDetailsPeer {
         }
 
         return new \PropelPager($oCriteria, get_class(), 'doSelectStmt', $nPage, $nMaxPerPage);
+    }
+
+    /**
+     * 
+     */
+    public static function getSubCategoriesList() {
+
+        $oCriteria = new \Criteria();
+        $oCriteria->setPrimaryTableName(self::TABLE_NAME);
+        $oCriteria->addSelectColumn(self::LABEL);
+        $oCriteria->addSelectColumn(self::ID);
+        return EchTools::getColumnFromResultSet(self::doSelectStmt($oCriteria), 'label', 'id');
+    }
+
+    /**
+     *
+     * @param integer $pnId
+     * @return array
+     */
+    public static function getCategorydetailsByCode($paOptions) {
+        $code = EchTools::getOption($paOptions, 'code');
+        $oCriteria = new \Criteria();
+        $oCriteria->setPrimaryTableName(self::TABLE_NAME);
+        $oCriteria->addJoin(self::PRODUCTCATEGORY_ID, ProductCategoryPeer::ID, \Criteria::INNER_JOIN);
+        $oCriteria->add(ProductCategoryPeer::CODE, $code);
+        return self::doSelectStmt($oCriteria)->fetchAll(\PDO::FETCH_ASSOC);
     }
 
 }

@@ -21,6 +21,8 @@ class ProductPeer extends BaseProductPeer {
 
         $oCriteria = new \Criteria();
         $oCriteria->setPrimaryTableName(self::TABLE_NAME);
+        $oCriteria->addJoin(self::ID_CATEGORY, ProductCategoryPeer::ID, \Criteria::INNER_JOIN);
+        $oCriteria->addJoin(self::ID_CATEGORY_DETAILS, ProductCategoryDetailsPeer::ID, \Criteria::INNER_JOIN);
 
         if ($sSortColumn && $sSortOrder) {
             call_user_func(array($oCriteria, 'add' . ucfirst($sSortOrder) . 'endingOrderByColumn'), $sSortColumn);
@@ -28,13 +30,16 @@ class ProductPeer extends BaseProductPeer {
 
         $oCriteria->addSelectColumn(self::ID)
                 ->addSelectColumn(self::CODE)
-                ->addSelectColumn(self::CATEGORY)
+                ->addSelectColumn(self::ID_CATEGORY)
+                ->addSelectColumn(self::ID_CATEGORY_DETAILS)
                 ->addSelectColumn(self::DESCRIPTION)
                 ->addSelectColumn(self::DESIGNATION)
                 ->addSelectColumn(self::PRICE)
                 ->addSelectColumn(self::IMG)
                 ->addSelectColumn(self::CREATED_AT)
                 ->addSelectColumn(self::UPDATED_AT)
+                ->addAsColumn('category', ProductCategoryPeer::LABEL)
+                ->addAsColumn('sub_category', ProductCategoryDetailsPeer::LABEL)
         ;
 
         return new \PropelPager($oCriteria, get_class(), 'doSelectStmt', $nPage, $nMaxPerPage);
@@ -48,7 +53,38 @@ class ProductPeer extends BaseProductPeer {
     public static function getProductsById($nId) {
         $oCriteria = new \Criteria();
         $oCriteria->setPrimaryTableName(self::TABLE_NAME);
+        $oCriteria->addJoin(self::ID_CATEGORY, ProductCategoryPeer::ID, \Criteria::INNER_JOIN);
+        $oCriteria->addJoin(self::ID_CATEGORY_DETAILS, ProductCategoryDetailsPeer::ID, \Criteria::INNER_JOIN);
+        $oCriteria
+                ->addAsColumn('category', ProductCategoryPeer::LABEL)
+                ->addAsColumn('sub_category', ProductCategoryDetailsPeer::LABEL)
+                ->addAsColumn('description', self::DESCRIPTION)
+                ->addAsColumn('designation', self::DESIGNATION)
+                ->addAsColumn('price', self::PRICE)
+                ->addAsColumn('img', self::IMG);
         $oCriteria->add(self::ID, $nId);
+        return self::doSelectStmt($oCriteria)->fetchAll(\PDO::FETCH_ASSOC);
+    }
+    
+    /**
+     *
+     * @param integer $pnId
+     * @return array
+     */
+    public static function getProductsByCode($paOptions) {
+        $code = EchTools::getOption($paOptions, 'code');
+        $oCriteria = new \Criteria();
+        $oCriteria->setPrimaryTableName(self::TABLE_NAME);
+        $oCriteria->addJoin(self::ID_CATEGORY, ProductCategoryPeer::ID, \Criteria::INNER_JOIN);
+        $oCriteria->addJoin(self::ID_CATEGORY_DETAILS, ProductCategoryDetailsPeer::ID, \Criteria::INNER_JOIN);
+        $oCriteria
+                ->addAsColumn('category', ProductCategoryPeer::LABEL)
+                ->addAsColumn('sub_category', ProductCategoryDetailsPeer::LABEL)
+                ->addAsColumn('description', self::DESCRIPTION)
+                ->addAsColumn('designation', self::DESIGNATION)
+                ->addAsColumn('price', self::PRICE)
+                ->addAsColumn('img', self::IMG);
+        $oCriteria->add(self::CODE, $code);
         return self::doSelectStmt($oCriteria)->fetchAll(\PDO::FETCH_ASSOC);
     }
 

@@ -4,6 +4,9 @@ parameters:
     mailService.class: hsTrading\FrontEndBundle\Services\MailService
     locale_listener.class: hsTrading\FrontEndBundle\Listener\LocaleListener
     LogoutListener.class: MY\StaticBundle\Service\LogoutListenerService
+    file.img_extensions: [ png, jpeg, jpg]
+    file.upload_base_dir: "%kernel.root_dir%/../web/tmp"
+    IEService.class: hsTrading\FrontEndBundle\Services\IEService
 
 services:
     
@@ -34,3 +37,7 @@ services:
         arguments: ["%kernel.default_locale%"]
         tags:
          - { name: kernel.event_subscriber }
+         
+    IEService:
+        class: "%IEService.class%"
+        arguments: [ "@service_container" ]

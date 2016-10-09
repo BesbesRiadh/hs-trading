@@ -26,6 +26,9 @@ parameters:
                 category:
                     width: 10%
                     list: true
+                sub_category:
+                    width: 10%
+                    list: true
                 designation:
                     width: 15%
                     list: true

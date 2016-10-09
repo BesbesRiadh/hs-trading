@@ -5,19 +5,17 @@ namespace hsTrading\FrontEndBundle\Model;
 use hsTrading\FrontEndBundle\Model\om\BaseProductCategoryPeer;
 use hsTrading\FrontEndBundle\Utils\EchTools;
 
-class ProductCategoryPeer extends BaseProductCategoryPeer
-{
-    
-    public static function getCategory()
-    {
+class ProductCategoryPeer extends BaseProductCategoryPeer {
+
+    public static function getCategory() {
         $oCriteria = new \Criteria();
         $oCriteria->setPrimaryTableName(self::TABLE_NAME);
         $oCriteria->addSelectColumn(self::LABEL);
         $oCriteria->addSelectColumn(self::ID);
         return EchTools::getColumnFromResultSet(self::doSelectStmt($oCriteria), 'label', 'id');
     }
-    
-        /**
+
+    /**
      * Récupérer un untilisateur par son code
      *
      * @param string $psCode
@@ -44,12 +42,10 @@ class ProductCategoryPeer extends BaseProductCategoryPeer
      *
      * @author Walid Saadaoui
      */
-    public static function retrieveOne($code)
-    {
+    public static function retrieveOne($code) {
         $oCriteria = new \Criteria();
         $oCriteria->setPrimaryTableName(self::TABLE_NAME);
-        if (!empty($code))
-        {
+        if (!empty($code)) {
             $oCriteria->add(self::CODE, $code);
             return self::doSelectOne($oCriteria);
         }
@@ -61,38 +57,56 @@ class ProductCategoryPeer extends BaseProductCategoryPeer
      * @param <array> $paOptions
      * @return \PropelPager
      */
-    public static function retrieveByFilters($paOptions = array())
-    {
-        $sCode       = EchTools::getOption($paOptions, 'code');
-        $sLabel      = EchTools::getOption($paOptions, 'label');
-        $nPage       = EchTools::getOption($paOptions, 'page', 1);
+    public static function retrieveByFilters($paOptions = array()) {
+        $sCode = EchTools::getOption($paOptions, 'code');
+        $sLabel = EchTools::getOption($paOptions, 'label');
+        $nPage = EchTools::getOption($paOptions, 'page', 1);
         $nMaxPerPage = EchTools::getOption($paOptions, 'max_per_page', 50);
         $sSortColumn = EchTools::getOption($paOptions, 'sort_column', self::CREATED_AT);
-        $sSortOrder  = EchTools::getOption($paOptions, 'sort_order', 'desc');
-        $bPaginated  = EchTools::getOption($paOptions, 'paginated', true);
+        $sSortOrder = EchTools::getOption($paOptions, 'sort_order', 'desc');
+        $bPaginated = EchTools::getOption($paOptions, 'paginated', true);
 
         $oCriteria = new \Criteria();
         $oCriteria->setPrimaryTableName(self::TABLE_NAME);
 //        $oCriteria->addAsColumn(ProductCategoryPeer::ID, ProductCategoryPeer::LABEL);
-        if (!empty($sCode))
-        {
+        if (!empty($sCode)) {
             $oCriteria->addAnd(self::CODE, '%' . $sCode . '%', \Criteria::LIKE);
         }
 
-        if (!empty($sLabel))
-        {
+        if (!empty($sLabel)) {
             $oCriteria->addAnd(self::LABEL, '%' . $sLabel . '%', \Criteria::LIKE);
         }
 
-        if ($sSortColumn && $sSortOrder)
-        {
+        if ($sSortColumn && $sSortOrder) {
             call_user_func(array($oCriteria, 'add' . ucfirst($sSortOrder) . 'endingOrderByColumn'), $sSortColumn);
         }
 
-        if (!$bPaginated)
-        {
+        if (!$bPaginated) {
             return self::doSelectStmt($oCriteria)->fetchAll(\PDO::FETCH_ASSOC);
         }
         return new \PropelPager($oCriteria, get_class(), 'doSelectStmt', $nPage, $nMaxPerPage);
     }
+
+    /**
+     * 
+     */
+    public static function getCategoriesList() {
+
+        $oCriteria = new \Criteria();
+        $oCriteria->setPrimaryTableName(self::TABLE_NAME);
+        $oCriteria->addSelectColumn(self::LABEL);
+        $oCriteria->addSelectColumn(self::ID);
+        return EchTools::getColumnFromResultSet(self::doSelectStmt($oCriteria), 'label', 'id');
+    }
+
+    public static function getCategoryById($paOptions = array()) {
+        $id = EchTools::getOption($paOptions, 'id');
+        $oCriteria = new \Criteria();
+        $oCriteria->setPrimaryTableName(self::TABLE_NAME);
+        $oCriteria->addSelectColumn(self::CODE);
+        $oCriteria->addSelectColumn(self::ID);
+        $oCriteria->add(self::ID, $id);
+       return self::doSelectStmt($oCriteria)->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
 }

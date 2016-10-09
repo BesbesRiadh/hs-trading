@@ -37,9 +37,15 @@ class HomeController extends BaseIhmController {
      *
      */
     public function listAction(Request $request, $code) {
-        return $this->render('hsTradingFrontEndBundle:Home:products.html.twig');
+
+        $aProducts = $this->get('dataService')
+                ->getSimpleData(array('code' => $code), 'ProductPeer', 'getProductsByCode');
+        $Cat = $this->get('dataService')
+                ->getSimpleData(array('code' => $code), 'ProductCategoryDetailsPeer', 'getCategorydetailsByCode');
+        
+        return $this->render('hsTradingFrontEndBundle:Home:products.html.twig', array('products' => $aProducts, 'cat' => $Cat));
     }
-    
+
     /**
      * @Route("/contact", name="contact")
      * @Template("hsTradingFrontEndBundle:Contact:index.html.twig")
@@ -69,17 +75,16 @@ class HomeController extends BaseIhmController {
                 $aResponse = array('status' => 'KO');
 
                 try {
-                    
+
                     $oContact = new \hsTrading\FrontEndBundle\Model\Contact();
                     $oContact->fromArray($oForm->getData(), \BasePeer::TYPE_FIELDNAME);
                     $oContact->save();
                     $this->get('mailService')->sendMail($oContact);
-                    
+
                     $aResponse = array('status' => 'OK');
                 } catch (\Exception $e) {
                     $aResponse['message'] = $e->getMessage();
                 }
-                
             } else {
                 $oResponse = new Response('', 400);
             }

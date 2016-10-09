@@ -49,7 +49,15 @@ class AdminController extends BaseIhmController {
      */
     public function addProductAction(Request $poRequest) {
         $oResponse = new Response();
-        $oForm = $this->createForm(new AddProductForm());
+
+        $list = array(
+            'cat' => $this->get('dataService')
+                    ->getSimpleData(array(), 'ProductCategoryPeer', 'getCategoriesList'),
+            'subcat' => $this->get('dataService')
+                    ->getSimpleData(array(), 'ProductCategoryDetailsPeer', 'getSubCategoriesList'),
+        );
+
+        $oForm = $this->createForm(new AddProductForm($list));
 
         if ($poRequest->isMethod('POST')) {
             $oForm->handleRequest($poRequest);
@@ -59,15 +67,20 @@ class AdminController extends BaseIhmController {
 
                 try {
                     $aData = $oForm->getData();
-                    $aData['code'] = $aData['category'];
+                    $image = $this->ImgAction();
+                    EchTools::pr($image);
+                    $Category = $this->get('dataService')
+                            ->getSimpleData(array('id' => $aData['id_category']), 'ProductCategoryPeer', 'getCategoryById');
+                    $aData['code'] = $Category[0]['code'];
+                    $aData['img'] = $image;
 
                     $oProduct = new \hsTrading\FrontEndBundle\Model\Product();
                     $oProduct->fromArray($aData, \BasePeer::TYPE_FIELDNAME);
                     $oProduct->save();
                     $aResponse = array('status' => 'OK');
-                } catch (\Exception $e) {
+              
+                    } catch (\Exception $e) {
                     $aResponse['message'] = $e->getMessage();
-                    $this->get($this->sLogger)->error($e->getMessage());
                 }
 
                 if ('OK' == $aResponse['status']) {
@@ -76,7 +89,7 @@ class AdminController extends BaseIhmController {
                 if ('KO' == $aResponse['status']) {
                     $oResponse->setStatusCode(400);
                     $sMessage = $this->container->get('translator')->trans('error');
-                    $oForm['category']->addError(new \Symfony\Component\Form\FormError($sMessage));
+                    $oForm['id_category']->addError(new \Symfony\Component\Form\FormError($sMessage));
                 }
             } else {
                 $oResponse->setStatusCode(400);
@@ -99,7 +112,13 @@ class AdminController extends BaseIhmController {
 
         $aProduct = $this->get('dataService')
                 ->getSimpleData($code, 'ProductPeer', 'getProductsById');
-        $oForm = $this->createForm(new EditProductForm($aProduct['0']));
+        $list = array(
+            'cat' => $this->get('dataService')
+                    ->getSimpleData(array(), 'ProductCategoryPeer', 'getCategoriesList'),
+            'subcat' => $this->get('dataService')
+                    ->getSimpleData(array(), 'ProductCategoryDetailsPeer', 'getSubCategoriesList'),
+        );
+        $oForm = $this->createForm(new EditProductForm($aProduct['0'], $list));
 
         if ($poRequest->isMethod('POST')) {
 
@@ -147,5 +166,46 @@ class AdminController extends BaseIhmController {
 
         return $oResponse->setStatusCode(400);
     }
+     /**
+     * Import les trad
+     * @Route("/uploadImg", name="upload_img", options={"expose"=true})
+     * @param Request $oRequest
+     *
+     * @author Walid Saadaoui
+     */
+    public function uploadImgAction(Request $oRequest)
+    {
+        try
+        {
 
+            $aFiles = $oRequest->files->all();
+            $oFile            = $aFiles['file'];
+            $aAllowdExtention = $this->container->getParameter('file.img_extensions');
+
+            $sExtension = $oFile->guessClientExtension();
+            if (!$sExtension)
+            {
+                list($sFileName, $sExtension) = explode('.', $oFile->getClientOriginalName());
+            }
+
+            if (!in_array($sExtension, $aAllowdExtention))
+            {
+                throw new \Exception("L'extension $sExtension n'est pas autorisée");
+            }
+            $data = $this->get('IEService')->importImg($oFile);
+            $this->ImgAction($data);
+        }
+        catch (\Exception $e)
+        {
+            $sSuccess = 'Une erreur est survenue';
+        }
+        $sSuccess = 1;
+        
+        return new Response($sSuccess);
+    }
+
+    public function ImgAction($data){
+        $_SESSION['data'] = $data;
+        return new Response($_SESSION['data']);
+    }
 }

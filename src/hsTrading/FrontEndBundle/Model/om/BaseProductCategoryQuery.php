@@ -35,13 +35,13 @@ use hsTrading\FrontEndBundle\Model\ProductCategoryQuery;
  * @method ProductCategoryQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method ProductCategoryQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method ProductCategoryQuery leftJoinProduct($relationAlias = null) Adds a LEFT JOIN clause to the query using the Product relation
- * @method ProductCategoryQuery rightJoinProduct($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Product relation
- * @method ProductCategoryQuery innerJoinProduct($relationAlias = null) Adds a INNER JOIN clause to the query using the Product relation
- *
  * @method ProductCategoryQuery leftJoinProductCategoryDetails($relationAlias = null) Adds a LEFT JOIN clause to the query using the ProductCategoryDetails relation
  * @method ProductCategoryQuery rightJoinProductCategoryDetails($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ProductCategoryDetails relation
  * @method ProductCategoryQuery innerJoinProductCategoryDetails($relationAlias = null) Adds a INNER JOIN clause to the query using the ProductCategoryDetails relation
+ *
+ * @method ProductCategoryQuery leftJoinProduct($relationAlias = null) Adds a LEFT JOIN clause to the query using the Product relation
+ * @method ProductCategoryQuery rightJoinProduct($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Product relation
+ * @method ProductCategoryQuery innerJoinProduct($relationAlias = null) Adds a INNER JOIN clause to the query using the Product relation
  *
  * @method ProductCategory findOne(PropelPDO $con = null) Return the first ProductCategory matching the query
  * @method ProductCategory findOneOrCreate(PropelPDO $con = null) Return the first ProductCategory matching the query, or a new ProductCategory object populated from the query conditions when no match is found
@@ -437,80 +437,6 @@ abstract class BaseProductCategoryQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related Product object
-     *
-     * @param   Product|PropelObjectCollection $product  the related object to use as filter
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return                 ProductCategoryQuery The current query, for fluid interface
-     * @throws PropelException - if the provided filter is invalid.
-     */
-    public function filterByProduct($product, $comparison = null)
-    {
-        if ($product instanceof Product) {
-            return $this
-                ->addUsingAlias(ProductCategoryPeer::ID, $product->getIdCategory(), $comparison);
-        } elseif ($product instanceof PropelObjectCollection) {
-            return $this
-                ->useProductQuery()
-                ->filterByPrimaryKeys($product->getPrimaryKeys())
-                ->endUse();
-        } else {
-            throw new PropelException('filterByProduct() only accepts arguments of type Product or PropelCollection');
-        }
-    }
-
-    /**
-     * Adds a JOIN clause to the query using the Product relation
-     *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return ProductCategoryQuery The current query, for fluid interface
-     */
-    public function joinProduct($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-    {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Product');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
-        }
-
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'Product');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Use the Product relation Product object
-     *
-     * @see       useQuery()
-     *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return   \hsTrading\FrontEndBundle\Model\ProductQuery A secondary query class using the current class as primary query
-     */
-    public function useProductQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-    {
-        return $this
-            ->joinProduct($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Product', '\hsTrading\FrontEndBundle\Model\ProductQuery');
-    }
-
-    /**
      * Filter the query by a related ProductCategoryDetails object
      *
      * @param   ProductCategoryDetails|PropelObjectCollection $productCategoryDetails  the related object to use as filter
@@ -582,6 +508,80 @@ abstract class BaseProductCategoryQuery extends ModelCriteria
         return $this
             ->joinProductCategoryDetails($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'ProductCategoryDetails', '\hsTrading\FrontEndBundle\Model\ProductCategoryDetailsQuery');
+    }
+
+    /**
+     * Filter the query by a related Product object
+     *
+     * @param   Product|PropelObjectCollection $product  the related object to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return                 ProductCategoryQuery The current query, for fluid interface
+     * @throws PropelException - if the provided filter is invalid.
+     */
+    public function filterByProduct($product, $comparison = null)
+    {
+        if ($product instanceof Product) {
+            return $this
+                ->addUsingAlias(ProductCategoryPeer::ID, $product->getIdCategory(), $comparison);
+        } elseif ($product instanceof PropelObjectCollection) {
+            return $this
+                ->useProductQuery()
+                ->filterByPrimaryKeys($product->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByProduct() only accepts arguments of type Product or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Product relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return ProductCategoryQuery The current query, for fluid interface
+     */
+    public function joinProduct($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Product');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Product');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Product relation Product object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   \hsTrading\FrontEndBundle\Model\ProductQuery A secondary query class using the current class as primary query
+     */
+    public function useProductQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinProduct($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Product', '\hsTrading\FrontEndBundle\Model\ProductQuery');
     }
 
     /**

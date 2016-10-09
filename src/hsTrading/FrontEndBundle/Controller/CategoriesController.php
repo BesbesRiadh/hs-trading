@@ -207,7 +207,6 @@ class CategoriesController extends BaseIhmController {
                     $aData = $oForm->getData();
                     $oSubCategory = new \hsTrading\FrontEndBundle\Model\ProductCategoryDetails();
                     $oSubCategory->fromArray($aData, \BasePeer::TYPE_FIELDNAME);
-//                    EchTools::pr($oSubCategory);
                     $oSubCategory->save();
                     $aResponse = array('status' => 'OK');
                 } catch (\Exception $e) {
