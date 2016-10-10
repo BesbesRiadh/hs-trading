@@ -15,13 +15,16 @@ use hsTrading\FrontEndBundle\Utils\EchTools;
  *
  * @author Ramy
  */
-class ContactForm extends AbstractType {
+class ContactForm extends AbstractType
+{
 
-    public function __construct($aOptions = array()) {
+    public function __construct($aOptions = array())
+    {
         $this->countries = EchTools::getOption($aOptions, 'countries');
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
         $builder
                 ->add('mail', 'email', array(
                     'required' => true,
@@ -32,8 +35,13 @@ class ContactForm extends AbstractType {
                     ),
                     'constraints' => array(
                         new Assert\NotBlank(),
-                        ),
-                    )
+                        new Constraints\Email(array(
+                            'checkMX' => true,
+                            'checkHost' => true,
+                            'message' => "ampv"
+                                )),
+                    ),
+                        )
                 )
                 ->add('phone', 'text', array(
                     'required' => false,
@@ -58,6 +66,13 @@ class ContactForm extends AbstractType {
                     'required' => true,
                     'trim' => true,
                     'max_length' => 8,
+                    'constraints' => array(
+                        new Constraints\NotBlank(),
+                        new Assert\Regex(array(
+                            'pattern' => "/^[a-zA-Zéèêëïöôùç -'‘]+$/",
+                            'match' => true,
+                            'message' => "ppv"))
+                    ),
                     'attr' => array('placeholder' => 'firstname',
                         'autocomplete' => 'off',
                         'class' => 'form-control'
@@ -67,6 +82,13 @@ class ContactForm extends AbstractType {
                     'required' => true,
                     'trim' => true,
                     'max_length' => 8,
+                    'constraints' => array(
+                        new Constraints\NotBlank(),
+                        new Assert\Regex(array(
+                            'pattern' => "/^[a-zA-Zéèêëïöôùç -'‘]+$/",
+                            'match' => true,
+                            'message' => "npv"))
+                    ),
                     'attr' => array('placeholder' => 'lastname',
                         'autocomplete' => 'off',
                         'class' => 'form-control'
@@ -79,6 +101,13 @@ class ContactForm extends AbstractType {
                     'attr' => array('placeholder' => 'company',
                         'autocomplete' => 'off',
                         'class' => 'form-control'
+                    ),
+                    'constraints' => array(new Assert\Regex(array(
+                            'pattern' => '/\w{0,100}/',
+                            'match' => true,
+                            'message' => "nspv")
+                        ),
+                        new Assert\NotBlank(),
                     )
                 ))
                 ->add('company_function', 'text', array(
@@ -88,7 +117,14 @@ class ContactForm extends AbstractType {
                     'attr' => array('placeholder' => 'function',
                         'autocomplete' => 'off',
                         'class' => 'form-control'
-                    )
+                    ),
+                    'constraints' => array(
+                        new Constraints\NotBlank(),
+                        new Assert\Regex(array(
+                            'pattern' => "/^[a-zA-Zéèêëïöôùç -'‘]+$/",
+                            'match' => true,
+                            'message' => "cpv"))
+                    ),
                 ))
                 ->add('object', 'text', array(
                     'required' => true,
@@ -97,7 +133,14 @@ class ContactForm extends AbstractType {
                     'attr' => array('placeholder' => 'object',
                         'autocomplete' => 'off',
                         'class' => 'form-control'
-                    )
+                    ),
+                    'constraints' => array(
+                        new Constraints\NotBlank(),
+                        new Assert\Regex(array(
+                            'pattern' => "/^[a-zA-Zéèêëïöôùç -'‘]+$/",
+                            'match' => true,
+                            'message' => "opv"))
+                    ),
                 ))
                 ->add('country', 'choice', array(
                     'required' => true,
@@ -118,9 +161,19 @@ class ContactForm extends AbstractType {
                         'class' => 'form-control'
                     ),
         ));
+
+        $this->setTransformer($builder, 'mail');
+        $this->setTransformer($builder, 'phone');
+        $this->setTransformer($builder, 'firstname');
+        $this->setTransformer($builder, 'lastname');
+        $this->setTransformer($builder, 'company');
+        $this->setTransformer($builder, 'company_function');
+        $this->setTransformer($builder, 'object');
+        $this->setTransformer($builder, 'message');
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver) {
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
         $resolver->setDefaults(
                 array(
                     'csrf_protection' => true,
@@ -128,12 +181,15 @@ class ContactForm extends AbstractType {
         );
     }
 
-    private function setTransformer($builder, $field) {
+    private function setTransformer($builder, $field)
+    {
         $builder->get($field)
                 ->addModelTransformer(new CallbackTransformer(
-                        function ($originalDescription) {
+                        function ($originalDescription)
+                {
                     return $originalDescription;
-                }, function ($submittedDescription) {
+                }, function ($submittedDescription)
+                {
                     // remove most HTML tags (but not br)
                     $cleaned = strip_tags($submittedDescription);
 
@@ -142,7 +198,8 @@ class ContactForm extends AbstractType {
         ));
     }
 
-    public function getName() {
+    public function getName()
+    {
         return 'contact';
     }
 

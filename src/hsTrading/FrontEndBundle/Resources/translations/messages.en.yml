@@ -1,31 +1,91 @@
-Agroalimentaire: test
-Produits alimentaires: Produits Alimentaires
+Agroalimentaire: Food products
+Produits alimentaires: Food products
 Bio: Bio
-Produits: Produits
-Hygiéniques: Hygiéniques
-Cosmétiques: Cosmétiques
-Artisanaux: Artisanaux
-Agro_Products: 'Pâtes alimentaires, Conserves(Poissons, tomates...), Olives de table ...'
-view_products: Consulter les produits
-Bio_food_products: Tomates séchées, Dates Tunisiennes, Huile d'olive ...
-artisan_products: Fouta Tunisienne, Bois d’olivier ...
-p_h_products: Couches bébé, Papiers hygiéniques, Produits détergents ... 
-p_c_products: Huiles essentielles, Savons et shampoing, Huiles de massages ...
-divers: Ustensiles de cuisine et Robinetterie
-our_products: Nos produits
-description1: HS TRADING est une société tunisienne de commerce international résidente totalement exportatrice. Elle propose une large gamme de produits tunisiens authentiques jouissant d’un rayonnement mondial.
-description2: Dotée d’un ensemble de professionnels à l’échelle local et international  et munie d’un riche portefeuille clients étrangers, HS TRADING est forte par ces partenaires et ne cesse  d’évoluer durablement dans un environnement mondial en perpétuel changement.
-description3: Notre rôle est de satisfaire nos clients en leur offrant  des produits authentiques, de bonnes qualités, aux moindres couts et dans les meilleurs délais. 
+Produits: Products
+Hygiéniques: Sanitary
+Cosmétiques: Cosmetics
+Artisanaux: Crafts
+Agro_Products: 'Pasta, Canned Tuna fillet, Mackerel fillet, Canned tomatoes, Olives tablese'
+view_products: Consult products
+Bio_food_products: Dried Tomatoes, Tunisian Dates, olive Oil ...
+artisan_products: Tunisian Fouta, Olive wood ...
+p_h_products: Baby diapers, Sanitary paper, Detergents ...
+p_c_products: essential oils, soaps and shampoo, massage oils ...
+divers: kitchenware & Mixers
+our_products: Our products
+description1: HS TRADING is a Tunisian company of trade totally exporting resident. It offers a wide range of authentic Tunisian products appreciated in wide world.
+description2: Armed with a portfolio of foreign customers, a real expertise of International Trade Procedures, a strong network of local partners and contacts, HS TRADING holds all the cards to evolve sustainable in a global environment that shows great movement.
+description3: Our role is to satisfy our customers with genuine products, good qualities, with low costs in a better delivery.
 hs_trading: HS Trading
-features_title_1: Opérations d’import et d’export 
-features_title_2: Opérations de courtage 
-features_title_3: Opérations de négoce 
-features_title_4: Un service de groupage
-features_title_5: Des  services logistiques expérimentés et multimodales
-features_text_1: Echange de biens et services entre pays.
-features_text_2: Mettre en relations deux opérateurs non résidents en vue de la conclusion d’un contrat ou d’une opération.
-features_text_3: Achat et revente des marchandises à l’étranger.
-features_text_4: Economique pour le transport des expéditions en petites quantités de diverses marchandises.
-features_text_5: Avec le support de transporteurs rapides et compétitifs et des délais relativement courts.
-our_services: Nos services
-
+features_title_1: Import and export operations
+features_title_2: brokerage operations
+features_title_3: trading operations 
+features_title_4: A groupage service
+features_title_5: Experienced and multimodal logistics services
+features_text_1: Exchange of goods and services between countries.
+features_text_2: Develop relationships between non-resident operators to conclude a contract or transaction
+features_text_3: Purchase and resale of goods abroad.
+features_text_4: Economic to transport shipments of small quantities of various goods
+features_text_5: with the support of competitive carriers, we have a relatively short shipping time
+our_markets: Our markets
+our_services: Our services
+french: French
+english: English
+phone: Phone
+mail: Email
+firstname: Firstname
+tin: TIN
+stay_connected: Stay connected
+lastname: Lastname
+company: Company
+function: Function
+object: Object
+send: Send
+contact: Contact us
+confirmation: Confirmation
+close: Close
+contact_confirmation_message: Confirmed!
+field_required: '* Field required'
+noResults: No result was found
+pagination_info: Display {{ctx.start}} to {{ctx.end}} from {{ctx.total}}
+refresh: Refresh
+loading: Loding
+all: All
+category: Category
+description: Description
+designation: Designation
+price: Price
+img: Image
+modif_products: Update products
+products_table_title: List of products
+add_product_dialog_title: add a product
+action_edit: Update
+edit_product_dialog_title: Update product
+delete_product_dialog_title: Delete product
+action_delete: Delete
+error: A erruer occurred
+cancel_button: Cancel
+save_button: Save
+edit_confirmation: Product updated
+login_page_header: Authentification
+login_btn: Login
+country: Country
+message: Message
+treated: Treated
+1: Yes
+0: No
+contacts_history: Contacts History
+list_contact: Cpntacts list
+contacts_now: Contact now
+code: Code
+label: Label
+category_label: Category
+sub_category: Sub category
+more_informations: For more informations
+npv: "Firstname is not valid"
+ppv: "Lastname is not valid"
+ntpv: "Phone number i not valid"
+ampv: "Email address is not valid"
+nspv: "Company name is not valid"
+cpv: "The function is not valid"
+opv: "The object is not valid"

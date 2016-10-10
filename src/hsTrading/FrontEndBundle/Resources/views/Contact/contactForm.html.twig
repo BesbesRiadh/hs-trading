@@ -5,102 +5,104 @@
 <div class="log-reg-v3 content-md margin-bottom-30">
     <div class="container">
         <div class="row">
-            <div class="col-md-6 col-md-offset-1" style="text-align: center">
+            <div class="col-md-7 col-md-offset-1" style="text-align: center">
                 {{ form_start(form, {'attr' : {'class': 'sky-form log-reg-block', 'id' : formId} }) }}
                 {{ form_errors(form) }}
                 <div class="login-input reg-input  margin-bottom-20">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <section>
-                                <label class="input">
-                                    {{ form_row(form.firstname) }}
+                    <fieldset>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <section>
+                                    <label class="input">
+                                        {{ form_row(form.firstname) }}
+                                    </label>
+                                    {%if form.firstname.vars.required %}
+                                        <div class="note note-success" style="float:left;">{{ 'field_required' |trans}}</div>
+                                    {%endif %}
+                                </section>
+                            </div>
+                            <div class="col-sm-6">
+                                <section>
+                                    <label class="input">
+                                        {{ form_row(form.lastname) }}
+                                    </label>
+                                    {%if form.lastname.vars.required %}
+                                        <div class="note note-success" style="float:left;">{{ 'field_required' |trans}}</div>
+                                    {%endif %}
+                                </section>        
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <section>
+                                    <label class="input">
+                                        {{ form_row(form.company) }}
+                                    </label>
+                                    {%if form.company.vars.required %}
+                                        <div class="note note-success" style="float:left;">{{ 'field_required' |trans}}</div>
+                                    {%endif %}
+                                </section>
+                            </div>
+                            <div class="col-sm-6">
+                                <section>
+                                    <label class="input">
+                                        {{ form_row(form.company_function) }}
+                                    </label>
+                                </section>        
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <label class="select">
+                                    {{ form_row(form.country) }}
                                 </label>
-                                {%if form.firstname.vars.required %}
+                                {%if form.country.vars.required %}
                                     <div class="note note-success" style="float:left;">{{ 'field_required' |trans}}</div>
                                 {%endif %}
-                            </section>
+                            </div>
+                            <div class="col-xs-6">
+                                <section>
+                                    <label class="input">
+                                        {{ form_row(form.phone) }}
+                                    </label>
+                                </section>
+                            </div>
                         </div>
-                        <div class="col-sm-6">
-                            <section>
-                                <label class="input">
-                                    {{ form_row(form.lastname) }}
-                                </label>
-                                {%if form.lastname.vars.required %}
-                                    <div class="note note-success" style="float:left;">{{ 'field_required' |trans}}</div>
-                                {%endif %}
-                            </section>        
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <section>
+                                    <label class="input">
+                                        {{ form_row(form.mail) }}
+                                    </label>
+                                    {%if form.mail.vars.required %}
+                                        <div class="note note-success" style="float:left;">{{ 'field_required' |trans}}</div>
+                                    {%endif %}
+                                </section>
+                            </div>
+                            <div class="col-xs-6">
+                                <section>
+                                    <label class="input">
+                                        {{ form_row(form.object) }}
+                                    </label>
+                                    {%if form.object.vars.required %}
+                                        <div class="note note-success" style="float:left;">{{ 'field_required' |trans}}</div>
+                                    {%endif %}
+                                </section>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <section>
-                                <label class="input">
-                                    {{ form_row(form.company) }}
-                                </label>
-                                {%if form.company.vars.required %}
-                                    <div class="note note-success" style="float:left;">{{ 'field_required' |trans}}</div>
-                                {%endif %}
-                            </section>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <section>
+                                    <label class="input">
+                                        {{ form_row(form.message) }}
+                                    </label>
+                                    {%if form.message.vars.required %}
+                                        <div class="note note-success" style="float:left;">{{ 'field_required' |trans}}</div>
+                                    {%endif %}
+                                </section>
+                            </div>
                         </div>
-                        <div class="col-sm-6">
-                            <section>
-                                <label class="input">
-                                    {{ form_row(form.company_function) }}
-                                </label>
-                            </section>        
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <label class="select">
-                                {{ form_row(form.country) }}
-                            </label>
-                            {%if form.country.vars.required %}
-                                <div class="note note-success" style="float:left;">{{ 'field_required' |trans}}</div>
-                            {%endif %}
-                        </div>
-                        <div class="col-xs-6">
-                            <section>
-                                <label class="input">
-                                    {{ form_row(form.phone) }}
-                                </label>
-                            </section>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <section>
-                                <label class="input">
-                                    {{ form_row(form.mail) }}
-                                </label>
-                                {%if form.mail.vars.required %}
-                                    <div class="note note-success" style="float:left;">{{ 'field_required' |trans}}</div>
-                                {%endif %}
-                            </section>
-                        </div>
-                        <div class="col-xs-6">
-                            <section>
-                                <label class="input">
-                                    {{ form_row(form.object) }}
-                                </label>
-                                {%if form.object.vars.required %}
-                                    <div class="note note-success" style="float:left;">{{ 'field_required' |trans}}</div>
-                                {%endif %}
-                            </section>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <section>
-                                <label class="input">
-                                    {{ form_row(form.message) }}
-                                </label>
-                                {%if form.message.vars.required %}
-                                    <div class="note note-success" style="float:left;">{{ 'field_required' |trans}}</div>
-                                {%endif %}
-                            </section>
-                        </div>
-                    </div>
+                    </fieldset>
                 </div>
 
                 <button class="btn-u btn-u-sea-shop btn-block" type="submit">{{ 'send'|trans }}</button>
