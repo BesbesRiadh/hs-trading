@@ -139,6 +139,8 @@ parameters:
                 label:
                     width: 40%
                     list: true
+                productCategoy_Id:
+                    list: true
                 action_edit:
                     width: 10%
                     sorting: false
