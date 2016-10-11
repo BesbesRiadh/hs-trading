@@ -3,8 +3,8 @@ var SubCategories = function (params)
     try {
         this.listSubCategories = Routing.generate('list_sub_categories');
         this.addSubCategoryUrl = Routing.generate('add_sub_category');
-//        this.editCategoryUrl = Routing.generate('edit_category');
-//        this.deleteCategoryUrl = Routing.generate('delete_category');
+//        this.editSubCategoryUrl = Routing.generate('edit_sub_category');
+//        this.deleteSubCategoryUrl = Routing.generate('delete_sub_category');
         this.Messages = $.parseJSON(params.Messages);
     } catch (e)
     {
@@ -71,12 +71,12 @@ class="btn btn-primary" type="button" title="' + 'Ajouter une sous-catégorie' +
     {
         grid.find(".command-edit").on("click", function (e)
         {
-            self.editCategory(self.editCategoryUrl + '/' + $(this).
+            self.editSubCategory(self.editSubCategoryUrl + '/' + $(this).
                     data("row-id"));
         }).end()
                 .find(".command-delete").on("click", function (e)
         {
-            self.deleteCategory(self.deleteCategoryUrl + '/' + $(this).
+            self.deleteSubCategory(self.deleteSubCategoryUrl + '/' + $(this).
                     data("row-id"));
         })
 
@@ -150,12 +150,12 @@ SubCategories.prototype.addSubCategory = function ()
 
 };
 
-SubCategories.prototype.deleteCategory = function (url)
+SubCategories.prototype.deleteSubCategory = function (url)
 {
     var self = this;
 
     var options = {
-        message: 'Voulez-vous supprimer cette catégorie?',
+        message: 'Voulez-vous supprimer cette sous catégorie?',
         title: 'Confirmation',
         size: 'sm',
         loader: true,
@@ -167,7 +167,7 @@ SubCategories.prototype.deleteCategory = function (url)
                     url: url,
                     success: function () {
                         eModal.alert({
-                            message: 'La catégorie a a été supprimée',
+                            message: 'La sous catégorie a a été supprimée',
                             title: 'Confirmation',
                             size: 'sm',
                             useBin: true
@@ -178,7 +178,6 @@ SubCategories.prototype.deleteCategory = function (url)
                     error: function (jqXHR, event)
                     {
                         if (jqXHR.status === 400) {
-                            alert('error');
                             eModal.alert({
                                 message: 'Une erreur est survenue',
                                 title: 'Erreur',
@@ -195,7 +194,7 @@ SubCategories.prototype.deleteCategory = function (url)
 };
 
 
-SubCategories.prototype.editCategory = function (url)
+SubCategories.prototype.editSubCategory = function (url)
 {
     var self = this;
     var options = {
@@ -223,11 +222,11 @@ SubCategories.prototype.editCategory = function (url)
                     $.ajax({
                         type: 'POST',
                         url: url,
-                        data: $("#EditCategoryForm").
+                        data: $("#EditSubCategoryForm").
                                 serialize(),
                         success: function () {
                             var options = {
-                                message: 'La catégorie a été modifiée',
+                                message: 'La sous catégorie a été modifiée',
                                 title: 'Confirmation',
                                 size: 'sm',
                                 useBin: true
@@ -237,7 +236,7 @@ SubCategories.prototype.editCategory = function (url)
 
                         },
                         error: function (jqXHR) {
-                            $("#EditCategoryForm").
+                            $("#EditSubCategoryForm").
                                     html(jqXHR.responseText);
                             $(el).
                                     removeAttr('disabled').

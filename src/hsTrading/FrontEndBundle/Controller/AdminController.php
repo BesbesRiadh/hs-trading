@@ -67,19 +67,21 @@ class AdminController extends BaseIhmController {
 
                 try {
                     $aData = $oForm->getData();
-                    $image = $this->ImgAction();
-                    EchTools::pr($image);
                     $Category = $this->get('dataService')
                             ->getSimpleData(array('id' => $aData['id_category']), 'ProductCategoryPeer', 'getCategoryById');
                     $aData['code'] = $Category[0]['code'];
-                    $aData['img'] = $image;
+                    $aData['img'] = $poRequest->getSession()->get('image_base64');
+
 
                     $oProduct = new \hsTrading\FrontEndBundle\Model\Product();
                     $oProduct->fromArray($aData, \BasePeer::TYPE_FIELDNAME);
-                    $oProduct->save();
-                    $aResponse = array('status' => 'OK');
-              
-                    } catch (\Exception $e) {
+                    
+                    if ($oProduct->save()) {
+                        $poRequest->getSession()->remove('image_base64');
+                        $aResponse = array('status' => 'OK');
+                    }
+                    
+                } catch (\Exception $e) {
                     $aResponse['message'] = $e->getMessage();
                 }
 
@@ -158,54 +160,44 @@ class AdminController extends BaseIhmController {
 
         $oResponse = new Response();
         $aResponse = $this->get('dataService')
-                ->getSimpleData(10, 'ProductPeer', 'deleteProductById');
+                ->getSimpleData($code, 'ProductPeer', 'deleteProductById');
 
-        if ($aResponse === 'true') {
+        if ($aResponse === 1) {
             return $oResponse->setStatusCode(200);
         }
 
         return $oResponse->setStatusCode(400);
     }
-     /**
+
+    /**
      * Import les trad
      * @Route("/uploadImg", name="upload_img", options={"expose"=true})
      * @param Request $oRequest
      *
      * @author Walid Saadaoui
      */
-    public function uploadImgAction(Request $oRequest)
-    {
-        try
-        {
+    public function uploadImgAction(Request $oRequest) {
+        try {
 
             $aFiles = $oRequest->files->all();
-            $oFile            = $aFiles['file'];
+            $oFile = $aFiles['file'];
             $aAllowdExtention = $this->container->getParameter('file.img_extensions');
 
             $sExtension = $oFile->guessClientExtension();
-            if (!$sExtension)
-            {
+            if (!$sExtension) {
                 list($sFileName, $sExtension) = explode('.', $oFile->getClientOriginalName());
             }
 
-            if (!in_array($sExtension, $aAllowdExtention))
-            {
+            if (!in_array($sExtension, $aAllowdExtention)) {
                 throw new \Exception("L'extension $sExtension n'est pas autorisée");
             }
             $data = $this->get('IEService')->importImg($oFile);
-            $this->ImgAction($data);
-        }
-        catch (\Exception $e)
-        {
+            $oRequest->getSession()->set('image_base64', $data);
+        } catch (\Exception $e) {
             $sSuccess = 'Une erreur est survenue';
         }
         $sSuccess = 1;
-        
         return new Response($sSuccess);
     }
 
-    public function ImgAction($data){
-        $_SESSION['data'] = $data;
-        return new Response($_SESSION['data']);
-    }
 }

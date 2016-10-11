@@ -1,4 +1,5 @@
 imports:
+    - { resource: parameters.yml }
     - { resource: config.yml }
 
 framework:
@@ -14,15 +15,16 @@ web_profiler:
 monolog:
     handlers:
         main:
-            type:  stream
-            path:  %kernel.logs_dir%/%kernel.environment%.log
-            level: debug
+            type: rotating_file
+            max_files: 20
+            path:  "%kernel.logs_dir%/%kernel.environment%.log"
+            level: warning
         firephp:
             type:  firephp
-            level: info
+            level: warning
         chromephp:
             type:  chromephp
-            level: info
+            level: warning
 
 assetic:
     use_controller: true

@@ -69,9 +69,6 @@ class AddProductForm extends AbstractType
                     )
                 ))
                 ->add('img', 'file', array(
-                    'mapped' => true,
-//                    'attr' => array('placeholder' => 'img', 'style' => 'width: 800px; height: 140px; resize:none;'
-//                    )
                 ));
                 
     }

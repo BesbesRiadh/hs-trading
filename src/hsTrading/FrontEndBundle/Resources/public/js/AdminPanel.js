@@ -140,7 +140,6 @@ AdminPanel.prototype.deleteProduct = function (url)
                     error: function (jqXHR, event)
                     {
                         if (jqXHR.status === 400) {
-                            alert('error');
                             eModal.alert({
                                 message: 'Une erreur est survenue',
                                 title: 'Erreur',
@@ -270,8 +269,8 @@ AdminPanel.prototype.addProduct = function ()
                                     },
                                     success: function () {
                                         var options = {
-                                            message: self.showMessage(self.Messages.add_confirmation),
-                                            title: self.showMessage(self.Messages.confirmation),
+                                            message: self.showMessage('Votre produit a été ajouté'),
+                                            title: self.showMessage('Confirmation'),
                                             size: 'sm',
                                             useBin: true
                                         };
