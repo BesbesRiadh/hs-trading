@@ -12,9 +12,10 @@ class EditSubCategoryForm extends AbstractType
 
     public function __construct($aOptions = array())
     {
-        $this->aCategory = EchTools::getOption($aOptions, 'category');
-        $this->aCode     = EchTools::getOption($aOptions, 'code');
-        $this->aLabel    = EchTools::getOption($aOptions, 'label');
+        $this->aCategory   = EchTools::getOption($aOptions, 'category');
+        $this->aCode       = EchTools::getOption($aOptions, 'code');
+        $this->aLabel      = EchTools::getOption($aOptions, 'label');
+        $this->acategorder = EchTools::getOption($aOptions, 'categorder');
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -37,6 +38,14 @@ class EditSubCategoryForm extends AbstractType
                     'data' => $this->aLabel,
                     'max_length' => 255,
                     'attr' => array('placeholder' => 'label',
+                    )
+                ))
+                ->add('categorder', 'text', array(
+                    'required' => true,
+                    'trim' => true,
+                    'data' => $this->acategorder,
+                    'max_length' => 255,
+                    'attr' => array('placeholder' => 'categorder',
                     )
                 ))
         ;

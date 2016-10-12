@@ -23,6 +23,7 @@ use hsTrading\FrontEndBundle\Model\ProductCategoryDetailsQuery;
  * @method ProductCategoryDetailsQuery orderByProductcategoryId($order = Criteria::ASC) Order by the productCategory_id column
  * @method ProductCategoryDetailsQuery orderByCode($order = Criteria::ASC) Order by the code column
  * @method ProductCategoryDetailsQuery orderByLabel($order = Criteria::ASC) Order by the label column
+ * @method ProductCategoryDetailsQuery orderByCategorder($order = Criteria::ASC) Order by the categorder column
  * @method ProductCategoryDetailsQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
  * @method ProductCategoryDetailsQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
  *
@@ -30,6 +31,7 @@ use hsTrading\FrontEndBundle\Model\ProductCategoryDetailsQuery;
  * @method ProductCategoryDetailsQuery groupByProductcategoryId() Group by the productCategory_id column
  * @method ProductCategoryDetailsQuery groupByCode() Group by the code column
  * @method ProductCategoryDetailsQuery groupByLabel() Group by the label column
+ * @method ProductCategoryDetailsQuery groupByCategorder() Group by the categorder column
  * @method ProductCategoryDetailsQuery groupByCreatedAt() Group by the created_at column
  * @method ProductCategoryDetailsQuery groupByUpdatedAt() Group by the updated_at column
  *
@@ -51,6 +53,7 @@ use hsTrading\FrontEndBundle\Model\ProductCategoryDetailsQuery;
  * @method ProductCategoryDetails findOneByProductcategoryId(int $productCategory_id) Return the first ProductCategoryDetails filtered by the productCategory_id column
  * @method ProductCategoryDetails findOneByCode(string $code) Return the first ProductCategoryDetails filtered by the code column
  * @method ProductCategoryDetails findOneByLabel(string $label) Return the first ProductCategoryDetails filtered by the label column
+ * @method ProductCategoryDetails findOneByCategorder(int $categorder) Return the first ProductCategoryDetails filtered by the categorder column
  * @method ProductCategoryDetails findOneByCreatedAt(string $created_at) Return the first ProductCategoryDetails filtered by the created_at column
  * @method ProductCategoryDetails findOneByUpdatedAt(string $updated_at) Return the first ProductCategoryDetails filtered by the updated_at column
  *
@@ -58,6 +61,7 @@ use hsTrading\FrontEndBundle\Model\ProductCategoryDetailsQuery;
  * @method array findByProductcategoryId(int $productCategory_id) Return ProductCategoryDetails objects filtered by the productCategory_id column
  * @method array findByCode(string $code) Return ProductCategoryDetails objects filtered by the code column
  * @method array findByLabel(string $label) Return ProductCategoryDetails objects filtered by the label column
+ * @method array findByCategorder(int $categorder) Return ProductCategoryDetails objects filtered by the categorder column
  * @method array findByCreatedAt(string $created_at) Return ProductCategoryDetails objects filtered by the created_at column
  * @method array findByUpdatedAt(string $updated_at) Return ProductCategoryDetails objects filtered by the updated_at column
  */
@@ -165,7 +169,7 @@ abstract class BaseProductCategoryDetailsQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `productCategory_id`, `code`, `label`, `created_at`, `updated_at` FROM `hs_product_category_details` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `productCategory_id`, `code`, `label`, `categorder`, `created_at`, `updated_at` FROM `hs_product_category_details` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -396,6 +400,48 @@ abstract class BaseProductCategoryDetailsQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ProductCategoryDetailsPeer::LABEL, $label, $comparison);
+    }
+
+    /**
+     * Filter the query on the categorder column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByCategorder(1234); // WHERE categorder = 1234
+     * $query->filterByCategorder(array(12, 34)); // WHERE categorder IN (12, 34)
+     * $query->filterByCategorder(array('min' => 12)); // WHERE categorder >= 12
+     * $query->filterByCategorder(array('max' => 12)); // WHERE categorder <= 12
+     * </code>
+     *
+     * @param     mixed $categorder The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ProductCategoryDetailsQuery The current query, for fluid interface
+     */
+    public function filterByCategorder($categorder = null, $comparison = null)
+    {
+        if (is_array($categorder)) {
+            $useMinMax = false;
+            if (isset($categorder['min'])) {
+                $this->addUsingAlias(ProductCategoryDetailsPeer::CATEGORDER, $categorder['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($categorder['max'])) {
+                $this->addUsingAlias(ProductCategoryDetailsPeer::CATEGORDER, $categorder['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(ProductCategoryDetailsPeer::CATEGORDER, $categorder, $comparison);
     }
 
     /**

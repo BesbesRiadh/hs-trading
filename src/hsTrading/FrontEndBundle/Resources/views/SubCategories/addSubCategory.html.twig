@@ -34,6 +34,14 @@
             {%endif %}
         </section>
     </div>
+    <div class="row">
+        <section class="col col-11">
+            <label class="input {{ form_errors(form.label)|trim ? 'state-error' : '' }}">
+                <i class="icon-prepend fa fa-first-order"></i>
+                {{ form_row(form.categorder) }}
+            </label>
+        </section>
+    </div>
 </fieldset>
 {{ form_end(form) }}
 {{ form_rest(form) }}

@@ -283,7 +283,7 @@ class CategoriesController extends BaseIhmController
                 ->getSimpleData(['code' => $code, 'id_category' => $categoryId], 'ProductCategoryDetailsPeer', 'retrieveOne');
         $aCategories = $this->get('dataService')
                 ->getSimpleData('', 'ProductCategoryPeer', 'getCategory');
-        $data        = array('code' => $aCategory->getCode(), 'label' => $aCategory->getLabel(), 'category' => $aCategories);
+        $data        = array('code' => $aCategory->getCode(), 'label' => $aCategory->getLabel(), 'categorder' => $aCategory->getCategorder(), 'category' => $aCategories);
         $oForm       = $this->createForm(new EditSubCategoryForm($data));
 
         if ($poRequest->isMethod('POST'))

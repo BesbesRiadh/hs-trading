@@ -40,6 +40,7 @@
         <column name="productCategory_id" type="Integer" required="true" />
         <column name="code" type="varchar" size="60" required="true" />
         <column name="label" type="varchar" size="60" required="true" />
+        <column name="categorder" type="Integer" required="false" />
         <behavior name="timestampable"/>
         <unique name="UK_category_details_code">
             <unique-column name="code" />

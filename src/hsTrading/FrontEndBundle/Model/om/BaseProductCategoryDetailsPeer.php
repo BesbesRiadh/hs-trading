@@ -30,13 +30,13 @@ abstract class BaseProductCategoryDetailsPeer
     const TM_CLASS = 'hsTrading\\FrontEndBundle\\Model\\map\\ProductCategoryDetailsTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 6;
+    const NUM_COLUMNS = 7;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 6;
+    const NUM_HYDRATE_COLUMNS = 7;
 
     /** the column name for the id field */
     const ID = 'hs_product_category_details.id';
@@ -49,6 +49,9 @@ abstract class BaseProductCategoryDetailsPeer
 
     /** the column name for the label field */
     const LABEL = 'hs_product_category_details.label';
+
+    /** the column name for the categorder field */
+    const CATEGORDER = 'hs_product_category_details.categorder';
 
     /** the column name for the created_at field */
     const CREATED_AT = 'hs_product_category_details.created_at';
@@ -75,12 +78,12 @@ abstract class BaseProductCategoryDetailsPeer
      * e.g. ProductCategoryDetailsPeer::$fieldNames[ProductCategoryDetailsPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Id', 'ProductcategoryId', 'Code', 'Label', 'CreatedAt', 'UpdatedAt', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'productcategoryId', 'code', 'label', 'createdAt', 'updatedAt', ),
-        BasePeer::TYPE_COLNAME => array (ProductCategoryDetailsPeer::ID, ProductCategoryDetailsPeer::PRODUCTCATEGORY_ID, ProductCategoryDetailsPeer::CODE, ProductCategoryDetailsPeer::LABEL, ProductCategoryDetailsPeer::CREATED_AT, ProductCategoryDetailsPeer::UPDATED_AT, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'PRODUCTCATEGORY_ID', 'CODE', 'LABEL', 'CREATED_AT', 'UPDATED_AT', ),
-        BasePeer::TYPE_FIELDNAME => array ('id', 'productCategory_id', 'code', 'label', 'created_at', 'updated_at', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+        BasePeer::TYPE_PHPNAME => array ('Id', 'ProductcategoryId', 'Code', 'Label', 'Categorder', 'CreatedAt', 'UpdatedAt', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'productcategoryId', 'code', 'label', 'categorder', 'createdAt', 'updatedAt', ),
+        BasePeer::TYPE_COLNAME => array (ProductCategoryDetailsPeer::ID, ProductCategoryDetailsPeer::PRODUCTCATEGORY_ID, ProductCategoryDetailsPeer::CODE, ProductCategoryDetailsPeer::LABEL, ProductCategoryDetailsPeer::CATEGORDER, ProductCategoryDetailsPeer::CREATED_AT, ProductCategoryDetailsPeer::UPDATED_AT, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'PRODUCTCATEGORY_ID', 'CODE', 'LABEL', 'CATEGORDER', 'CREATED_AT', 'UPDATED_AT', ),
+        BasePeer::TYPE_FIELDNAME => array ('id', 'productCategory_id', 'code', 'label', 'categorder', 'created_at', 'updated_at', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
     );
 
     /**
@@ -90,12 +93,12 @@ abstract class BaseProductCategoryDetailsPeer
      * e.g. ProductCategoryDetailsPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'ProductcategoryId' => 1, 'Code' => 2, 'Label' => 3, 'CreatedAt' => 4, 'UpdatedAt' => 5, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'productcategoryId' => 1, 'code' => 2, 'label' => 3, 'createdAt' => 4, 'updatedAt' => 5, ),
-        BasePeer::TYPE_COLNAME => array (ProductCategoryDetailsPeer::ID => 0, ProductCategoryDetailsPeer::PRODUCTCATEGORY_ID => 1, ProductCategoryDetailsPeer::CODE => 2, ProductCategoryDetailsPeer::LABEL => 3, ProductCategoryDetailsPeer::CREATED_AT => 4, ProductCategoryDetailsPeer::UPDATED_AT => 5, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'PRODUCTCATEGORY_ID' => 1, 'CODE' => 2, 'LABEL' => 3, 'CREATED_AT' => 4, 'UPDATED_AT' => 5, ),
-        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'productCategory_id' => 1, 'code' => 2, 'label' => 3, 'created_at' => 4, 'updated_at' => 5, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'ProductcategoryId' => 1, 'Code' => 2, 'Label' => 3, 'Categorder' => 4, 'CreatedAt' => 5, 'UpdatedAt' => 6, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'productcategoryId' => 1, 'code' => 2, 'label' => 3, 'categorder' => 4, 'createdAt' => 5, 'updatedAt' => 6, ),
+        BasePeer::TYPE_COLNAME => array (ProductCategoryDetailsPeer::ID => 0, ProductCategoryDetailsPeer::PRODUCTCATEGORY_ID => 1, ProductCategoryDetailsPeer::CODE => 2, ProductCategoryDetailsPeer::LABEL => 3, ProductCategoryDetailsPeer::CATEGORDER => 4, ProductCategoryDetailsPeer::CREATED_AT => 5, ProductCategoryDetailsPeer::UPDATED_AT => 6, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'PRODUCTCATEGORY_ID' => 1, 'CODE' => 2, 'LABEL' => 3, 'CATEGORDER' => 4, 'CREATED_AT' => 5, 'UPDATED_AT' => 6, ),
+        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'productCategory_id' => 1, 'code' => 2, 'label' => 3, 'categorder' => 4, 'created_at' => 5, 'updated_at' => 6, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
     );
 
     /**
@@ -173,6 +176,7 @@ abstract class BaseProductCategoryDetailsPeer
             $criteria->addSelectColumn(ProductCategoryDetailsPeer::PRODUCTCATEGORY_ID);
             $criteria->addSelectColumn(ProductCategoryDetailsPeer::CODE);
             $criteria->addSelectColumn(ProductCategoryDetailsPeer::LABEL);
+            $criteria->addSelectColumn(ProductCategoryDetailsPeer::CATEGORDER);
             $criteria->addSelectColumn(ProductCategoryDetailsPeer::CREATED_AT);
             $criteria->addSelectColumn(ProductCategoryDetailsPeer::UPDATED_AT);
         } else {
@@ -180,6 +184,7 @@ abstract class BaseProductCategoryDetailsPeer
             $criteria->addSelectColumn($alias . '.productCategory_id');
             $criteria->addSelectColumn($alias . '.code');
             $criteria->addSelectColumn($alias . '.label');
+            $criteria->addSelectColumn($alias . '.categorder');
             $criteria->addSelectColumn($alias . '.created_at');
             $criteria->addSelectColumn($alias . '.updated_at');
         }

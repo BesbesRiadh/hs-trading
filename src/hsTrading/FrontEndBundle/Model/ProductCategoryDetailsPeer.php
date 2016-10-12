@@ -112,7 +112,8 @@ class ProductCategoryDetailsPeer extends BaseProductCategoryDetailsPeer
         $oCriteria = new \Criteria();
         $oCriteria->setPrimaryTableName(self::TABLE_NAME);
         $oCriteria->addJoin(self::PRODUCTCATEGORY_ID, ProductCategoryPeer::ID, \Criteria::INNER_JOIN);
-        $oCriteria->add(ProductCategoryPeer::CODE, $code);
+        $oCriteria->add(ProductCategoryPeer::CODE, $code)
+                ->addAscendingOrderByColumn(self::CATEGORDER);
         return self::doSelectStmt($oCriteria)->fetchAll(\PDO::FETCH_ASSOC);
     }
 
