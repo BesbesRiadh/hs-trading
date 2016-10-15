@@ -7,12 +7,15 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use hsTrading\FrontEndBundle\Utils\EchTools;
 
-class AddSubCategoryForm extends AbstractType
+class EditSubCategoryForm extends AbstractType
 {
 
     public function __construct($aOptions = array())
     {
-        $this->aCategory = EchTools::getOption($aOptions, 'category');
+        $this->aCategory   = EchTools::getOption($aOptions, 'category');
+        $this->aCode       = EchTools::getOption($aOptions, 'code');
+        $this->aLabel      = EchTools::getOption($aOptions, 'label');
+        $this->acategorder = EchTools::getOption($aOptions, 'categorder');
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -24,6 +27,7 @@ class AddSubCategoryForm extends AbstractType
                 ->add('code', 'text', array(
                     'required' => true,
                     'trim' => true,
+                    'data' => $this->aCode,
                     'max_length' => 255,
                     'attr' => array('placeholder' => 'code',
                     )
@@ -31,6 +35,7 @@ class AddSubCategoryForm extends AbstractType
                 ->add('label', 'text', array(
                     'required' => true,
                     'trim' => true,
+                    'data' => $this->aLabel,
                     'max_length' => 255,
                     'attr' => array('placeholder' => 'label',
                     )
@@ -38,6 +43,7 @@ class AddSubCategoryForm extends AbstractType
                 ->add('categorder', 'text', array(
                     'required' => true,
                     'trim' => true,
+                    'data' => $this->acategorder,
                     'max_length' => 255,
                     'attr' => array('placeholder' => 'categorder',
                     )
@@ -47,7 +53,7 @@ class AddSubCategoryForm extends AbstractType
 
     public function getName()
     {
-        return 'AddSubCategory';
+        return 'EditSubCategory';
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

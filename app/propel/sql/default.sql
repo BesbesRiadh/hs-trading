@@ -54,6 +54,7 @@ CREATE TABLE `hs_product_category_details`
     `productCategory_id` INTEGER NOT NULL,
     `code` VARCHAR(60) NOT NULL,
     `label` VARCHAR(60) NOT NULL,
+    `categorder` INTEGER,
     `created_at` DATETIME,
     `updated_at` DATETIME,
     PRIMARY KEY (`id`),

@@ -3,7 +3,7 @@ var SubCategories = function (params)
     try {
         this.listSubCategories = Routing.generate('list_sub_categories');
         this.addSubCategoryUrl = Routing.generate('add_sub_category');
-//        this.editSubCategoryUrl = Routing.generate('edit_sub_category');
+        this.editSubCategoryUrl = Routing.generate('edit_subcategory');
 //        this.deleteSubCategoryUrl = Routing.generate('delete_sub_category');
         this.Messages = $.parseJSON(params.Messages);
     } catch (e)
@@ -54,6 +54,7 @@ class="btn btn-primary" type="button" title="' + 'Ajouter une sous-catégorie' +
                 var $EditElement = $($("#spanEditElement").
                         html());
                 $EditElement.attr('data-row-id', row.code);
+                $EditElement.attr('id', row.productCategoy_Id);
                 $affect_td.append($EditElement);
                 return $affect_td.html();
             },
@@ -71,8 +72,11 @@ class="btn btn-primary" type="button" title="' + 'Ajouter une sous-catégorie' +
     {
         grid.find(".command-edit").on("click", function (e)
         {
-            self.editSubCategory(self.editSubCategoryUrl + '/' + $(this).
+            var idCategory = $(this).
+                    attr("id");
+            self.editSubCategory(self.editSubCategoryUrl + '/' + idCategory + '/' + $(this).
                     data("row-id"));
+
         }).end()
                 .find(".command-delete").on("click", function (e)
         {

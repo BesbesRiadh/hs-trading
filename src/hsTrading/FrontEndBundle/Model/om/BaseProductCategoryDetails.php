@@ -69,6 +69,12 @@ abstract class BaseProductCategoryDetails extends BaseObject implements Persiste
     protected $label;
 
     /**
+     * The value for the categorder field.
+     * @var        int
+     */
+    protected $categorder;
+
+    /**
      * The value for the created_at field.
      * @var        string
      */
@@ -159,6 +165,17 @@ abstract class BaseProductCategoryDetails extends BaseObject implements Persiste
     {
 
         return $this->label;
+    }
+
+    /**
+     * Get the [categorder] column value.
+     *
+     * @return int
+     */
+    public function getCategorder()
+    {
+
+        return $this->categorder;
     }
 
     /**
@@ -330,6 +347,27 @@ abstract class BaseProductCategoryDetails extends BaseObject implements Persiste
     } // setLabel()
 
     /**
+     * Set the value of [categorder] column.
+     *
+     * @param  int $v new value
+     * @return ProductCategoryDetails The current object (for fluent API support)
+     */
+    public function setCategorder($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (int) $v;
+        }
+
+        if ($this->categorder !== $v) {
+            $this->categorder = $v;
+            $this->modifiedColumns[] = ProductCategoryDetailsPeer::CATEGORDER;
+        }
+
+
+        return $this;
+    } // setCategorder()
+
+    /**
      * Sets the value of [created_at] column to a normalized version of the date/time value specified.
      *
      * @param mixed $v string, integer (timestamp), or DateTime value.
@@ -411,8 +449,9 @@ abstract class BaseProductCategoryDetails extends BaseObject implements Persiste
             $this->productcategory_id = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
             $this->code = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
             $this->label = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-            $this->created_at = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
-            $this->updated_at = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
+            $this->categorder = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
+            $this->created_at = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
+            $this->updated_at = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -422,7 +461,7 @@ abstract class BaseProductCategoryDetails extends BaseObject implements Persiste
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 6; // 6 = ProductCategoryDetailsPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 7; // 7 = ProductCategoryDetailsPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating ProductCategoryDetails object", $e);
@@ -693,6 +732,9 @@ abstract class BaseProductCategoryDetails extends BaseObject implements Persiste
         if ($this->isColumnModified(ProductCategoryDetailsPeer::LABEL)) {
             $modifiedColumns[':p' . $index++]  = '`label`';
         }
+        if ($this->isColumnModified(ProductCategoryDetailsPeer::CATEGORDER)) {
+            $modifiedColumns[':p' . $index++]  = '`categorder`';
+        }
         if ($this->isColumnModified(ProductCategoryDetailsPeer::CREATED_AT)) {
             $modifiedColumns[':p' . $index++]  = '`created_at`';
         }
@@ -721,6 +763,9 @@ abstract class BaseProductCategoryDetails extends BaseObject implements Persiste
                         break;
                     case '`label`':
                         $stmt->bindValue($identifier, $this->label, PDO::PARAM_STR);
+                        break;
+                    case '`categorder`':
+                        $stmt->bindValue($identifier, $this->categorder, PDO::PARAM_INT);
                         break;
                     case '`created_at`':
                         $stmt->bindValue($identifier, $this->created_at, PDO::PARAM_STR);
@@ -895,9 +940,12 @@ abstract class BaseProductCategoryDetails extends BaseObject implements Persiste
                 return $this->getLabel();
                 break;
             case 4:
-                return $this->getCreatedAt();
+                return $this->getCategorder();
                 break;
             case 5:
+                return $this->getCreatedAt();
+                break;
+            case 6:
                 return $this->getUpdatedAt();
                 break;
             default:
@@ -933,8 +981,9 @@ abstract class BaseProductCategoryDetails extends BaseObject implements Persiste
             $keys[1] => $this->getProductcategoryId(),
             $keys[2] => $this->getCode(),
             $keys[3] => $this->getLabel(),
-            $keys[4] => $this->getCreatedAt(),
-            $keys[5] => $this->getUpdatedAt(),
+            $keys[4] => $this->getCategorder(),
+            $keys[5] => $this->getCreatedAt(),
+            $keys[6] => $this->getUpdatedAt(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -995,9 +1044,12 @@ abstract class BaseProductCategoryDetails extends BaseObject implements Persiste
                 $this->setLabel($value);
                 break;
             case 4:
-                $this->setCreatedAt($value);
+                $this->setCategorder($value);
                 break;
             case 5:
+                $this->setCreatedAt($value);
+                break;
+            case 6:
                 $this->setUpdatedAt($value);
                 break;
         } // switch()
@@ -1028,8 +1080,9 @@ abstract class BaseProductCategoryDetails extends BaseObject implements Persiste
         if (array_key_exists($keys[1], $arr)) $this->setProductcategoryId($arr[$keys[1]]);
         if (array_key_exists($keys[2], $arr)) $this->setCode($arr[$keys[2]]);
         if (array_key_exists($keys[3], $arr)) $this->setLabel($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setCreatedAt($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setUpdatedAt($arr[$keys[5]]);
+        if (array_key_exists($keys[4], $arr)) $this->setCategorder($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setCreatedAt($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setUpdatedAt($arr[$keys[6]]);
     }
 
     /**
@@ -1045,6 +1098,7 @@ abstract class BaseProductCategoryDetails extends BaseObject implements Persiste
         if ($this->isColumnModified(ProductCategoryDetailsPeer::PRODUCTCATEGORY_ID)) $criteria->add(ProductCategoryDetailsPeer::PRODUCTCATEGORY_ID, $this->productcategory_id);
         if ($this->isColumnModified(ProductCategoryDetailsPeer::CODE)) $criteria->add(ProductCategoryDetailsPeer::CODE, $this->code);
         if ($this->isColumnModified(ProductCategoryDetailsPeer::LABEL)) $criteria->add(ProductCategoryDetailsPeer::LABEL, $this->label);
+        if ($this->isColumnModified(ProductCategoryDetailsPeer::CATEGORDER)) $criteria->add(ProductCategoryDetailsPeer::CATEGORDER, $this->categorder);
         if ($this->isColumnModified(ProductCategoryDetailsPeer::CREATED_AT)) $criteria->add(ProductCategoryDetailsPeer::CREATED_AT, $this->created_at);
         if ($this->isColumnModified(ProductCategoryDetailsPeer::UPDATED_AT)) $criteria->add(ProductCategoryDetailsPeer::UPDATED_AT, $this->updated_at);
 
@@ -1113,6 +1167,7 @@ abstract class BaseProductCategoryDetails extends BaseObject implements Persiste
         $copyObj->setProductcategoryId($this->getProductcategoryId());
         $copyObj->setCode($this->getCode());
         $copyObj->setLabel($this->getLabel());
+        $copyObj->setCategorder($this->getCategorder());
         $copyObj->setCreatedAt($this->getCreatedAt());
         $copyObj->setUpdatedAt($this->getUpdatedAt());
 
@@ -1506,6 +1561,7 @@ abstract class BaseProductCategoryDetails extends BaseObject implements Persiste
         $this->productcategory_id = null;
         $this->code = null;
         $this->label = null;
+        $this->categorder = null;
         $this->created_at = null;
         $this->updated_at = null;
         $this->alreadyInSave = false;

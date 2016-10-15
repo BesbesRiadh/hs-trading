@@ -133,11 +133,15 @@ parameters:
                 category_label:
                     width: 40%
                     list: true
+                productCategory_Id:
+                    list: true    
                 code:
                     width: 40%
                     list: true
                 label:
                     width: 40%
+                    list: true
+                categorder:
                     list: true
                 action_edit:
                     width: 10%
