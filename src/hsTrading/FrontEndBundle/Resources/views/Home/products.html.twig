@@ -21,20 +21,52 @@
 {% endblock %}
 
 {% block content %}
+    <script>
+        var url = "{{ asset('assets/plugins/jquery/jquery-migrate.min.js') }}";
+        $.getScript(url);
+        var url = "{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}";
+        $.getScript(url);
+        var url = "{{ asset('assets/plugins/smoothScroll.js') }}";
+        $.getScript(url);
+        var url = "{{ asset('assets/js/custom.js') }}";
+        $.getScript(url);
+        var url = "{{ asset('assets/js/shop.app.js') }}";
+        $.getScript(url);
+        var url = "{{ asset('assets/plugins/cube-portfolio/cubeportfolio/js/jquery.cubeportfolio.js') }}";
+        $.getScript(url);
+        var url = "{{ asset('assets/js/plugins/cube-portfolio/cube-portfolio-4-ns.js') }}";
+        $.getScript(url);
+    </script>
+    <script>
+        var url = "{{ asset('assets/plugins/jquery/jquery-migrate.min.js') }}";
+        $.getScript(url);
+        var url = "{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}";
+        $.getScript(url);
+        var url = "{{ asset('assets/plugins/smoothScroll.js') }}";
+        $.getScript(url);
+        var url = "{{ asset('assets/js/custom.js') }}";
+        $.getScript(url);
+        var url = "{{ asset('assets/js/shop.app.js') }}";
+        $.getScript(url);
+        var url = "{{ asset('assets/plugins/cube-portfolio/cubeportfolio/js/jquery.cubeportfolio.js') }}";
+        $.getScript(url);
+        var url = "{{ asset('assets/js/plugins/cube-portfolio/cube-portfolio-4-ns.js') }}";
+        $.getScript(url);
+    </script>
     <!--=== Cube-Portfdlio ===-->
     <div class="cube-portfolio container margin-bottom-60 col-md-12">
         <div class="content-xs">
             <div id="filters-container" class="cbp-l-filters-text content-xs">
-                    | <div class="cbp-filter-item-active cbp-filter-item" data-filter="*"> Tous les produits </div> |
+                | <div class="cbp-filter-item-active cbp-filter-item" data-filter="*"> Tous les produits </div> |
                 {% for oField in cat %}
-                    | <div data-filter=".{{ oField.label }}" class="cbp-filter-item"> {{ oField.label }} </div> |
+                    | <div data-filter=".{{ oField.code|replace(' ','-') }}" class="cbp-filter-item"> {{ oField.label }} </div> |
                 {% endfor %}
             </div><!--/end Filters Container-->
         </div>
 
         <div id="grid-container" class="cbp-l-grid-agency">
             {% for oField in products %}
-                <div class="cbp-item {{ oField.sub_category }}">
+                <div class="cbp-item {{ oField.sub_category|replace(' ','-') }}">
                     <div class="cbp-caption">
                         <div class="cbp-caption-defaultWrap">
                             <img src="{{ oField.img }}" alt="">
@@ -55,14 +87,7 @@
     <!--=== End Cube-Portfdlio ===-->
 {% endblock%}
 
-{% block javascripts %}
-    <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-migrate.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/back-to-top.js') }}"></script>
-    <script src="{{ asset('assets/plugins/smoothScroll.js') }}"></script>
-    <script src="{{ asset('assets/plugins/cube-portfolio/cubeportfolio/js/jquery.cubeportfolio.min.js') }}"></script>
-    <script src="{{ asset('assets/js/custom.js') }}"></script>
-    <script src="{{ asset('assets/js/shop.app.js') }}"></script>
-    <script src="{{ asset('assets/js/plugins/cube-portfolio/cube-portfolio-4-ns.js') }}"></script>
-{% endblock javascripts %}
+{#{% block javascripts %}
+   
+
+{% endblock javascripts %}#}

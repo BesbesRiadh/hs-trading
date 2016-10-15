@@ -216,7 +216,34 @@ AdminPanel.prototype.editProduct = function (url)
                         }
                     });
                 }}
-        ]
+        ],
+        callback: function () {
+            var fileEl = $('#EditProduct_img');
+            fileEl.pekeUpload({
+                url: self.uploadImg,
+                maxSize: 1,
+                theme: "bootstrap",
+                isLargeBtn: true,
+                data: {
+                },
+                btnText: 'Séléctionnez votre fichier',
+                allowedExtensions: 'png|jpg',
+                invalidExtError: "Type de fichier refusé",
+                onFileError: function (file, error) {
+                },
+                onFileSuccess: function (file, data) {
+                    $('.pekecontainer').
+                            html($('#import-succes').
+                                    html());
+                    $(".progress ").
+                            fadeOut('slow');
+                }
+            });
+            fileEl.click(function (e) {
+                $('.pekecontainer').
+                        html('');
+            });
+        }
     };
 
     eModal.ajax(options);

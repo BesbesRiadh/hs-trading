@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\Container;
 class HomeController extends BaseIhmController {
 
     /**
-     * @Route("/home", name="home")
+     * @Route("/", name="home")
      *
      */
     public function indexAction(Request $poRequest) {

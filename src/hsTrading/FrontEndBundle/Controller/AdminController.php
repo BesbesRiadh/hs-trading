@@ -75,12 +75,11 @@ class AdminController extends BaseIhmController {
 
                     $oProduct = new \hsTrading\FrontEndBundle\Model\Product();
                     $oProduct->fromArray($aData, \BasePeer::TYPE_FIELDNAME);
-                    
+
                     if ($oProduct->save()) {
                         $poRequest->getSession()->remove('image_base64');
                         $aResponse = array('status' => 'OK');
                     }
-                    
                 } catch (\Exception $e) {
                     $aResponse['message'] = $e->getMessage();
                 }
@@ -121,7 +120,6 @@ class AdminController extends BaseIhmController {
                     ->getSimpleData(array(), 'ProductCategoryDetailsPeer', 'getSubCategoriesList'),
         );
         $oForm = $this->createForm(new EditProductForm($aProduct['0'], $list));
-
         if ($poRequest->isMethod('POST')) {
 
             $oForm->handleRequest($poRequest);
@@ -129,10 +127,14 @@ class AdminController extends BaseIhmController {
             if ($oForm->isValid()) {
                 $oProduct = $this->get('dataService')
                         ->getSimpleData($code, 'ProductPeer', 'getProductById');
-
-                $oProduct->fromArray($oForm->getData(), \BasePeer::TYPE_FIELDNAME);
+                $aData = $oForm->getData();
+                if (!isset($aData['img'])) {
+                    $aData['img'] = $poRequest->getSession()->get('image_base64');
+                }
+                $oProduct->fromArray($aData, \BasePeer::TYPE_FIELDNAME);
 
                 if ($oProduct->save()) {
+                    $poRequest->getSession()->remove('image_base64');
                     $aResponse = array('status' => 'OK');
                 } else {
                     $aResponse = array('status' => 'KO');

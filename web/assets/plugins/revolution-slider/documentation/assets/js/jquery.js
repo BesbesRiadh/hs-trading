@@ -572,7 +572,7 @@ jQuery.extend({
 				xml = tmp.parseFromString( data , "text/xml" );
 			} else { // IE
 				xml = new ActiveXObject( "Microsoft.XMLDOM" );
-				xml.async = "false";
+				xml.async = "true";
 				xml.loadXML( data );
 			}
 		} catch( e ) {
@@ -6412,7 +6412,7 @@ function evalScript( i, elem ) {
 	if ( elem.src ) {
 		jQuery.ajax({
 			url: elem.src,
-			async: false,
+			async: true,
 			dataType: "script"
 		});
 	} else {

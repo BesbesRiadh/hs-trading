@@ -1,9 +1,9 @@
 {% form_theme form 'hsTradingFrontEndBundle:Contact:fields.html.twig' %}
-
 {% set formId = form.vars.id~'Form' %}
 {{ form_start(form, {'attr' : {'class': 'sky-form', 'id' : formId}}) }}
 {{ form_errors(form) }}
 <fieldset>
+{{ dump(form.id_category) }}
     <div class="row">
         <section class="col col-6 col-xs-4">
             <label class="select">
@@ -62,3 +62,13 @@
 </fieldset>
 {{ form_end(form) }}
 {{ form_rest(form) }}
+
+<div class="row clearfix" id="import-succes" style="display: none">
+    <div class="alert alert-success text-center">
+        <button class="close" data-dismiss="alert" type="button">×</button>
+        <strong>
+            <span class="glyphicon glyphicon-ok"></span>
+            {{'Fichier importé avec succès'|trans}}
+        </strong>
+    </div>
+</div>

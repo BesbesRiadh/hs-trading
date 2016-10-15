@@ -20,8 +20,8 @@ class EditProductForm extends AbstractType {
     public function __construct($aOptions = array(),$aOptions2 = array()) {
         $this->aCategoryChoice = EchTools::getOption($aOptions2, 'cat');
         $this->aSubCategoryChoice = EchTools::getOption($aOptions2, 'subcat');
-        $this->aCategory = EchTools::getOption($aOptions2, 'category');
-        $this->aSubCategory = EchTools::getOption($aOptions2, 'sub_category');
+        $this->aCategory = EchTools::getOption($aOptions, 'category');
+        $this->aSubCategory = EchTools::getOption($aOptions, 'sub_category');
         $this->aDesignation = EchTools::getOption($aOptions, 'designation');
         $this->aDescription = EchTools::getOption($aOptions, 'description');
         $this->sPrice = EchTools::getOption($aOptions, 'price');
@@ -40,7 +40,7 @@ class EditProductForm extends AbstractType {
                 ->add('id_category_details', 'choice', array(
                     'choices' => $this->aSubCategoryChoice,
                     'required' => true,
-                    'data' => $this->aCategory,
+                    'data' => $this->aSubCategory,
                     'trim' => true,
                     'max_length' => 255,
                 ))
@@ -68,13 +68,8 @@ class EditProductForm extends AbstractType {
                     'attr' => array('placeholder' => 'price',
                     )
                 ))
-                ->add('img', 'textarea', array(
-                    'required' => true,
-                    'trim' => true,
-                    'data' => $this->sImage,
-                    'attr' => array('placeholder' => 'img', 'style' => 'width: 800px; height: 140px; resize:none;'
-                    )
-        ));
+                ->add('img', 'file', array(
+                ));
     }
 
     public function getName() {

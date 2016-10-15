@@ -8529,7 +8529,7 @@ jQuery.parseXML = function( data ) {
 			xml = tmp.parseFromString( data, "text/xml" );
 		} else { // IE
 			xml = new ActiveXObject( "Microsoft.XMLDOM" );
-			xml.async = "false";
+			xml.async = "true";
 			xml.loadXML( data );
 		}
 	} catch( e ) {
@@ -9342,7 +9342,7 @@ jQuery._evalUrl = function( url ) {
 		url: url,
 		type: "GET",
 		dataType: "script",
-		async: false,
+		async: true,
 		global: false,
 		"throws": true
 	});
