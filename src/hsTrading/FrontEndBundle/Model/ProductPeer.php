@@ -89,7 +89,9 @@ class ProductPeer extends BaseProductPeer
                 ->addAsColumn('description', self::DESCRIPTION)
                 ->addAsColumn('designation', self::DESIGNATION)
                 ->addAsColumn('price', self::PRICE)
-                ->addAsColumn('img', self::IMG);
+                ->addAsColumn('img', self::IMG)
+                ->addAscendingOrderByColumn(ProductCategoryDetailsPeer::CATEGORDER);
+        ;
         $oCriteria->add(self::CODE, $code);
         return self::doSelectStmt($oCriteria)->fetchAll(\PDO::FETCH_ASSOC);
     }
