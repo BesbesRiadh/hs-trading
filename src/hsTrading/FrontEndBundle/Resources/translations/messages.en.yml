@@ -91,3 +91,4 @@ cpv: "The function is not valid"
 opv: "The object is not valid"
 mail_placeholder: Mail
 password_placeholder: Password
+home: home

@@ -59,12 +59,17 @@ Home.prototype.Scroll = function ()
     });
     $(".link3").click(function (e) {
         $('html,body').animate({
-            scrollTop: $(".div4").offset().top - 100},
+            scrollTop: $(".div3").offset().top - 70},
                 'slow');
     });
     $(".link4").click(function (e) {
         $('html,body').animate({
-            scrollTop: $(".div5").offset().top - 100},
+            scrollTop: $(".div4").offset().top - 90},
+                'slow');
+    });
+    $(".link5").click(function (e) {
+        $('html,body').animate({
+            scrollTop: $(".div5").offset().top - 120},
                 'slow');
     });
 };
