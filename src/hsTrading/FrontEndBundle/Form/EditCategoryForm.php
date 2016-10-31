@@ -9,10 +9,13 @@ use hsTrading\FrontEndBundle\Utils\EchTools;
 
 class EditCategoryForm extends AbstractType
 {
-     public function __construct($aOptions = array()) {
-        $this->aCode = EchTools::getOption($aOptions, 'code');
+
+    public function __construct($aOptions = array())
+    {
+        $this->aCode  = EchTools::getOption($aOptions, 'code');
         $this->aLabel = EchTools::getOption($aOptions, 'label');
     }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -32,10 +35,8 @@ class EditCategoryForm extends AbstractType
                     'attr' => array('placeholder' => 'label',
                     )
                 ))
-               ;
-                
+        ;
     }
-
 
     public function getName()
     {

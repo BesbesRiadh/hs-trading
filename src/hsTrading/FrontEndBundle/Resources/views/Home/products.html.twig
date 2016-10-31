@@ -22,13 +22,18 @@
 
 {% block content %}
     <!--=== Cube-Portfdlio ===-->
+    {% set local = app.request.getLocale() %}
     <div class="cube-portfolio container margin-bottom-60 col-md-12">
         <div class="content-xs">
             <div id="filters-container" class="cbp-l-filters-text content-xs">
-                    | <div class="cbp-filter-item-active cbp-filter-item" data-filter="*"> Tous les produits </div> |
+                    | <div class="cbp-filter-item-active cbp-filter-item" data-filter="*"> {{ "all_products" | trans }} </div> |
                 {% for oField in cat %}
+                    {% if local == 'fr' %}
                     | <div data-filter=".{{ oField.label }}" class="cbp-filter-item"> {{ oField.label }} </div> |
-                {% endfor %}
+                    {% else %}
+                    | <div data-filter=".{{ oField.labeleng }}" class="cbp-filter-item"> {{ oField.labeleng }} </div> |
+                {% endif %}
+                    {% endfor %}
             </div><!--/end Filters Container-->
         </div>
 
@@ -42,9 +47,14 @@
                         <div class="cbp-caption-activeWrap">
                             <div class="cbp-l-caption-alignCenter">
                                 <div class="cbp-l-caption-body">
+                                    {% if local == 'fr' %}
                                     <div class="cbp-l-grid-agency-title">{{ oField.designation }}</div>
                                     <div class="cbp-l-grid-agency-desc">{{ oField.description }}</div>
-                                </div>
+                                    {% else %}
+                                    <div class="cbp-l-grid-agency-title">{{ oField.desigeng }}</div>
+                                    <div class="cbp-l-grid-agency-desc">{{ oField.desceng }}</div>
+                                    {% endif %}
+                                    </div>
                             </div>
                         </div>
                     </div>

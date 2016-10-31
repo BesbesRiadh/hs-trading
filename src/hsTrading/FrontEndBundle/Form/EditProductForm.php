@@ -15,20 +15,25 @@ use hsTrading\FrontEndBundle\Utils\EchTools;
  *
  * @author SSH1
  */
-class EditProductForm extends AbstractType {
+class EditProductForm extends AbstractType
+{
 
-    public function __construct($aOptions = array(),$aOptions2 = array()) {
-        $this->aCategoryChoice = EchTools::getOption($aOptions2, 'cat');
+    public function __construct($aOptions = array(), $aOptions2 = array())
+    {
+        $this->aCategoryChoice    = EchTools::getOption($aOptions2, 'cat');
         $this->aSubCategoryChoice = EchTools::getOption($aOptions2, 'subcat');
-        $this->aCategory = EchTools::getOption($aOptions2, 'category');
-        $this->aSubCategory = EchTools::getOption($aOptions2, 'sub_category');
-        $this->aDesignation = EchTools::getOption($aOptions, 'designation');
-        $this->aDescription = EchTools::getOption($aOptions, 'description');
-        $this->sPrice = EchTools::getOption($aOptions, 'price');
-        $this->sImage = EchTools::getOption($aOptions, 'img');
+        $this->aCategory          = EchTools::getOption($aOptions2, 'category');
+        $this->aSubCategory       = EchTools::getOption($aOptions2, 'sub_category');
+        $this->aDesignation       = EchTools::getOption($aOptions, 'designation');
+        $this->aDescription       = EchTools::getOption($aOptions, 'description');
+        $this->aDesigeng          = EchTools::getOption($aOptions, 'desigeng');
+        $this->aDesceng           = EchTools::getOption($aOptions, 'desceng');
+        $this->sPrice             = EchTools::getOption($aOptions, 'price');
+        $this->sImage             = EchTools::getOption($aOptions, 'img');
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
         $builder
                 ->add('id_category', 'choice', array(
                     'choices' => $this->aCategoryChoice,
@@ -52,12 +57,28 @@ class EditProductForm extends AbstractType {
                     'attr' => array('placeholder' => 'designation',
                     )
                 ))
+                ->add('desigeng', 'text', array(
+                    'required' => true,
+                    'trim' => true,
+                    'data' => $this->aDesigeng,
+                    'max_length' => 255,
+                    'attr' => array('placeholder' => 'designation english',
+                    )
+                ))
                 ->add('description', 'text', array(
                     'required' => true,
                     'trim' => true,
                     'data' => $this->aDescription,
                     'max_length' => 255,
                     'attr' => array('placeholder' => 'description',
+                    )
+                ))
+                ->add('desceng', 'text', array(
+                    'required' => true,
+                    'trim' => true,
+                    'data' => $this->aDesceng,
+                    'max_length' => 255,
+                    'attr' => array('placeholder' => 'description english',
                     )
                 ))
                 ->add('price', 'text', array(
@@ -77,11 +98,13 @@ class EditProductForm extends AbstractType {
         ));
     }
 
-    public function getName() {
+    public function getName()
+    {
         return 'EditProduct';
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver) {
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
         $resolver->setDefaults(array(
             'csrf_protection' => true,
         ));

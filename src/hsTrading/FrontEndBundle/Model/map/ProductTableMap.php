@@ -48,6 +48,8 @@ class ProductTableMap extends TableMap
         $this->addForeignKey('id_category_details', 'IdCategoryDetails', 'INTEGER', 'hs_product_category_details', 'id', false, null, null);
         $this->addColumn('description', 'Description', 'LONGVARCHAR', false, null, null);
         $this->addColumn('designation', 'Designation', 'VARCHAR', false, 500, null);
+        $this->addColumn('desceng', 'Desceng', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('desigeng', 'Desigeng', 'VARCHAR', false, 500, null);
         $this->addColumn('price', 'Price', 'VARCHAR', false, 500, null);
         $this->addColumn('img', 'Img', 'LONGVARCHAR', false, null, null);
         $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', false, null, null);
