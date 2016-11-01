@@ -113,6 +113,7 @@ class AdminController extends BaseIhmController {
 
         $aProduct = $this->get('dataService')
                 ->getSimpleData($code, 'ProductPeer', 'getProductsById');
+        $poRequest->getSession()->set('image_base64_edit', $aProduct['0']['img']);
         $list = array(
             'cat' => $this->get('dataService')
                     ->getSimpleData(array(), 'ProductCategoryPeer', 'getCategoriesList'),
@@ -128,13 +129,24 @@ class AdminController extends BaseIhmController {
                 $oProduct = $this->get('dataService')
                         ->getSimpleData($code, 'ProductPeer', 'getProductById');
                 $aData = $oForm->getData();
-                if (!isset($aData['img'])) {
+                if (md5($aData['img']) === md5($poRequest->getSession()->get('image_base64_edit'))) {
+                    $equal = 'TRUE';
+                } else {
+                    $equal = 'FALSE';
+                }
+
+                if ($equal === 'FALSE') {
                     $aData['img'] = $poRequest->getSession()->get('image_base64');
+                }
+                
+                if (!isset($aData['img'])) {
+                    $aData['img'] = $poRequest->getSession()->get('image_base64_edit');
                 }
                 $oProduct->fromArray($aData, \BasePeer::TYPE_FIELDNAME);
 
                 if ($oProduct->save()) {
                     $poRequest->getSession()->remove('image_base64');
+                    $poRequest->getSession()->remove('image_base64_edit');
                     $aResponse = array('status' => 'OK');
                 } else {
                     $aResponse = array('status' => 'KO');

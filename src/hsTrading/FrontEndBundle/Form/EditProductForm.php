@@ -22,8 +22,8 @@ class EditProductForm extends AbstractType
     {
         $this->aCategoryChoice    = EchTools::getOption($aOptions2, 'cat');
         $this->aSubCategoryChoice = EchTools::getOption($aOptions2, 'subcat');
-        $this->aCategory          = EchTools::getOption($aOptions2, 'category');
-        $this->aSubCategory       = EchTools::getOption($aOptions2, 'sub_category');
+        $this->aCategory          = EchTools::getOption($aOptions, 'category');
+        $this->aSubCategory       = EchTools::getOption($aOptions, 'sub_category');
         $this->aDesignation       = EchTools::getOption($aOptions, 'designation');
         $this->aDescription       = EchTools::getOption($aOptions, 'description');
         $this->aDesigeng          = EchTools::getOption($aOptions, 'desigeng');
@@ -38,16 +38,12 @@ class EditProductForm extends AbstractType
                 ->add('id_category', 'choice', array(
                     'choices' => $this->aCategoryChoice,
                     'required' => true,
-                    'data' => $this->aCategory,
-                    'trim' => true,
-                    'max_length' => 255,
+                    'data' => $this->aCategory
                 ))
                 ->add('id_category_details', 'choice', array(
                     'choices' => $this->aSubCategoryChoice,
                     'required' => true,
-                    'data' => $this->aSubCategory,
-                    'trim' => true,
-                    'max_length' => 255,
+                    'data' => $this->aSubCategory
                 ))
                 ->add('designation', 'text', array(
                     'required' => true,

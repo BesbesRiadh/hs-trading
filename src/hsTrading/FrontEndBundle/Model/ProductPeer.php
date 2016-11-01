@@ -61,8 +61,8 @@ class ProductPeer extends BaseProductPeer
         $oCriteria->addJoin(self::ID_CATEGORY, ProductCategoryPeer::ID, \Criteria::INNER_JOIN);
         $oCriteria->addJoin(self::ID_CATEGORY_DETAILS, ProductCategoryDetailsPeer::ID, \Criteria::INNER_JOIN);
         $oCriteria
-                ->addAsColumn('category', ProductCategoryPeer::LABEL)
-                ->addAsColumn('sub_category', ProductCategoryDetailsPeer::LABEL)
+                ->addAsColumn('category', ProductCategoryPeer::ID)
+                ->addAsColumn('sub_category', ProductCategoryDetailsPeer::ID)
                 ->addAsColumn('description', self::DESCRIPTION)
                 ->addAsColumn('designation', self::DESIGNATION)
                 ->addAsColumn('desceng', self::DESCENG)
