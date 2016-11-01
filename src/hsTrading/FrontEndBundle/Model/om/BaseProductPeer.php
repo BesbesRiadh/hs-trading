@@ -31,13 +31,13 @@ abstract class BaseProductPeer
     const TM_CLASS = 'hsTrading\\FrontEndBundle\\Model\\map\\ProductTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 10;
+    const NUM_COLUMNS = 12;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 10;
+    const NUM_HYDRATE_COLUMNS = 12;
 
     /** the column name for the id field */
     const ID = 'hs_product.id';
@@ -56,6 +56,12 @@ abstract class BaseProductPeer
 
     /** the column name for the designation field */
     const DESIGNATION = 'hs_product.designation';
+
+    /** the column name for the desceng field */
+    const DESCENG = 'hs_product.desceng';
+
+    /** the column name for the desigeng field */
+    const DESIGENG = 'hs_product.desigeng';
 
     /** the column name for the price field */
     const PRICE = 'hs_product.price';
@@ -88,12 +94,12 @@ abstract class BaseProductPeer
      * e.g. ProductPeer::$fieldNames[ProductPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Id', 'Code', 'IdCategory', 'IdCategoryDetails', 'Description', 'Designation', 'Price', 'Img', 'CreatedAt', 'UpdatedAt', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'code', 'idCategory', 'idCategoryDetails', 'description', 'designation', 'price', 'img', 'createdAt', 'updatedAt', ),
-        BasePeer::TYPE_COLNAME => array (ProductPeer::ID, ProductPeer::CODE, ProductPeer::ID_CATEGORY, ProductPeer::ID_CATEGORY_DETAILS, ProductPeer::DESCRIPTION, ProductPeer::DESIGNATION, ProductPeer::PRICE, ProductPeer::IMG, ProductPeer::CREATED_AT, ProductPeer::UPDATED_AT, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'CODE', 'ID_CATEGORY', 'ID_CATEGORY_DETAILS', 'DESCRIPTION', 'DESIGNATION', 'PRICE', 'IMG', 'CREATED_AT', 'UPDATED_AT', ),
-        BasePeer::TYPE_FIELDNAME => array ('id', 'code', 'id_category', 'id_category_details', 'description', 'designation', 'price', 'img', 'created_at', 'updated_at', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+        BasePeer::TYPE_PHPNAME => array ('Id', 'Code', 'IdCategory', 'IdCategoryDetails', 'Description', 'Designation', 'Desceng', 'Desigeng', 'Price', 'Img', 'CreatedAt', 'UpdatedAt', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'code', 'idCategory', 'idCategoryDetails', 'description', 'designation', 'desceng', 'desigeng', 'price', 'img', 'createdAt', 'updatedAt', ),
+        BasePeer::TYPE_COLNAME => array (ProductPeer::ID, ProductPeer::CODE, ProductPeer::ID_CATEGORY, ProductPeer::ID_CATEGORY_DETAILS, ProductPeer::DESCRIPTION, ProductPeer::DESIGNATION, ProductPeer::DESCENG, ProductPeer::DESIGENG, ProductPeer::PRICE, ProductPeer::IMG, ProductPeer::CREATED_AT, ProductPeer::UPDATED_AT, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'CODE', 'ID_CATEGORY', 'ID_CATEGORY_DETAILS', 'DESCRIPTION', 'DESIGNATION', 'DESCENG', 'DESIGENG', 'PRICE', 'IMG', 'CREATED_AT', 'UPDATED_AT', ),
+        BasePeer::TYPE_FIELDNAME => array ('id', 'code', 'id_category', 'id_category_details', 'description', 'designation', 'desceng', 'desigeng', 'price', 'img', 'created_at', 'updated_at', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
     );
 
     /**
@@ -103,12 +109,12 @@ abstract class BaseProductPeer
      * e.g. ProductPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Code' => 1, 'IdCategory' => 2, 'IdCategoryDetails' => 3, 'Description' => 4, 'Designation' => 5, 'Price' => 6, 'Img' => 7, 'CreatedAt' => 8, 'UpdatedAt' => 9, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'code' => 1, 'idCategory' => 2, 'idCategoryDetails' => 3, 'description' => 4, 'designation' => 5, 'price' => 6, 'img' => 7, 'createdAt' => 8, 'updatedAt' => 9, ),
-        BasePeer::TYPE_COLNAME => array (ProductPeer::ID => 0, ProductPeer::CODE => 1, ProductPeer::ID_CATEGORY => 2, ProductPeer::ID_CATEGORY_DETAILS => 3, ProductPeer::DESCRIPTION => 4, ProductPeer::DESIGNATION => 5, ProductPeer::PRICE => 6, ProductPeer::IMG => 7, ProductPeer::CREATED_AT => 8, ProductPeer::UPDATED_AT => 9, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'CODE' => 1, 'ID_CATEGORY' => 2, 'ID_CATEGORY_DETAILS' => 3, 'DESCRIPTION' => 4, 'DESIGNATION' => 5, 'PRICE' => 6, 'IMG' => 7, 'CREATED_AT' => 8, 'UPDATED_AT' => 9, ),
-        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'code' => 1, 'id_category' => 2, 'id_category_details' => 3, 'description' => 4, 'designation' => 5, 'price' => 6, 'img' => 7, 'created_at' => 8, 'updated_at' => 9, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Code' => 1, 'IdCategory' => 2, 'IdCategoryDetails' => 3, 'Description' => 4, 'Designation' => 5, 'Desceng' => 6, 'Desigeng' => 7, 'Price' => 8, 'Img' => 9, 'CreatedAt' => 10, 'UpdatedAt' => 11, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'code' => 1, 'idCategory' => 2, 'idCategoryDetails' => 3, 'description' => 4, 'designation' => 5, 'desceng' => 6, 'desigeng' => 7, 'price' => 8, 'img' => 9, 'createdAt' => 10, 'updatedAt' => 11, ),
+        BasePeer::TYPE_COLNAME => array (ProductPeer::ID => 0, ProductPeer::CODE => 1, ProductPeer::ID_CATEGORY => 2, ProductPeer::ID_CATEGORY_DETAILS => 3, ProductPeer::DESCRIPTION => 4, ProductPeer::DESIGNATION => 5, ProductPeer::DESCENG => 6, ProductPeer::DESIGENG => 7, ProductPeer::PRICE => 8, ProductPeer::IMG => 9, ProductPeer::CREATED_AT => 10, ProductPeer::UPDATED_AT => 11, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'CODE' => 1, 'ID_CATEGORY' => 2, 'ID_CATEGORY_DETAILS' => 3, 'DESCRIPTION' => 4, 'DESIGNATION' => 5, 'DESCENG' => 6, 'DESIGENG' => 7, 'PRICE' => 8, 'IMG' => 9, 'CREATED_AT' => 10, 'UPDATED_AT' => 11, ),
+        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'code' => 1, 'id_category' => 2, 'id_category_details' => 3, 'description' => 4, 'designation' => 5, 'desceng' => 6, 'desigeng' => 7, 'price' => 8, 'img' => 9, 'created_at' => 10, 'updated_at' => 11, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
     );
 
     /**
@@ -188,6 +194,8 @@ abstract class BaseProductPeer
             $criteria->addSelectColumn(ProductPeer::ID_CATEGORY_DETAILS);
             $criteria->addSelectColumn(ProductPeer::DESCRIPTION);
             $criteria->addSelectColumn(ProductPeer::DESIGNATION);
+            $criteria->addSelectColumn(ProductPeer::DESCENG);
+            $criteria->addSelectColumn(ProductPeer::DESIGENG);
             $criteria->addSelectColumn(ProductPeer::PRICE);
             $criteria->addSelectColumn(ProductPeer::IMG);
             $criteria->addSelectColumn(ProductPeer::CREATED_AT);
@@ -199,6 +207,8 @@ abstract class BaseProductPeer
             $criteria->addSelectColumn($alias . '.id_category_details');
             $criteria->addSelectColumn($alias . '.description');
             $criteria->addSelectColumn($alias . '.designation');
+            $criteria->addSelectColumn($alias . '.desceng');
+            $criteria->addSelectColumn($alias . '.desigeng');
             $criteria->addSelectColumn($alias . '.price');
             $criteria->addSelectColumn($alias . '.img');
             $criteria->addSelectColumn($alias . '.created_at');

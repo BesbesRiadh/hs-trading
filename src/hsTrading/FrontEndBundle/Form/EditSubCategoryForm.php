@@ -15,6 +15,7 @@ class EditSubCategoryForm extends AbstractType
         $this->aCategory   = EchTools::getOption($aOptions, 'category');
         $this->aCode       = EchTools::getOption($aOptions, 'code');
         $this->aLabel      = EchTools::getOption($aOptions, 'label');
+        $this->aLabeleng   = EchTools::getOption($aOptions, 'labeleng');
         $this->acategorder = EchTools::getOption($aOptions, 'categorder');
     }
 
@@ -38,6 +39,14 @@ class EditSubCategoryForm extends AbstractType
                     'data' => $this->aLabel,
                     'max_length' => 255,
                     'attr' => array('placeholder' => 'label',
+                    )
+                ))
+                ->add('labeleng', 'text', array(
+                    'required' => true,
+                    'trim' => true,
+                    'data' => $this->aLabeleng,
+                    'max_length' => 255,
+                    'attr' => array('placeholder' => 'label english',
                     )
                 ))
                 ->add('categorder', 'text', array(

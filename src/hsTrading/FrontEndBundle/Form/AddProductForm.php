@@ -17,13 +17,13 @@ use hsTrading\FrontEndBundle\Utils\EchTools;
  */
 class AddProductForm extends AbstractType
 {
-    
+
     public function __construct($aOptions = array())
     {
-        $this->aListCat  = EchTools::getOption($aOptions, 'cat');
+        $this->aListCat    = EchTools::getOption($aOptions, 'cat');
         $this->aListSubCat = EchTools::getOption($aOptions, 'subcat');
     }
-    
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -54,11 +54,25 @@ class AddProductForm extends AbstractType
                     'attr' => array('placeholder' => 'designation',
                     )
                 ))
+                ->add('desigeng', 'text', array(
+                    'required' => true,
+                    'trim' => true,
+                    'max_length' => 255,
+                    'attr' => array('placeholder' => 'designation english',
+                    )
+                ))
                 ->add('description', 'text', array(
                     'required' => true,
                     'trim' => true,
                     'max_length' => 255,
                     'attr' => array('placeholder' => 'description',
+                    )
+                ))
+                ->add('desceng', 'text', array(
+                    'required' => true,
+                    'trim' => true,
+                    'max_length' => 255,
+                    'attr' => array('placeholder' => 'description english',
                     )
                 ))
                 ->add('price', 'text', array(
@@ -69,10 +83,8 @@ class AddProductForm extends AbstractType
                     )
                 ))
                 ->add('img', 'file', array(
-                ));
-                
+        ));
     }
-
 
     public function getName()
     {

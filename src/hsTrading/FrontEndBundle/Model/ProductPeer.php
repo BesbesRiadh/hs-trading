@@ -37,7 +37,8 @@ class ProductPeer extends BaseProductPeer
                 ->addSelectColumn(self::ID_CATEGORY_DETAILS)
                 ->addSelectColumn(self::DESCRIPTION)
                 ->addSelectColumn(self::DESIGNATION)
-                ->addSelectColumn(self::PRICE)
+                ->addSelectColumn(self::DESCENG)
+                ->addSelectColumn(self::DESIGENG)
                 ->addSelectColumn(self::IMG)
                 ->addSelectColumn(self::CREATED_AT)
                 ->addSelectColumn(self::UPDATED_AT)
@@ -64,6 +65,8 @@ class ProductPeer extends BaseProductPeer
                 ->addAsColumn('sub_category', ProductCategoryDetailsPeer::LABEL)
                 ->addAsColumn('description', self::DESCRIPTION)
                 ->addAsColumn('designation', self::DESIGNATION)
+                ->addAsColumn('desceng', self::DESCENG)
+                ->addAsColumn('desigeng', self::DESIGENG)
                 ->addAsColumn('price', self::PRICE)
                 ->addAsColumn('img', self::IMG)
         ;
@@ -88,6 +91,8 @@ class ProductPeer extends BaseProductPeer
                 ->addAsColumn('sub_category', ProductCategoryDetailsPeer::CODE)
                 ->addAsColumn('description', self::DESCRIPTION)
                 ->addAsColumn('designation', self::DESIGNATION)
+                ->addAsColumn('desceng', self::DESCENG)
+                ->addAsColumn('desigeng', self::DESIGENG)
                 ->addAsColumn('price', self::PRICE)
                 ->addAsColumn('img', self::IMG)
                 ->addAscendingOrderByColumn(ProductCategoryDetailsPeer::CATEGORDER);

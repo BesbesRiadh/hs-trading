@@ -23,6 +23,7 @@ use hsTrading\FrontEndBundle\Model\ProductCategoryDetailsQuery;
  * @method ProductCategoryDetailsQuery orderByProductcategoryId($order = Criteria::ASC) Order by the productCategory_id column
  * @method ProductCategoryDetailsQuery orderByCode($order = Criteria::ASC) Order by the code column
  * @method ProductCategoryDetailsQuery orderByLabel($order = Criteria::ASC) Order by the label column
+ * @method ProductCategoryDetailsQuery orderByLabeleng($order = Criteria::ASC) Order by the labeleng column
  * @method ProductCategoryDetailsQuery orderByCategorder($order = Criteria::ASC) Order by the categorder column
  * @method ProductCategoryDetailsQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
  * @method ProductCategoryDetailsQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
@@ -31,6 +32,7 @@ use hsTrading\FrontEndBundle\Model\ProductCategoryDetailsQuery;
  * @method ProductCategoryDetailsQuery groupByProductcategoryId() Group by the productCategory_id column
  * @method ProductCategoryDetailsQuery groupByCode() Group by the code column
  * @method ProductCategoryDetailsQuery groupByLabel() Group by the label column
+ * @method ProductCategoryDetailsQuery groupByLabeleng() Group by the labeleng column
  * @method ProductCategoryDetailsQuery groupByCategorder() Group by the categorder column
  * @method ProductCategoryDetailsQuery groupByCreatedAt() Group by the created_at column
  * @method ProductCategoryDetailsQuery groupByUpdatedAt() Group by the updated_at column
@@ -53,6 +55,7 @@ use hsTrading\FrontEndBundle\Model\ProductCategoryDetailsQuery;
  * @method ProductCategoryDetails findOneByProductcategoryId(int $productCategory_id) Return the first ProductCategoryDetails filtered by the productCategory_id column
  * @method ProductCategoryDetails findOneByCode(string $code) Return the first ProductCategoryDetails filtered by the code column
  * @method ProductCategoryDetails findOneByLabel(string $label) Return the first ProductCategoryDetails filtered by the label column
+ * @method ProductCategoryDetails findOneByLabeleng(string $labeleng) Return the first ProductCategoryDetails filtered by the labeleng column
  * @method ProductCategoryDetails findOneByCategorder(int $categorder) Return the first ProductCategoryDetails filtered by the categorder column
  * @method ProductCategoryDetails findOneByCreatedAt(string $created_at) Return the first ProductCategoryDetails filtered by the created_at column
  * @method ProductCategoryDetails findOneByUpdatedAt(string $updated_at) Return the first ProductCategoryDetails filtered by the updated_at column
@@ -61,6 +64,7 @@ use hsTrading\FrontEndBundle\Model\ProductCategoryDetailsQuery;
  * @method array findByProductcategoryId(int $productCategory_id) Return ProductCategoryDetails objects filtered by the productCategory_id column
  * @method array findByCode(string $code) Return ProductCategoryDetails objects filtered by the code column
  * @method array findByLabel(string $label) Return ProductCategoryDetails objects filtered by the label column
+ * @method array findByLabeleng(string $labeleng) Return ProductCategoryDetails objects filtered by the labeleng column
  * @method array findByCategorder(int $categorder) Return ProductCategoryDetails objects filtered by the categorder column
  * @method array findByCreatedAt(string $created_at) Return ProductCategoryDetails objects filtered by the created_at column
  * @method array findByUpdatedAt(string $updated_at) Return ProductCategoryDetails objects filtered by the updated_at column
@@ -169,7 +173,7 @@ abstract class BaseProductCategoryDetailsQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `productCategory_id`, `code`, `label`, `categorder`, `created_at`, `updated_at` FROM `hs_product_category_details` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `productCategory_id`, `code`, `label`, `labeleng`, `categorder`, `created_at`, `updated_at` FROM `hs_product_category_details` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -400,6 +404,35 @@ abstract class BaseProductCategoryDetailsQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ProductCategoryDetailsPeer::LABEL, $label, $comparison);
+    }
+
+    /**
+     * Filter the query on the labeleng column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByLabeleng('fooValue');   // WHERE labeleng = 'fooValue'
+     * $query->filterByLabeleng('%fooValue%'); // WHERE labeleng LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $labeleng The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ProductCategoryDetailsQuery The current query, for fluid interface
+     */
+    public function filterByLabeleng($labeleng = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($labeleng)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $labeleng)) {
+                $labeleng = str_replace('*', '%', $labeleng);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(ProductCategoryDetailsPeer::LABELENG, $labeleng, $comparison);
     }
 
     /**

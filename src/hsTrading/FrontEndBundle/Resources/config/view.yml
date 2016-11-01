@@ -32,7 +32,14 @@ parameters:
                 designation:
                     width: 15%
                     list: true
+                desigeng:
+                    width: 15%
+                    list: true
                 description:
+                    list: true
+                    width: 15%
+                    sorting: true
+                desceng:
                     list: true
                     width: 15%
                     sorting: true
@@ -139,6 +146,9 @@ parameters:
                     width: 40%
                     list: true
                 label:
+                    width: 40%
+                    list: true
+                labeleng:
                     width: 40%
                     list: true
                 categorder:

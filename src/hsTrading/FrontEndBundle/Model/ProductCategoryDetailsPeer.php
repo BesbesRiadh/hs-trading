@@ -52,6 +52,7 @@ class ProductCategoryDetailsPeer extends BaseProductCategoryDetailsPeer
             $oCriteria->add(self::PRODUCTCATEGORY_ID, $nParent);
             $oCriteria->add(self::CODE, $sCode);
             $oCriteria->addOr(self::LABEL, $sLabel);
+            $oCriteria->addOr(self::LABELENG, $sLabel);
             return self::doSelectOne($oCriteria);
         }
 

@@ -25,6 +25,8 @@ use hsTrading\FrontEndBundle\Model\ProductQuery;
  * @method ProductQuery orderByIdCategoryDetails($order = Criteria::ASC) Order by the id_category_details column
  * @method ProductQuery orderByDescription($order = Criteria::ASC) Order by the description column
  * @method ProductQuery orderByDesignation($order = Criteria::ASC) Order by the designation column
+ * @method ProductQuery orderByDesceng($order = Criteria::ASC) Order by the desceng column
+ * @method ProductQuery orderByDesigeng($order = Criteria::ASC) Order by the desigeng column
  * @method ProductQuery orderByPrice($order = Criteria::ASC) Order by the price column
  * @method ProductQuery orderByImg($order = Criteria::ASC) Order by the img column
  * @method ProductQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
@@ -36,6 +38,8 @@ use hsTrading\FrontEndBundle\Model\ProductQuery;
  * @method ProductQuery groupByIdCategoryDetails() Group by the id_category_details column
  * @method ProductQuery groupByDescription() Group by the description column
  * @method ProductQuery groupByDesignation() Group by the designation column
+ * @method ProductQuery groupByDesceng() Group by the desceng column
+ * @method ProductQuery groupByDesigeng() Group by the desigeng column
  * @method ProductQuery groupByPrice() Group by the price column
  * @method ProductQuery groupByImg() Group by the img column
  * @method ProductQuery groupByCreatedAt() Group by the created_at column
@@ -61,6 +65,8 @@ use hsTrading\FrontEndBundle\Model\ProductQuery;
  * @method Product findOneByIdCategoryDetails(int $id_category_details) Return the first Product filtered by the id_category_details column
  * @method Product findOneByDescription(string $description) Return the first Product filtered by the description column
  * @method Product findOneByDesignation(string $designation) Return the first Product filtered by the designation column
+ * @method Product findOneByDesceng(string $desceng) Return the first Product filtered by the desceng column
+ * @method Product findOneByDesigeng(string $desigeng) Return the first Product filtered by the desigeng column
  * @method Product findOneByPrice(string $price) Return the first Product filtered by the price column
  * @method Product findOneByImg(string $img) Return the first Product filtered by the img column
  * @method Product findOneByCreatedAt(string $created_at) Return the first Product filtered by the created_at column
@@ -72,6 +78,8 @@ use hsTrading\FrontEndBundle\Model\ProductQuery;
  * @method array findByIdCategoryDetails(int $id_category_details) Return Product objects filtered by the id_category_details column
  * @method array findByDescription(string $description) Return Product objects filtered by the description column
  * @method array findByDesignation(string $designation) Return Product objects filtered by the designation column
+ * @method array findByDesceng(string $desceng) Return Product objects filtered by the desceng column
+ * @method array findByDesigeng(string $desigeng) Return Product objects filtered by the desigeng column
  * @method array findByPrice(string $price) Return Product objects filtered by the price column
  * @method array findByImg(string $img) Return Product objects filtered by the img column
  * @method array findByCreatedAt(string $created_at) Return Product objects filtered by the created_at column
@@ -181,7 +189,7 @@ abstract class BaseProductQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `code`, `id_category`, `id_category_details`, `description`, `designation`, `price`, `img`, `created_at`, `updated_at` FROM `hs_product` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `code`, `id_category`, `id_category_details`, `description`, `designation`, `desceng`, `desigeng`, `price`, `img`, `created_at`, `updated_at` FROM `hs_product` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_STR);
@@ -485,6 +493,64 @@ abstract class BaseProductQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ProductPeer::DESIGNATION, $designation, $comparison);
+    }
+
+    /**
+     * Filter the query on the desceng column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByDesceng('fooValue');   // WHERE desceng = 'fooValue'
+     * $query->filterByDesceng('%fooValue%'); // WHERE desceng LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $desceng The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ProductQuery The current query, for fluid interface
+     */
+    public function filterByDesceng($desceng = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($desceng)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $desceng)) {
+                $desceng = str_replace('*', '%', $desceng);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(ProductPeer::DESCENG, $desceng, $comparison);
+    }
+
+    /**
+     * Filter the query on the desigeng column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByDesigeng('fooValue');   // WHERE desigeng = 'fooValue'
+     * $query->filterByDesigeng('%fooValue%'); // WHERE desigeng LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $desigeng The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ProductQuery The current query, for fluid interface
+     */
+    public function filterByDesigeng($desigeng = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($desigeng)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $desigeng)) {
+                $desigeng = str_replace('*', '%', $desigeng);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(ProductPeer::DESIGENG, $desigeng, $comparison);
     }
 
     /**

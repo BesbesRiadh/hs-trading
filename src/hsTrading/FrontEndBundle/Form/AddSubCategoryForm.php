@@ -35,6 +35,13 @@ class AddSubCategoryForm extends AbstractType
                     'attr' => array('placeholder' => 'label',
                     )
                 ))
+                ->add('labeleng', 'text', array(
+                    'required' => true,
+                    'trim' => true,
+                    'max_length' => 255,
+                    'attr' => array('placeholder' => 'label english',
+                    )
+                ))
                 ->add('categorder', 'text', array(
                     'required' => true,
                     'trim' => true,

@@ -33,6 +33,15 @@
                 <div class="note note-success">{{ 'field_required' |trans}}</div>
             {%endif %}
         </section>
+        <section class="col col-11">
+            <label class="input {{ form_errors(form.labeleng)|trim ? 'state-error' : '' }}">
+                <i class="icon-prepend fa fa-user"></i>
+                {{ form_row(form.labeleng) }}
+            </label>
+            {%if form.labeleng.vars.required %}
+                <div class="note note-success">{{ 'field_required' |trans}}</div>
+            {%endif %}
+        </section>
     </div>
     <div class="row">
         <section class="col col-11">

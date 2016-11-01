@@ -40,6 +40,7 @@
         <column name="productCategory_id" type="Integer" required="true" />
         <column name="code" type="varchar" size="60" required="true" />
         <column name="label" type="varchar" size="60" required="true" />
+        <column name="labeleng" type="varchar" size="60" required="true" />
         <column name="categorder" type="Integer" required="false" />
         <behavior name="timestampable"/>
         <unique name="UK_category_details_code">
@@ -60,6 +61,8 @@
         <column name="id_category_details" type="Integer" required="false"/>
         <column name="description" type="LongVarchar" required="false" />
         <column name="designation" type="varchar" size="500" required="false" />
+        <column name="desceng" type="LongVarchar" required="false" />
+        <column name="desigeng" type="varchar" size="500" required="false" />
         <column name="price" type="varchar" size="500" required="false" />
         <column name="img" type="LongVarchar" required="false" />
         <behavior name="timestampable"/>
