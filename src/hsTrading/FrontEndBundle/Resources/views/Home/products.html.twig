@@ -71,7 +71,11 @@
 
         <div id="grid-container" class="cbp-l-grid-agency">
             {% for oField in products %}
-                <div class="cbp-item {{ oField.sub_category|replace(' ','-') }}">
+                {% if local == 'fr' %}
+                <div class="cbp-item {{ oField.sub_category_fr|replace(' ','-') }}">
+                    {% else %}
+                <div class="cbp-item {{ oField.sub_category_eng|replace(' ','-') }}">
+                    {% endif %}
                     <div class="cbp-caption">
                         <div class="cbp-caption-defaultWrap">
                             <img src="{{ oField.img }}" alt="">

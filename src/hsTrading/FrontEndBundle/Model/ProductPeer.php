@@ -5,8 +5,7 @@ namespace hsTrading\FrontEndBundle\Model;
 use hsTrading\FrontEndBundle\Model\om\BaseProductPeer;
 use hsTrading\FrontEndBundle\Utils\EchTools;
 
-class ProductPeer extends BaseProductPeer
-{
+class ProductPeer extends BaseProductPeer {
 
     /**
      * Récupérer la liste des untilisateurs paginée par le cleint id
@@ -14,20 +13,18 @@ class ProductPeer extends BaseProductPeer
      * @param integer $pnId
      * @return array
      */
-    public static function getPagniatedProducts($paOptions)
-    {
-        $nPage       = EchTools::getOption($paOptions, 'page', 1);
+    public static function getPagniatedProducts($paOptions) {
+        $nPage = EchTools::getOption($paOptions, 'page', 1);
         $nMaxPerPage = EchTools::getOption($paOptions, 'max_per_page', 50);
         $sSortColumn = EchTools::getOption($paOptions, 'sort_column', self::CREATED_AT);
-        $sSortOrder  = EchTools::getOption($paOptions, 'sort_order', 'desc');
+        $sSortOrder = EchTools::getOption($paOptions, 'sort_order', 'desc');
 
         $oCriteria = new \Criteria();
         $oCriteria->setPrimaryTableName(self::TABLE_NAME);
         $oCriteria->addJoin(self::ID_CATEGORY, ProductCategoryPeer::ID, \Criteria::INNER_JOIN);
         $oCriteria->addJoin(self::ID_CATEGORY_DETAILS, ProductCategoryDetailsPeer::ID, \Criteria::INNER_JOIN);
 
-        if ($sSortColumn && $sSortOrder)
-        {
+        if ($sSortColumn && $sSortOrder) {
             call_user_func(array($oCriteria, 'add' . ucfirst($sSortOrder) . 'endingOrderByColumn'), $sSortColumn);
         }
 
@@ -54,8 +51,7 @@ class ProductPeer extends BaseProductPeer
      * @param integer $pnId
      * @return array
      */
-    public static function getProductsById($nId)
-    {
+    public static function getProductsById($nId) {
         $oCriteria = new \Criteria();
         $oCriteria->setPrimaryTableName(self::TABLE_NAME);
         $oCriteria->addJoin(self::ID_CATEGORY, ProductCategoryPeer::ID, \Criteria::INNER_JOIN);
@@ -79,16 +75,16 @@ class ProductPeer extends BaseProductPeer
      * @param integer $pnId
      * @return array
      */
-    public static function getProductsByCode($paOptions)
-    {
-        $code      = EchTools::getOption($paOptions, 'code');
+    public static function getProductsByCode($paOptions) {
+        $code = EchTools::getOption($paOptions, 'code');
         $oCriteria = new \Criteria();
         $oCriteria->setPrimaryTableName(self::TABLE_NAME);
         $oCriteria->addJoin(self::ID_CATEGORY, ProductCategoryPeer::ID, \Criteria::INNER_JOIN);
         $oCriteria->addJoin(self::ID_CATEGORY_DETAILS, ProductCategoryDetailsPeer::ID, \Criteria::INNER_JOIN);
         $oCriteria
                 ->addAsColumn('category', ProductCategoryPeer::LABEL)
-                ->addAsColumn('sub_category', ProductCategoryDetailsPeer::LABEL)
+                ->addAsColumn('sub_category_fr', ProductCategoryDetailsPeer::LABEL)
+                ->addAsColumn('sub_category_eng', ProductCategoryDetailsPeer::LABELENG)
                 ->addAsColumn('description', self::DESCRIPTION)
                 ->addAsColumn('designation', self::DESIGNATION)
                 ->addAsColumn('desceng', self::DESCENG)
@@ -96,7 +92,6 @@ class ProductPeer extends BaseProductPeer
                 ->addAsColumn('price', self::PRICE)
                 ->addAsColumn('img', self::IMG)
                 ->addAscendingOrderByColumn(ProductCategoryDetailsPeer::CATEGORDER);
-        ;
         $oCriteria->add(self::CODE, $code);
         return self::doSelectStmt($oCriteria)->fetchAll(\PDO::FETCH_ASSOC);
     }
@@ -107,8 +102,7 @@ class ProductPeer extends BaseProductPeer
      * @param string $psCode
      * @return array
      */
-    public static function getProductById($nId)
-    {
+    public static function getProductById($nId) {
         $oCriteria = new \Criteria();
         $oCriteria->setPrimaryTableName(self::TABLE_NAME);
         $oCriteria->add(self::ID, $nId);
@@ -122,8 +116,7 @@ class ProductPeer extends BaseProductPeer
      * @param string $psCode
      * @return array
      */
-    public static function deleteProductById($nId)
-    {
+    public static function deleteProductById($nId) {
         $aResponse = array('status' => 'KO');
 
         $oCriteria = new \Criteria();
