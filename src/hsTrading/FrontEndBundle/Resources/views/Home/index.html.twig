@@ -1,6 +1,7 @@
 {% extends "::base.html.twig" %}
 
 {% block content %}
+    {% set local = app.request.getLocale() %}
     <div class="div1">
         <!--=== Slider ===-->
         <div class="tp-banner-container">
@@ -39,7 +40,11 @@
                              data-easing="Back.easeInOut"
                              data-endeasing="Power1.easeIn"                        
                              data-endspeed="300">
-                            {{'Produits alimentaires'|trans}} <strong>{{'Bio'|trans}}</strong> 
+                            {% if local == 'fr' %}
+                                {{'Produits alimentaires'|trans}} <strong>{{'Bio'|trans}}</strong> 
+                            {% else %}
+                                <strong> {{'Bio'|trans}} </strong> {{'Produits alimentaires'|trans}}
+                            {% endif %}
                         </div>
                     </li>
                     <!-- END SLIDE -->
@@ -58,7 +63,11 @@
                              data-easing="Back.easeInOut"
                              data-endeasing="Power1.easeIn"                        
                              data-endspeed="300">
-                            {{'Produits'|trans}} <strong>{{'Artisanaux'|trans}}</strong>
+                            {% if local == 'fr' %}
+                                {{'Produits'|trans}} <strong>{{'Artisanaux'|trans}}</strong>
+                            {% else %}
+                                <strong> {{'Artisanaux'|trans}} </strong> {{'Produits'|trans}}
+                            {% endif %}
                         </div>
                     </li>
                     <!-- END SLIDE -->
@@ -77,7 +86,11 @@
                              data-easing="Back.easeInOut"
                              data-endeasing="Power1.easeIn"                        
                              data-endspeed="300">
-                            {{'Produits'|trans}} <strong>{{'Hygiéniques'|trans}}</strong>
+                            {% if local == 'fr' %}
+                                {{'Produits'|trans}} <strong>{{'Hygiéniques'|trans}}</strong>
+                            {% else %}
+                                <strong> {{'Hygiéniques'|trans}} </strong> {{'Produits'|trans}}
+                            {% endif %}
                         </div>
                     </li>
                     <!-- END SLIDE -->
@@ -95,7 +108,11 @@
                              data-easing="Back.easeInOut"
                              data-endeasing="Power1.easeIn"                        
                              data-endspeed="300">
-                            {{'Produits'|trans}} {{'Cosmétiques'|trans}} <strong>{{'Bio'|trans}}</strong>
+                            {% if local == 'fr' %}
+                                {{'Produits'|trans}} {{'Cosmétiques'|trans}} <br>{{'Santé'|trans}}
+                            {% else %}
+                                {{'Produits_cos_en'|trans}}
+                            {% endif %}
                         </div>
                     </li>
 
@@ -184,7 +201,7 @@
                         <div class="product-description product-description-brd">
                             <div class="overflow-h margin-bottom-5">
                                 <div class="pull-left">
-                                    <h4 class="title-price">{{ 'Agroalimentaire'|trans }}</h4>
+                                    <h4 class="title-price">{{ 'Produits alimentaires'|trans }}</h4>
                                     <span class="gender">{{ 'Agro_Products'|trans }}</span>
                                 </div>    
                             </div>    
@@ -198,7 +215,11 @@
                         <div class="product-description product-description-brd">
                             <div class="overflow-h margin-bottom-5">
                                 <div class="pull-left">
-                                    <h4 class="title-price">{{ 'Produits alimentaires'|trans }} {{ 'Bio'|trans }}</h4>
+                                    {% if local == 'fr' %}
+                                        <h4 class="title-price">{{ 'Produits alimentaires'|trans }} {{ 'Bio'|trans }}</h4>
+                                    {% else %}
+                                        <h4 class="title-price"> {{ 'Bio'|trans }} {{ 'Produits alimentaires'|trans }} </h4>
+                                    {% endif %}
                                     <span class="gender">{{ 'Bio_food_products'|trans }}</span>
                                 </div>    
                             </div>    
@@ -212,7 +233,11 @@
                         <div class="product-description product-description-brd">
                             <div class="overflow-h margin-bottom-5">
                                 <div class="pull-left">
-                                    <h4 class="title-price">{{ 'Produits'|trans }} {{ 'Artisanaux'|trans }}</h4>
+                                    {% if local == 'fr' %}
+                                        <h4 class="title-price">{{ 'Produits'|trans }} {{ 'Artisanaux'|trans }}</h4>
+                                    {% else %}
+                                        <h4 class="title-price"> {{ 'Artisanaux'|trans }} {{ 'Produits'|trans }}</h4>
+                                    {% endif %}
                                     <span class="gender">{{ 'artisan_products'|trans }}</span>
                                 </div>    
                             </div>    
@@ -226,7 +251,11 @@
                         <div class="product-description product-description-brd">
                             <div class="overflow-h margin-bottom-5">
                                 <div class="pull-left">
-                                    <h4 class="title-price">{{ 'Produits'|trans }} {{ 'Cosmétiques'|trans }} {{ 'Bio'|trans }}</h4>
+                                    {% if local == 'fr' %}
+                                        <h4 class="title-price">{{ 'Produits'|trans }} {{ 'Cosmétiques'|trans }}</h4>
+                                    {% else %}
+                                        <h4 class="title-price">{{ 'Produits_cos_en'|trans }}</h4>
+                                    {% endif %}
                                     <span class="gender">{{ 'p_c_products'|trans }}</span>
                                 </div>    
                             </div>    
@@ -240,7 +269,11 @@
                         <div class="product-description product-description-brd">
                             <div class="overflow-h margin-bottom-5">
                                 <div class="pull-left">
-                                    <h4 class="title-price">{{ 'Produits'|trans }} {{ 'Hygiéniques'|trans }}</h4>
+                                    {% if local == 'fr' %}
+                                        <h4 class="title-price">{{ 'Produits'|trans }} {{ 'Hygiéniques'|trans }}</h4>
+                                    {% else %}
+                                        <h4 class="title-price"> {{ 'Hygiéniques'|trans }} {{ 'Produits'|trans }}</h4>
+                                    {% endif %}
                                     <span class="gender">{{ 'p_h_products'|trans }}</span>
                                 </div>    
                             </div>    

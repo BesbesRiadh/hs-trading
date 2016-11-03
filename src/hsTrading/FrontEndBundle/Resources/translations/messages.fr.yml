@@ -3,7 +3,8 @@ Produits alimentaires: Produits Alimentaires
 Bio: Bio
 Produits: Produits
 Hygiéniques: Hygiéniques
-Cosmétiques: Cosmétiques
+Cosmétiques: Cosmétiques (Bio et naturels)
+Santé:  et de Santé
 Artisanaux: Artisanaux
 Agro_Products: 'Pâtes alimentaires, Conserves(Poissons, tomates...), Olives de table ...'
 view_products: Consulter les produits
@@ -38,7 +39,7 @@ tin: Matricule fiscale
 stay_connected: Restez connectés
 lastname: Nom
 company: Société
-function: Poste
+function: Poste au sein de la société
 object: Objet message
 send: Envoyer
 contact: Contactez-nous

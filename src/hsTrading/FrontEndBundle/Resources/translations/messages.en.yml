@@ -5,7 +5,7 @@ Produits: Products
 Hygiéniques: Sanitary
 Cosmétiques: Cosmetics
 Artisanaux: Crafts
-Agro_Products: 'Pasta, Canned Tuna fillet, Mackerel fillet, Canned tomatoes, Olives tablese'
+Agro_Products: 'Pasta, Canned Tuna fillet, Mackerel fillet, Canned tomatoes, Table olives'
 view_products: Consult products
 Bio_food_products: Dried Tomatoes, Tunisian Dates, olive Oil ...
 artisan_products: Tunisian Fouta, Olive wood ...
@@ -38,7 +38,7 @@ tin: TIN
 stay_connected: Stay connected
 lastname: Lastname
 company: Company
-function: Function
+function: Function in the company
 object: Object
 send: Send
 contact: Contact us
@@ -93,4 +93,4 @@ mail_placeholder: Mail
 password_placeholder: Password
 home: home
 all_products: All products
-Harissa: Harissa
+Produits_cos_en: Cosmetic bio products and 100% natural

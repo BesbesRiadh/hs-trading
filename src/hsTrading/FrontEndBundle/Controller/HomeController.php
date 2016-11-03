@@ -20,7 +20,6 @@ class HomeController extends BaseIhmController
      */
     public function indexAction(Request $poRequest)
     {
-
         if (!$poRequest->getLocale() || !in_array($poRequest->getLocale(), array('fr', 'en')))
         {
             $sLocal = $poRequest->cookies->get('_localeECH');
@@ -29,6 +28,12 @@ class HomeController extends BaseIhmController
                 $sLocal = $poRequest->getSession()->get('_locale', 'fr');
                 $poRequest->cookies->set('_localeECH', $sLocal);
             }
+            $poRequest->setDefaultLocale($sLocal);
+            $poRequest->setLocale($sLocal);
+            $this->get('session')->set('_locale', $sLocal);
+        }
+        else {
+            $sLocal = $poRequest->getLocale();
             $poRequest->setDefaultLocale($sLocal);
             $poRequest->setLocale($sLocal);
             $this->get('session')->set('_locale', $sLocal);

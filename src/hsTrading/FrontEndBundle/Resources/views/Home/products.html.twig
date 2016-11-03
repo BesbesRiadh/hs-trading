@@ -61,9 +61,9 @@
                 | <div class="cbp-filter-item-active cbp-filter-item" data-filter="*"> {{ "all_products" | trans }} </div> |
                 {% for oField in cat %}
                     {% if local == 'fr' %}
-                        | <div data-filter=".{{ oField.label|replace(' ','-') }}" class="cbp-filter-item"> {{ oField.label }} </div> |
+                        | <div data-filter=".{{ oField.label|replace(' ','-')|replace("'",'-') }}" class="cbp-filter-item"> {{ oField.label }} </div> |
                     {% else %}
-                        | <div data-filter=".{{ oField.labeleng|replace(' ','-') }}" class="cbp-filter-item"> {{ oField.labeleng }} </div> |
+                        | <div data-filter=".{{ oField.labeleng|replace(' ','-')|replace("'",'-') }}" class="cbp-filter-item"> {{ oField.labeleng }} </div> |
                     {% endif %}
                 {% endfor %}
             </div><!--/end Filters Container-->
@@ -72,9 +72,9 @@
         <div id="grid-container" class="cbp-l-grid-agency">
             {% for oField in products %}
                 {% if local == 'fr' %}
-                <div class="cbp-item {{ oField.sub_category_fr|replace(' ','-') }}">
+                <div class="cbp-item {{ oField.sub_category_fr|replace(' ','-')|replace("'",'-') }}">
                     {% else %}
-                <div class="cbp-item {{ oField.sub_category_eng|replace(' ','-') }}">
+                <div class="cbp-item {{ oField.sub_category_eng|replace(' ','-')|replace("'",'-') }}">
                     {% endif %}
                     <div class="cbp-caption">
                         <div class="cbp-caption-defaultWrap">

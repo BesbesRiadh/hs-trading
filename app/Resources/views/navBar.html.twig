@@ -20,14 +20,14 @@
                             <span class="flag-icon flag-icon-fr"></span> {{'french'|trans}}</a>
                             {% if app.request.getLocale() == 'fr' %}
                             <i class="fa fa-check"></i>
-                        {%endif%}
+                        {% endif %}
                     </li>
                     <li >
                         <a href="{{ path('changeLang',{'locale': 'en'})}}">
                             <span class="flag-icon flag-icon-gb"></span> {{'english'|trans}}</a>
                             {% if app.request.getLocale() == 'en' %}
                             <i class="fa fa-check"></i>
-                        {%endif%}
+                        {% endif %}
                     </li>  
                     {% if (app.user) %}
                         <li><a href="{{ path('logout') }}">{{'Logout'| trans }}</a></li>

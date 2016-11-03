@@ -164,6 +164,7 @@ class ContactForm extends AbstractType
 
         $this->setTransformer($builder, 'mail');
         $this->setTransformer($builder, 'phone');
+        $this->setTransformer($builder, 'country');
         $this->setTransformer($builder, 'firstname');
         $this->setTransformer($builder, 'lastname');
         $this->setTransformer($builder, 'company');
