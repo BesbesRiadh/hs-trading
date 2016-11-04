@@ -11,29 +11,21 @@ use hsTrading\FrontEndBundle\Model\TestPeer;
 use hsTrading\FrontEndBundle\Form\ContactForm;
 use Symfony\Component\DependencyInjection\Container;
 
-class HomeController extends BaseIhmController
-{
+class HomeController extends BaseIhmController {
 
     /**
      * @Route("/", name="home")
      *
      */
-    public function indexAction(Request $poRequest)
-    {
-        if (!$poRequest->getLocale() || !in_array($poRequest->getLocale(), array('fr', 'en')))
-        {
+    public function indexAction(Request $poRequest) {
+
+        $poRequest->setDefaultLocale('fr');
+        if (!$poRequest->getLocale() || !in_array($poRequest->getLocale(), array('fr', 'en'))) {
             $sLocal = $poRequest->cookies->get('_localeECH');
-            if (empty($sLocal))
-            {
+            if (empty($sLocal)) {
                 $sLocal = $poRequest->getSession()->get('_locale', 'fr');
                 $poRequest->cookies->set('_localeECH', $sLocal);
             }
-            $poRequest->setDefaultLocale($sLocal);
-            $poRequest->setLocale($sLocal);
-            $this->get('session')->set('_locale', $sLocal);
-        }
-        else {
-            $sLocal = $poRequest->getLocale();
             $poRequest->setDefaultLocale($sLocal);
             $poRequest->setLocale($sLocal);
             $this->get('session')->set('_locale', $sLocal);
@@ -45,12 +37,11 @@ class HomeController extends BaseIhmController
      * @Route("/listProducts/{code}", name="list_products", defaults={"code"=null}, options={"expose"=true})
      *
      */
-    public function listAction(Request $request, $code)
-    {
+    public function listAction(Request $request, $code) {
 
         $aProducts = $this->get('dataService')
                 ->getSimpleData(array('code' => $code), 'ProductPeer', 'getProductsByCode');
-        $Cat       = $this->get('dataService')
+        $Cat = $this->get('dataService')
                 ->getSimpleData(array('code' => $code), 'ProductCategoryDetailsPeer', 'getCategorydetailsByCode');
         return $this->render('hsTradingFrontEndBundle:Home:products.html.twig', array('products' => $aProducts, 'cat' => $Cat));
     }
@@ -59,8 +50,7 @@ class HomeController extends BaseIhmController
      * @Route("/contact", name="contact")
      * @Template("hsTradingFrontEndBundle:Contact:index.html.twig")
      */
-    public function contactAction(Request $poRequest)
-    {
+    public function contactAction(Request $poRequest) {
         return array('ContactMessages' => $this->getMessages('messages.contact'));
     }
 
@@ -68,27 +58,23 @@ class HomeController extends BaseIhmController
      * @Route("/addContact", name="add_contact", options={"expose"=true})
      * @Template("hsTradingFrontEndBundle:Contact:contactForm.html.twig")
      */
-    public function addContactAction(Request $poRequest)
-    {
+    public function addContactAction(Request $poRequest) {
 
         $aResponse = $this->get('dataService')->getSimpleData(array(), 'CountriesPeer', 'getCountriesList');
 
-        $list      = array(
+        $list = array(
             'countries' => $aResponse,
         );
         $oResponse = new Response();
-        $oForm     = $this->createForm(new ContactForm($list));
+        $oForm = $this->createForm(new ContactForm($list));
         $oForm->handleRequest($poRequest);
 
-        if ('POST' == $poRequest->getMethod())
-        {
+        if ('POST' == $poRequest->getMethod()) {
 
-            if ($oForm->isValid())
-            {
+            if ($oForm->isValid()) {
                 $aResponse = array('status' => 'KO');
 
-                try
-                {
+                try {
 
                     $oContact = new \hsTrading\FrontEndBundle\Model\Contact();
                     $oContact->fromArray($oForm->getData(), \BasePeer::TYPE_FIELDNAME);
@@ -96,14 +82,10 @@ class HomeController extends BaseIhmController
                     $this->get('mailService')->sendMail($oContact);
 
                     $aResponse = array('status' => 'OK');
-                }
-                catch (\Exception $e)
-                {
+                } catch (\Exception $e) {
                     $aResponse['message'] = $e->getMessage();
                 }
-            }
-            else
-            {
+            } else {
                 $oResponse = new Response('', 400);
             }
         }
@@ -117,11 +99,9 @@ class HomeController extends BaseIhmController
      * @Route("/chgL/{locale}", name="changeLang", defaults={"locale"="fr"})
      * @Template()
      */
-    public function chgLangAction($locale)
-    {
+    public function chgLangAction($locale) {
         $sHomeURl = $this->generateUrl('home');
-        if (!in_array($locale, array('fr', 'en')))
-        {
+        if (!in_array($locale, array('fr', 'en'))) {
             return $this->redirect($sHomeURl);
         }
         $oRequest = $this->getRequest();
@@ -130,11 +110,10 @@ class HomeController extends BaseIhmController
         $this->get('session')->set('_locale', $locale);
         $oRequest->setDefaultLocale($locale);
         $oRequest->setLocale($locale);
-        $referer  = $oRequest->headers->get('referer');
+        $referer = $oRequest->headers->get('referer');
 //        \hsTrading\FrontEndBundle\Utils\EchTools::pr($referer);
 
-        if (empty($referer))
-        {
+        if (empty($referer)) {
             $referer = $sHomeURl;
         }
         return $this->redirect($referer);

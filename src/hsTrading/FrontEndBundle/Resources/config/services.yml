@@ -36,7 +36,7 @@ services:
         class: %locale_listener.class%
         arguments: ["%kernel.default_locale%"]
         tags:
-         - { name: kernel.event_subscriber }
+         - { name: kernel.event_subscriber , event: kernel.request, method: setLocale, priority: 17}
          
     IEService:
         class: "%IEService.class%"
