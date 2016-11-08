@@ -1,5 +1,6 @@
-Home = function () {
+Home = function (params) {
     this.listProducts = Routing.generate('list_products');
+    this.messages = $.parseJSON(params.messages_popup);
     this.ActionListener();
     this.Scroll();
 };
@@ -33,7 +34,7 @@ Home.prototype.show = function (item, item_view, title)
             size: 'lg',
             buttons: [
                 {
-                    text: 'Fermer',
+                    text: self.messages.close_button,
                     style: 'danger',
                     class: 'btn btn-u btn-u-red rounded',
                     close: true

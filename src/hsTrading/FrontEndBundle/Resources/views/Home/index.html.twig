@@ -210,7 +210,11 @@
                     <li class="item">
                         <div class="product-img">
                             <img class="full-width img-responsive" src="{{ asset('assets/img/oop.jpg')}}" alt="">
-                            <a class="product-review" id="pab" name="{{"Produits alimentaires"| trans }} {{"Bio"|trans}}" style="cursor: pointer">{{ 'view_products'|trans }}</a>
+                        {% if local == 'fr' %}
+                             <a class="product-review" id="pab" name="{{"Produits alimentaires"| trans }} {{"Bio"|trans}}" style="cursor: pointer">{{ 'view_products'|trans }}</a>
+                                    {% else %}
+                                        <a class="product-review" id="pab" name="{{"Bio"|trans}} {{"Produits alimentaires"| trans }}" style="cursor: pointer">{{ 'view_products'|trans }}</a>
+                                    {% endif %}
                         </div>
                         <div class="product-description product-description-brd">
                             <div class="overflow-h margin-bottom-5">
@@ -228,8 +232,12 @@
                     <li class="item">
                         <div class="product-img">
                             <img class="full-width img-responsive" src="{{ asset('assets/img/artisap.jpg')}}" alt="">
+                            {% if local == 'fr' %}
                             <a class="product-review" id="par" name="{{ 'Produits'|trans }} {{ 'Artisanaux'|trans }}" style="cursor: pointer">{{ 'view_products'|trans }}</a>
-                        </div>
+                            {% else %}
+                            <a class="product-review" id="par" name="{{ 'Artisanaux'|trans }} {{ 'Produits'|trans }}" style="cursor: pointer">{{ 'view_products'|trans }}</a>
+                            {% endif %}
+                            </div>
                         <div class="product-description product-description-brd">
                             <div class="overflow-h margin-bottom-5">
                                 <div class="pull-left">
@@ -246,7 +254,11 @@
                     <li class="item">
                         <div class="product-img">
                             <img class="full-width img-responsive" src="{{ asset('assets/img/cosp.jpg')}}" alt="">
-                            <a class="product-review" id="pcb" name="{{'Produits'|trans}} {{'Cosmétiques'|trans}} {{'Santé'|trans}}" style="cursor: pointer">{{ 'view_products'|trans }}</a>
+                            {% if local == 'fr' %}
+                                <a class="product-review" id="pcb" name="{{'Produits'|trans}} {{'Cosmétiques'|trans}} {{'Santé'|trans}}" style="cursor: pointer">{{ 'view_products'|trans }}</a>
+                            {% else %}
+                                <a class="product-review" id="pcb" name="{{ 'Produits_cos_en'|trans }}" style="cursor: pointer">{{ 'view_products'|trans }}</a>
+                            {% endif %}    
                         </div> 
                         <div class="product-description product-description-brd">
                             <div class="overflow-h margin-bottom-5">
@@ -264,7 +276,11 @@
                     <li class="item">
                         <div class="product-img">
                             <img class="full-width img-responsive" src="{{ asset('assets/img/php.jpg')}}" alt="">
-                            <a class="product-review" id="ph" name="{{ 'Produits'|trans }} {{ 'Hygiéniques'|trans }}" style="cursor: pointer">{{ 'view_products'|trans }}</a>
+                        {% if local == 'fr' %}
+                                      <a class="product-review" id="ph" name="{{ 'Produits'|trans }} {{ 'Hygiéniques'|trans }}" style="cursor: pointer">{{ 'view_products'|trans }}</a>
+                                    {% else %}
+                                      <a class="product-review" id="ph" name="{{ 'Hygiéniques'|trans }} {{ 'Produits'|trans }}" style="cursor: pointer">{{ 'view_products'|trans }}</a>
+                                    {% endif %}
                         </div> 
                         <div class="product-description product-description-brd">
                             <div class="overflow-h margin-bottom-5">
@@ -329,7 +345,7 @@
             </div>
         </div>
     </div>
-
+    <div id="close_text">{{ 'close_text' |trans}}</div>
 
 
     {#    <div class="col-md-8 col-md-offset-2">
@@ -354,6 +370,7 @@
                 </div>
             </div>
         </div>#}
+    {{ dump(popMessages) }}
 {% endblock %}
 
 {% block javascripts %}
@@ -362,7 +379,10 @@
     <script type="text/javascript">
 
         $(function () {
-            var oHome = new Home();
+            var params = {
+                messages_popup: '{{ popMessages|raw }}',
+            }
+            var oHome = new Home(params);
 
         });
     </script>

@@ -198,4 +198,8 @@ parameters:
         confirmation: confirmation
         close: close
         contact_confirmation_message: contact_confirmation_message
+        
+    messages.popup:
+        close_button: close_button
+        
     
